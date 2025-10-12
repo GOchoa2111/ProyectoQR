@@ -1,0 +1,98 @@
+/* ================================================
+    ESTILOS DEL FOOTER (footer.css)
+    ================================================
+*/
+
+/* padding para reducir el footer y adapte el contenido*/
+
+body{
+  padding-bottom: 6rem;
+  margin: 0;
+}
+
+/* 1. Hacemos el footer FIJO en la parte inferior de la ventana */
+.footer-container {
+    /* Clave para la posición fija y para que no se mueva con el scroll */
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho */
+    background-color: #003563; /* Color oscuro similar al ejemplo anterior */
+    color: #f9fafb; /* Color de texto claro */
+    padding: 1rem 1.5rem; /* Padding interno */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Sombra superior */
+    z-index: 1000; /* Asegura que esté por encima del contenido */
+    min-height: var(--footer-h);
+}
+
+.footer-content {
+    /* Centrar el contenido y asegurar que haya espacio entre los elementos */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1280px; /* Ancho máximo para el contenido (ajusta según tu diseño) */
+    margin: 0 auto;
+}
+
+/* 2. Alineación del bloque social a la izquierda dentro de su contenedor */
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Espacio entre los elementos */
+}
+
+/* 3. Quitar la negrita al texto de "Síguenos" */
+.social-text {
+    font-size: 0.875rem; /* Tamaño de texto pequeño */
+    color: #d1d5db; /* Gris claro para el texto */
+    font-weight: normal; /* Aseguramos que no tenga negrita */
+}
+
+/* Estilos de los enlaces de iconos */
+.social-link {
+    display: inline-flex;
+    padding: 0.5rem;
+    border-radius: 9999px; /* Circular */
+    color: #f9fafb; /* Color de los iconos */
+    transition: color 0.2s ease-in-out;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Efectos hover para los iconos (opcional, pero mejora la UX) */
+.social-link:hover {
+    color: #3b82f6; /* Ejemplo de color azul para el hover */
+}
+
+/* Media query para móviles (cuando el ancho es menor) */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 1rem 1rem;
+    }
+
+    .footer-content {
+        /* En móvil, apilar los elementos verticalmente */
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+    
+    /* Revertir el orden para poner el social arriba del copyright en móvil */
+    .footer-copyright {
+        order: 2;
+        font-size: 0.75rem;
+        color: #9ca3af;
+    }
+
+    .footer-social {
+        order: 1;
+        justify-content: center; /* Centrar los iconos en móvil */
+        flex-wrap: wrap; /* Permitir que los iconos se envuelvan si es necesario */
+    }
+}
+
+

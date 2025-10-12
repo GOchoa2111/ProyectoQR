@@ -1,0 +1,78 @@
+/* Fondo de la página */
+body {
+  background-color: #f0f0f0; /* Color de fondo de la página */
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilo del título (h2) */
+h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  background-color: #003563; /* Fondo del h2 */
+  padding: 10px;
+  border-radius: 8px;
+  color: #e1fa56; /* Color del texto dentro del h2 */
+}
+
+/* Estilo del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #ffffff; /* Fondo del formulario */
+  padding: 20px;  /* Espacio alrededor del contenido */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra alrededor del formulario */
+}
+
+input, button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #003563;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #003563;
+}
+
+img {
+  display: block;
+  margin: 20px auto;
+  max-width: 200px;
+}
+
+/* Estilo para el modal*/
+.is-invalid { border: 1px solid #e53935; }
+.error small { color: #e53935; display: block; margin-top: 4px; }
+
+.qr-overlay { position: fixed; inset: 0; z-index: 2000; pointer-events: none; }
+.qr-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.35); pointer-events: auto; }
+
+.qr-card {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff; border-radius: 12px; padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  width: 320px; max-width: 90vw; text-align: center;
+  pointer-events: auto;
+}
+.qr-card img { width: 240px; max-width: 80%; height: auto; margin: 8px 0 12px; }
+.qr-actions { display: flex; gap: 8px; justify-content: center; }
+.qr-close {
+  position: absolute; top: 6px; right: 8px;
+  font-size: 20px; border: none; background: transparent; cursor: pointer;
+}
+
+/* Asegura que el toast no quede detrás del modal */
+#toast-container { z-index: 99999 !important; }

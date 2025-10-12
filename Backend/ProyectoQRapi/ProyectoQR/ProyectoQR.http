@@ -1,0 +1,6 @@
+@ProyectoQR_HostAddress = http://localhost:5111
+
+GET {{ProyectoQR_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

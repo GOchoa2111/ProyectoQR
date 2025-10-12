@@ -1,0 +1,21 @@
+<h2>Escaneo de Código QR</h2>
+
+<!-- Selector de cámara -->
+<label for="camera">Selecciona cámara:</label>
+<select id="camera" [(ngModel)]="selectedDevice">
+  <option *ngFor="let device of availableDevices" [ngValue]="device">
+    {{ device.label }}
+  </option>
+</select>
+
+<!-- Área del escáner QR -->
+<div class="qr-container">
+  <zxing-scanner
+    [device]="selectedDevice"
+    (scanSuccess)="onCodeResult($event)"
+    (camerasFound)="onDevicesFound($event)">
+  </zxing-scanner>
+</div>
+
+<!-- Resultado del escaneo -->
+<p *ngIf="qrResult">✅ Código escaneado: <strong>{{ qrResult }}</strong></p>

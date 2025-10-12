@@ -1,0 +1,110 @@
+<h2>Registro de Estudiante</h2>
+
+<form #form="ngForm" (ngSubmit)="registrar(form)" novalidate>
+  <!-- Nombre -->
+  <input type="text"
+         name="nombre"
+         [(ngModel)]="estudiante.nombre"
+         placeholder="Nombre"
+         required minlength="2"
+         #nombre="ngModel"
+         [class.is-invalid]="nombre.invalid && (nombre.touched || form.submitted)" />
+  <div class="error" *ngIf="nombre.invalid && (nombre.touched || form.submitted)">
+    <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+    <small *ngIf="nombre.errors?.['minlength']">Mínimo 2 caracteres.</small>
+  </div>
+
+  <!-- Apellido -->
+  <input type="text"
+         name="apellido"
+         [(ngModel)]="estudiante.apellido"
+         placeholder="Apellido"
+         required minlength="2"
+         #apellido="ngModel"
+         [class.is-invalid]="apellido.invalid && (apellido.touched || form.submitted)" />
+  <div class="error" *ngIf="apellido.invalid && (apellido.touched || form.submitted)">
+    <small *ngIf="apellido.errors?.['required']">El apellido es obligatorio.</small>
+    <small *ngIf="apellido.errors?.['minlength']">Mínimo 2 caracteres.</small>
+  </div>
+
+  <!-- Número de Carnet -->
+  <input type="text"
+         name="numeroCarnet"
+         [(ngModel)]="estudiante.numeroCarnet"
+         placeholder="Número de Carnet"
+         required pattern="^[A-Za-z0-9\\-]{4,}$"
+         #numeroCarnet="ngModel"
+         [class.is-invalid]="numeroCarnet.invalid && (numeroCarnet.touched || form.submitted)" />
+  <div class="error" *ngIf="numeroCarnet.invalid && (numeroCarnet.touched || form.submitted)">
+    <small *ngIf="numeroCarnet.errors?.['required']">El carnet es obligatorio.</small>
+    <small *ngIf="numeroCarnet.errors?.['pattern']">Use letras/números (mín. 4). Puede incluir guion.</small>
+  </div>
+
+  <!-- Teléfono -->
+  <input type="tel"
+         name="telefono"
+         [(ngModel)]="estudiante.telefono"
+         placeholder="Teléfono"
+         required pattern="^[0-9]{8}$"
+         #telefono="ngModel"
+         [class.is-invalid]="telefono.invalid && (telefono.touched || form.submitted)" />
+  <div class="error" *ngIf="telefono.invalid && (telefono.touched || form.submitted)">
+    <small *ngIf="telefono.errors?.['required']">El teléfono es obligatorio.</small>
+    <small *ngIf="telefono.errors?.['pattern']">Debe tener 8 dígitos.</small>
+  </div>
+
+  <!-- Dirección -->
+  <input type="text"
+         name="direccion"
+         [(ngModel)]="estudiante.direccion"
+         placeholder="Dirección"
+         required minlength="5"
+         #direccion="ngModel"
+         [class.is-invalid]="direccion.invalid && (direccion.touched || form.submitted)" />
+  <div class="error" *ngIf="direccion.invalid && (direccion.touched || form.submitted)">
+    <small *ngIf="direccion.errors?.['required']">La dirección es obligatoria.</small>
+    <small *ngIf="direccion.errors?.['minlength']">Mínimo 5 caracteres.</small>
+  </div>
+
+  <!-- Año -->
+  <input type="text"
+         name="anio"
+         [(ngModel)]="estudiante.anio"
+         placeholder="Año"
+         required pattern="^[0-9]{1,4}$"
+         #anio="ngModel"
+         [class.is-invalid]="anio.invalid && (anio.touched || form.submitted)" />
+  <div class="error" *ngIf="anio.invalid && (anio.touched || form.submitted)">
+    <small *ngIf="anio.errors?.['required']">El año es obligatorio.</small>
+    <small *ngIf="anio.errors?.['pattern']">Ingrese un número (1 a 4 dígitos).</small>
+  </div>
+
+  <!-- Sede -->
+  <input type="text"
+         name="sede"
+         [(ngModel)]="estudiante.sede"
+         placeholder="Sede"
+         required minlength="2"
+         #sede="ngModel"
+         [class.is-invalid]="sede.invalid && (sede.touched || form.submitted)" />
+  <div class="error" *ngIf="sede.invalid && (sede.touched || form.submitted)">
+    <small *ngIf="sede.errors?.['required']">La sede es obligatoria.</small>
+    <small *ngIf="sede.errors?.['minlength']">Mínimo 2 caracteres.</small>
+  </div>
+
+  <button type="submit">Registrar</button>
+</form>
+
+<!-- Modal/Card para el QR -->
+<div class="qr-overlay" *ngIf="qrVisible">
+  <div class="qr-card">
+    <button type="button" class="qr-close" (click)="cerrarQR()">×</button>
+    <h3>Código QR generado</h3>
+    <img [src]="qrGenerado" alt="QR del estudiante" />
+    <div class="qr-actions">
+      <button type="button" (click)="descargarQR()">Descargar</button>
+      <button type="button" (click)="cerrarQR()">Cerrar</button>
+    </div>
+  </div>
+  <div class="qr-backdrop" (click)="cerrarQR()"></div>
+</div>

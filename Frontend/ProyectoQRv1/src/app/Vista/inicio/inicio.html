@@ -1,0 +1,56 @@
+<!-- Carrusel -->
+<div class="carousel-container">
+  <div
+    class="carousel-slide"
+    *ngFor="let imagen of imagenes; let i = index"
+    [class.active]="i === imagenActual()"
+  >
+    <img [src]="imagen" alt="Imagen del carrusel" class="carousel-image" />
+  </div>
+
+  <div class="button-overlay">
+    <button
+      mat-raised-button
+      color="primary"
+      class="register-button"
+      routerLink="/registro"
+    >
+      Regístrate
+    </button>
+  </div>
+</div>
+
+<!-- Card de Angular Material -->
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Bienvenidos</mat-card-title>
+      <mat-card-subtitle>Control de ingresos con código QR</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Este sistema te permite registrar ingresos y egresos de forma rápida y segura usando códigos QR. Explora las opciones del menú para comenzar.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button routerLink="/registro">Ir a Registro</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- FAB WhatsApp (Boton flotante, fijo abajo a la derecha) -->
+<a class="fab-whatsapp" href="https://wa.me/50236075643?text=Hola%20necesito%20informaci%C3%B3n" target="_blank"
+  rel="noopener" aria-label="Contactar por WhatsApp">
+  <!-- SVG inline WhatsApp (blanco sobre verde) -->
+  <svg class="wa-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <path
+      d="M19.11 17.2c-.27-.13-1.57-.77-1.81-.86-.24-.09-.41-.13-.59.13-.18.27-.68.86-.83 1.04-.15.18-.31.2-.58.07-.27-.13-1.15-.42-2.19-1.33-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.41.11-.54.11-.11.27-.29.4-.43.13-.15.18-.25.27-.43.09-.18.04-.32-.02-.45-.07-.13-.59-1.42-.81-1.95-.21-.5-.43-.43-.59-.44l-.5-.01c-.16 0-.43.07-.66.32-.22.25-.87.85-.87 2.08 0 1.23.9 2.41 1.03 2.58.13.18 1.77 2.7 4.29 3.78.6.26 1.07.41 1.44.52.6.19 1.15.16 1.58.1.48-.07 1.57-.64 1.79-1.25.22-.61.22-1.13.15-1.25-.07-.11-.24-.18-.5-.31zM16.03 4C9.93 4 5 8.93 5 15.03c0 1.94.51 3.76 1.39 5.34L5 27l6.78-1.78a11.02 11.02 0 0 0 4.25.81c6.09 0 11.03-4.93 11.03-11.03S22.12 4 16.03 4zm0 20.17c-1.5 0-2.9-.4-4.12-1.11l-.29-.17-4.02 1.06 1.08-3.92-.19-.3a8.99 8.99 0 1 1 7.54 4.44z" />
+  </svg>
+</a>
+
+
+
+
+
+
+

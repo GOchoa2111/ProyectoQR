@@ -1,0 +1,9 @@
+:root { --footer-h: 80px; }            /* ajusta al alto real en desktop */
+@media (max-width: 768px) {
+  :root { --footer-h: 120px; }         /* si en móvil se apilan textos/iconos */
+}
+
+body {
+  margin: 0;
+  padding-bottom: var(--footer-h);     /* reserva espacio para el footer fijo */
+}

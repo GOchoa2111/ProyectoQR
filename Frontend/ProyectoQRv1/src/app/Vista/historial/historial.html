@@ -1,0 +1,75 @@
+<div class="historial-container">
+  <h2>Consulta de Registros de Ingresos y Egresos</h2>
+
+  <!-- Filtros -->
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar (carnet o nombre)</mat-label>
+      <input
+        matInput
+        [formControl]="searchCtrl"
+        placeholder="Ej. 2349076 o Carlos Orozco"
+        autocomplete="off" />
+      <button mat-icon-button matSuffix *ngIf="searchCtrl.value" (click)="searchCtrl.setValue('')" aria-label="Limpiar">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- 1. Estado de carga -->
+  <div *ngIf="cargando" class="loading-message">Cargando datos del historial...</div>
+
+  <!-- 2. Mensaje de error -->
+  <div *ngIf="errorCarga" class="error-message">
+    <p>{{ errorCarga }}</p>
+    <button mat-raised-button color="warn" (click)="cargarHistorial()">Reintentar Carga</button>
+  </div>
+
+  <!-- 3. Tabla de datos -->
+  <div *ngIf="!cargando && !errorCarga">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+
+      <!-- Carnet -->
+      <ng-container matColumnDef="numeroCarnet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Carnet</th>
+        <td mat-cell *matCellDef="let item">{{ item.numeroCarnet }}</td>
+      </ng-container>
+
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombreCompleto">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+        <td mat-cell *matCellDef="let item">{{ item.nombreCompleto }}</td>
+      </ng-container>
+
+      <!-- Fecha y Hora -->
+      <ng-container matColumnDef="fechaHora">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha y Hora</th>
+        <td mat-cell *matCellDef="let item">{{ item.fechaHora | date:'medium' }}</td>
+      </ng-container>
+
+      <!-- Tipo -->
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+        <td mat-cell *matCellDef="let item">
+          <span [class]="item.tipo === 'Entrada' ? 'badge entrada' : 'badge salida'">{{ item.tipo }}</span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- 4. Sin datos -->
+    <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+      No se encontraron registros en el historial de marcajes.
+    </div>
+
+    <!-- Paginación -->
+    <mat-paginator
+      [length]="dataSource.filteredData.length"
+      [pageSize]="15"
+      [pageSizeOptions]="[15, 30, 50]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

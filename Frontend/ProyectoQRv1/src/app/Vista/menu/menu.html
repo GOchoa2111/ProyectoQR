@@ -1,0 +1,65 @@
+<!-- Codigo DESPUES (Mejorado) -->
+<header class="menu-wrap" role="banner">
+  <nav class="menu-grid" aria-label="Navegacion principal">
+
+    <!-- IZQUIERDA: links (desktop) -->
+    <ul class="menu-items">
+      <li><a routerLink="/inicio"><mat-icon>home</mat-icon> Inicio</a></li>
+      <li><a routerLink="/registro"><mat-icon>edit</mat-icon> Registro</a></li>
+      <li><a routerLink="/historial"><mat-icon>history</mat-icon> Historial</a></li>
+      <li><a routerLink="/lector"><mat-icon>qr_code_scanner</mat-icon>Escanear QR</a></li>
+    </ul>
+
+    <!-- HAMBURGUESA (solo movil) -->
+    <button
+      class="hamburger"
+      type="button"
+      aria-label="Abrir menu"
+      aria-controls="mobile-menu"
+      [attr.aria-expanded]="isOpen"
+      (click)="toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- CENTRO: logo -->
+    <a class="logo" routerLink="/" aria-label="Ir al inicio">
+      <img src="https://static.wixstatic.com/media/8a2cdc_fb088ff4add94711854b569553889689~mv2.png/v1/fill/w_164,h_58,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20blanco%20con%20l%C3%ADnea%20naranja.png" alt="Universidad Regional de Guatemala"/>
+    </a>
+
+    <!-- DERECHA: redes -->
+    <div class="menu-actions">
+      <a class="social" href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
+        <fa-icon [icon]="['fab','tiktok']"></fa-icon>
+      </a>
+      <a class="social" href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+        <fa-icon [icon]="['fab','instagram']"></fa-icon>
+      </a>
+      <a class="social" href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+        <fa-icon [icon]="['fab','facebook']"></fa-icon>
+      </a>
+      <a class="social" href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+        <fa-icon [icon]="['fab','youtube']"></fa-icon>
+      </a>
+    </div>
+  </nav>
+
+  <!-- DRAWER MOVIL -->
+  <div
+    id="mobile-menu"
+    class="drawer"
+    [class.open]="isOpen"
+    (click)="close()"
+    aria-hidden="{{!isOpen}}"
+  >
+    <div class="panel" (click)="$event.stopPropagation()">
+      <button class="close" type="button" aria-label="Cerrar menu" (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <ul class="drawer-items">
+        <li><a routerLink="/inicio" (click)="close()"><mat-icon>home</mat-icon> Inicio</a></li>
+        <li><a routerLink="/registro" (click)="close()"><mat-icon>edit</mat-icon> Registro</a></li>
+        <li><a routerLink="/historial" (click)="close()"><mat-icon>history</mat-icon> Historial</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
