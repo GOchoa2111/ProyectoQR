@@ -1,1 +1,70 @@
-📚 Proyecto de Control de Asistencia con Código QR (ProyectoQR)🌟 Descripción GeneralProyectoQR es un sistema de gestión de asistencia diseñado para controlar de manera eficiente la entrada y salida de estudiantes mediante el uso de códigos QR únicos.El proyecto se sustenta en una sólida estructura de base de datos Oracle que garantiza el registro en tiempo real, la integridad de los datos y la trazabilidad de todas las acciones administrativas.🛠️ Tecnologías y RequisitosMotor de Base de Datos: Oracle Database (requerido para el despliegue de los scripts DDL/DML).Lenguaje de Base de Datos: PL/SQL, SQL.Backend (API/Server): (Asumido: .NET o similar, basado en la estructura de carpetas).✨ Características PrincipalesRegistro de Estudiantes: Almacenamiento de datos básicos de los estudiantes.Generación de Código QR: Asignación de un identificador único por cada estudiante para el marcaje.Control de Marcajes: Registro de la hora y tipo de asistencia (FECHAHORA, TIPO).Auditoría y Trazabilidad: Uso de Triggers para registrar automáticamente en la tabla de historial cualquier INSERT, UPDATE o DELETE realizado en la tabla de ESTUDIANTES.Procesos de Mantenimiento: Uso de Stored Procedures para encapsular la lógica de negocio (INSERTARESTUDIANTE, ELIMINARESTUDIANTEPORID).🔗 Estructura de la Base de DatosEl esquema principal de PROYECTOQR se compone de las siguientes tablas:TablaDescripciónClave PrincipalESTUDIANTESAlmacena la información de cada estudiante y su CODIGOQR único.ESTUDIANTEIDMARCAJESRegistra cada entrada/salida de un estudiante. Se relaciona con ESTUDIANTES.MARCAJEIDHISTORIALESTUDIANTESTabla de auditoría alimentada por Triggers. Registra la ACCION (INSERT, UPDATE, DELETE), DESCRIPCION y FECHA.ID_HISTORIAL⚙️ Despliegue de la Base de DatosLos scripts de base de datos se encuentran organizados por fases. Para un despliegue limpio y ordenado, se recomienda ejecutar los archivos en el siguiente orden:01_sequences_ddl.sql (Creación de secuencias).02_tables_ddl.sql (Creación de tablas).04_triggers_ddl.sql (Creación de triggers de auditoría).05_procedures_ddl.sql (Creación de procedimientos almacenados).06_constraints_ddl.sql (Creación de claves foráneas e índices).03_data_dml.sql (Inserción de datos iniciales/ejemplo).🤝 ContribuciónUtilizamos un flujo de trabajo basado en ramas (desa, pre, pro) para gestionar el desarrollo y el despliegue:Clona el repositorio.Trabaja y haz tus commits en una rama de característica creada a partir de desa.Envía tus cambios (git push) y crea un Pull Request hacia la rama desa.Las ramas pre y pro están reservadas para las fases de prueba y producción final, respectivamente.Ramas del Proyectomain: Rama estable que refleja la última versión de producción.desa: Ambiente de desarrollo activo.pre: Ambiente de pre-producción (staging) listo para pruebas finales.pro: Ambiente de producción (deployment).
+# 📚 ProyectoQR – Control de Asistencia con Código QR
+
+## 🌟 Descripción General
+
+**ProyectoQR** es un sistema de gestión de asistencia diseñado para controlar de manera eficiente la entrada y salida de estudiantes mediante el uso de códigos QR únicos.  
+El sistema se apoya en una estructura sólida de base de datos Oracle, garantizando:
+
+- Registro en tiempo real.
+- Integridad de los datos.
+- Trazabilidad de todas las acciones administrativas.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Base de Datos**: Oracle Database
+- **Lenguajes**: SQL, PL/SQL
+- **Backend**: *(Asumido: .NET o similar, basado en la estructura de carpetas)*
+
+---
+
+## ✨ Características Principales
+
+- **Registro de Estudiantes**: Almacenamiento de datos personales y académicos.
+- **Generación de Código QR**: Identificador único por estudiante para control de asistencia.
+- **Control de Marcajes**: Registro de fecha, hora y tipo de asistencia.
+- **Auditoría y Trazabilidad**: Triggers que registran automáticamente acciones (INSERT, UPDATE, DELETE) en la tabla `ESTUDIANTES`.
+- **Procesos de Mantenimiento**: Procedimientos almacenados para encapsular la lógica de negocio (`INSERTARESTUDIANTE`, `ELIMINARESTUDIANTEPORID`).
+
+---
+
+## 🔗 Estructura de la Base de Datos
+
+El esquema principal `PROYECTOQR` incluye las siguientes tablas:
+
+TablaDescripciónClave PrincipalESTUDIANTESInformación personal y académica de cada estudiante.ESTUDIANTEIDMARCAJESRegistro de entradas/salidas de estudiantes. Relacionada con ESTUDIANTES.MARCAJEID| `HISTORIALESTUDIANTES` | Auditoría de acciones sobre estudiantes.                                     | `ID_HISTORIAL`      |
+| `AUDITORIA`            | Registro adicional de acciones administrativas.                              | `ID_AUDITORIA`      |
+
+---
+
+## ⚙️ Despliegue de la Base de Datos
+
+Los scripts están organizados por fases para facilitar un despliegue ordenado. Se recomienda ejecutarlos en el siguiente orden:
+
+1. `01_sequences_ddl.sql` – Creación de secuencias.
+2. `02_tables_ddl.sql` – Creación de tablas.
+3. `06_constraints_ddl.sql` – Claves primarias, foráneas e índices.
+4. `04_triggers_ddl.sql` – Triggers de auditoría.
+5. `05_procedures_ddl.sql` – Procedimientos almacenados.
+6. `03_data_dml.sql` – Inserción de datos iniciales.
+
+---
+
+## 🤝 Contribución
+
+Utilizamos un flujo de trabajo basado en ramas para gestionar el desarrollo y despliegue:
+
+### 🧪 Flujo de trabajo
+
+1. Clona el repositorio.
+2. Crea una rama de característica desde `desa`.
+3. Realiza tus cambios y haz `commit`.
+4. Haz `push` y crea un Pull Request hacia `desa`.
+
+### 🗂️ Ramas del Proyecto
+
+- `main`: Rama estable, refleja la última versión en producción.
+- `desa`: Desarrollo activo.
+- `pre`: Pre-producción (staging).
+- `pro`: Producción final.
