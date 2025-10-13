@@ -30,7 +30,7 @@ export class LectorQR {
   onCodeResult(result: string): void {
     this.qrResult = result;
 
-    this.http.post('https://localhost:44389/api/marcaje', {
+    this.http.post('http://109.199.118.104:5111/api/marcaje', {
       codigoQR: result,
       tipo: 'Ingreso'
     }).subscribe({
