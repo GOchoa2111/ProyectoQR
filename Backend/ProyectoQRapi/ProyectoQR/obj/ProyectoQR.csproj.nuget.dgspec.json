@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\Desktop\\migracion proyecto\\migracion proyecto\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj": {}
+    "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\Desktop\\migracion proyecto\\migracion proyecto\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj": {
+    "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\migracion proyecto\\migracion proyecto\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
         "projectName": "ProyectoQR",
-        "projectPath": "C:\\Users\\Administrator\\Desktop\\migracion proyecto\\migracion proyecto\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
+        "projectPath": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\Desktop\\migracion proyecto\\migracion proyecto\\ProyectoQRapi\\ProyectoQR\\obj\\",
+        "outputPath": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
