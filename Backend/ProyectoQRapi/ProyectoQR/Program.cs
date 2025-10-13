@@ -3,7 +3,7 @@ using Oracle.ManagedDataAccess.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Conexión a Oracle
+// Conexiï¿½n a Oracle
 builder.Services.AddTransient<IDbConnection>(sp =>
     new OracleConnection(builder.Configuration.GetConnectionString("OracleDb")));
 
@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
-        policy => policy.WithOrigins("http://localhost:4200", "http://localhost:44389", "https://*euw.devtunnels.ms")
+        policy => policy.WithOrigins("http://localhost:4200", "http://localhost:44389","http://localhost:5111", "https://*euw.devtunnels.ms")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RegistroEstudianteService {
-  private apiUrl = 'https://localhost:44389/api/estudiantes';
+  private apiUrl = 'http://109.199.118.104:5111/api/Estudiantes';
 
   constructor(private http: HttpClient) {}
 

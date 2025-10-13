@@ -12,7 +12,7 @@ export class HistorialService {
 
   
   // Endpoint.
-  private baseUrl = 'https://localhost:44389/api/Estudiantes';
+  private baseUrl = 'http://109.199.118.104:5111/api/Estudiantes';
 
   constructor(private http: HttpClient) { }
 

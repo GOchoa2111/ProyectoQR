@@ -1,23 +1,51 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Inject } from '@angular/core';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PLATFORM_ID } from '@angular/core';
 
-import { LectorQr } from './lector-qr';
+@Component({
+  selector: 'app-lector-qr',
+  standalone: true,
+  imports: [ZXingScannerModule, CommonModule, FormsModule],
+  templateUrl: './lector-qr.html',
+  styleUrls: ['./lector-qr.css'],
+})
+export class LectorQR {
+  public qrResult: string | null = null;
+  public availableDevices: MediaDeviceInfo[] = [];
+  public selectedDevice: MediaDeviceInfo | undefined;
 
-describe('LectorQr', () => {
-  let component: LectorQr;
-  let fixture: ComponentFixture<LectorQr>;
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [LectorQr]
-    })
-    .compileComponents();
+  // ✅ Esta función se puede usar directamente en el HTML
+  public isRunningInBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
-    fixture = TestBed.createComponent(LectorQr);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  onCodeResult(result: string): void {
+    this.qrResult = result;
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    this.http.post('https://localhost:44389/api/marcaje', {
+      codigoQR: result,
+      tipo: 'Ingreso'
+    }).subscribe({
+      next: (respuesta: any) => {
+        alert(respuesta.mensaje);
+      },
+      error: err => {
+        console.error('Error al registrar marcaje:', err);
+        alert('Error al registrar marcaje: ' + err.message);
+      }
+    });
+  }
+
+  onDevicesFound(devices: MediaDeviceInfo[]): void {
+    this.availableDevices = devices;
+    this.selectedDevice = devices.find(d => d.label.includes('C920')) || devices[0];
+  }
+}
