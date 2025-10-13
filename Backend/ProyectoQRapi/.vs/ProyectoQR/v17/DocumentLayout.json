@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\",
+  "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\administrator\\desktop\\github\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\administrator\\desktop\\github\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\administrator\\desktop\\github\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
@@ -23,10 +27,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ProyectoQR\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ProyectoQR\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-13T18:47:15.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Program.cs",
-              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
               "RelativeToolTip": "ProyectoQR\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -35,16 +52,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
               "RelativeDocumentMoniker": "ProyectoQR\\appsettings.json",
-              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\github\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
               "RelativeToolTip": "ProyectoQR\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-13T01:40:32.511Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-13T01:40:32.511Z"
             },
             {
               "$type": "Bookmark",
