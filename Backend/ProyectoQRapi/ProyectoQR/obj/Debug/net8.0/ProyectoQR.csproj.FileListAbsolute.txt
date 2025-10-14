@@ -180,3 +180,13 @@ C:\Users\Administrator\Desktop\github\ProyectoQR\Backend\ProyectoQRapi\ProyectoQ
 C:\Users\Administrator\Desktop\github\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.pdb
 C:\Users\Administrator\Desktop\github\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.genruntimeconfig.cache
 C:\Users\Administrator\Desktop\github\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ref\ProyectoQR.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Dapper.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
