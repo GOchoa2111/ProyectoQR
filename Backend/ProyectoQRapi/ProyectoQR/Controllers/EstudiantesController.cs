@@ -2,7 +2,8 @@
 using Oracle.ManagedDataAccess.Client;
 using QRCoder;
 using System.Text.RegularExpressions;
-using ProyectoQR.Service.password; // <- para IPasswordHasher
+using ProyectoQR.Service.password;
+using System.Threading.Tasks; // <- para IPasswordHasher
 
 namespace ProyectoQR.Controllers
 {
@@ -12,16 +13,18 @@ namespace ProyectoQR.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IPasswordHasher _hasher;
+        private readonly IEmailService _email;
 
-        public EstudiantesController(IConfiguration config, IPasswordHasher hasher)
+        public EstudiantesController(IConfiguration config, IPasswordHasher hasher, IEmailService email )
         {
             _config = config;
             _hasher = hasher;
+            _email = email;
         }
 
         // =============== REGISTRO ===============
         [HttpPost]
-        public IActionResult RegistrarEstudiante([FromBody] EstudianteDto estudiante)
+        public async Task<IActionResult> RegistrarEstudiante([FromBody] EstudianteDto estudiante)
         {
             try
             {
@@ -78,10 +81,10 @@ namespace ProyectoQR.Controllers
                     cmd.CommandText = @"
                         INSERT INTO Estudiantes 
                           (Nombre, Apellido, CodigoQR, NumeroCarnet, Telefono, Direccion, Anio, Sede,
-                           Usuario, Contrasena, Rol, Estado)
+                           Usuario, Contrasena, Rol, Estado, Email)
                         VALUES 
                           (:nombre, :apellido, :codigoQR, :numeroCarnet, :telefono, :direccion, :anio, :sede,
-                           :usuario, :contrasena, :rol, 'A')";
+                           :usuario, :contrasena, :rol, 'A', :email)";
 
                     cmd.Parameters.Add(new OracleParameter("nombre", estudiante.Nombre));
                     cmd.Parameters.Add(new OracleParameter("apellido", estudiante.Apellido));
@@ -94,7 +97,22 @@ namespace ProyectoQR.Controllers
                     cmd.Parameters.Add(new OracleParameter("usuario", usuario));
                     cmd.Parameters.Add(new OracleParameter("contrasena", hash));
                     cmd.Parameters.Add(new OracleParameter("rol", rol));
+                    cmd.Parameters.Add(new OracleParameter("email", (object?)estudiante.Email ?? DBNull.Value));
                     cmd.ExecuteNonQuery();
+
+                    if (!string.IsNullOrWhiteSpace(estudiante.Email))
+                            {
+                        try
+                        {
+                            await _email.SendWelcomeAsync(estudiante.Email!, usuario);
+                        }
+                        catch (Exception mailEx)
+                        {
+                            // No detiene el registro si falla el envió del correo electronico de bienvenida
+                            Console.Error.WriteLine($"No fue posible enviar su nombre de usuario, " +
+                                $"porfavor comuniquese con el personal administrativo: {mailEx.Message}");
+                        }
+                    }
                 }
 
                 // 6) Generar imagen QR (como ya lo hacías)
@@ -288,4 +306,6 @@ public class EstudianteDto
     public string? Usuario { get; set; }       // opcional; si no viene se autogenera
     public string? Contrasena { get; set; }    // requerida (se hashea)
     public string? Rol { get; set; }           // opcional; default ESTUDIANTE
+    public string? Email { get; set; } //correo electronico estudiante/usuario
 }
+

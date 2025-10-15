@@ -70,6 +70,22 @@
     ]
   },
   {
+    "ContainingType": "ProyectoQR.Controllers.EmailController",
+    "Method": "EnviarCorreo",
+    "RelativePath": "api/Email/enviar-correo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "correoDto",
+        "Type": "ProyectoQR.Dtos.CorreoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
     "Method": "RegistrarEstudiante",
     "RelativePath": "api/Estudiantes",

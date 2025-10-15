@@ -101,6 +101,11 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
+// Envio de correo electronico
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+
 // -------------------- DI de servicios usados por AuthController --------------------
 // Hasher de contraseñas (PBKDF2), Servicio de Tokens y Repositorio hacia Oracle
 builder.Services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
