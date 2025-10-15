@@ -1,0 +1,80 @@
+<div class="login-bg">
+  <div class="grid">
+    <mat-card class="login-card" matRipple>
+      <div class="brand">
+        <div class="logo">QR</div>
+        <div class="title">
+          <h1>ProyectoQR</h1>
+          <p>Accede a tu cuenta</p>
+        </div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario" autocomplete="username" />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="form.controls.usuario.hasError('required')">Usuario es requerido</mat-error>
+          <mat-error *ngIf="form.controls.usuario.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            formControlName="contrasena"
+            autocomplete="current-password"
+          />
+          <button mat-icon-button matSuffix type="button" (click)="toggle()" [attr.aria-label]="'Mostrar/ocultar'">
+            <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.controls.contrasena.hasError('required')">Contraseña requerida</mat-error>
+          <mat-error *ngIf="form.controls.contrasena.hasError('minlength')">Mínimo 4 caracteres</mat-error>
+        </mat-form-field>
+
+        <div class="row">
+          <mat-checkbox formControlName="remember">Recordarme</mat-checkbox>
+          <a class="link" routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="full cta"
+          [disabled]="!canSubmit()"
+        >
+          <ng-container *ngIf="!loading(); else loadingTpl">Entrar</ng-container>
+        </button>
+        <ng-template #loadingTpl>
+          <span class="loading-inline">
+            <mat-progress-spinner mode="indeterminate" diameter="18"></mat-progress-spinner>
+            Validando...
+          </span>
+        </ng-template>
+
+        <mat-divider></mat-divider>
+
+        <div class="server-error" *ngIf="serverError() as err">
+          <mat-icon color="warn">error</mat-icon>
+          <span>{{ err }}</span>
+        </div>
+      </form>
+
+      <div class="footer">
+        <span>¿Nuevo por aquí?</span>
+        <a class="link" routerLink="/registro">Crear cuenta</a>
+      </div>
+    </mat-card>
+
+    <div class="side">
+      <h2>Bienvenido 👋</h2>
+      <p>Usa tus credenciales para acceder al panel. Tu rol controla el acceso a las secciones.</p>
+      <ul>
+        <li><mat-icon>check_circle</mat-icon> Seguridad con JWT</li>
+        <li><mat-icon>check_circle</mat-icon> Interfaz con Angular Material</li>
+        <li><mat-icon>check_circle</mat-icon> Accesos por rol</li>
+      </ul>
+    </div>
+  </div>
+</div>

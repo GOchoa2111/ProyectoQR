@@ -52,6 +52,24 @@ public sealed class AuthController : ControllerBase
         });
     }
     [HttpGet("health")]
-    public IActionResult Health() => Ok(new { controller = nameof(AuthController), ok = true });
+    public IActionResult Health() => Ok(new { controller = nameof(AuthController), ok = true });//edpoint de prueba
+
+
+    public sealed class DevHashRequest
+    {
+        public string Plaintext { get; set; } = default!;
+    }
+
+    [HttpPost("dev-hash")]
+    public ActionResult<object> DevHash([FromBody] DevHashRequest req)
+    {
+        if (req is null || string.IsNullOrWhiteSpace(req.Plaintext))
+            return BadRequest("plaintext requerido");
+
+        var hashed = _hasher.Hash(req.Plaintext);
+        return Ok(new { plaintext = req.Plaintext, hashed });
+    }
+
+
 
 }

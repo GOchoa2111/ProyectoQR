@@ -1,3 +1,4 @@
+// app.config.ts
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -5,15 +6,22 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+
+// withInterceptors y tu interceptor
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withFetch()),
+    // registro del interceptor junto a withFetch (todo lo demás igual)
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor])
+    ),
     importProvidersFrom(HttpClientModule),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
@@ -22,7 +30,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimations()
   ]
 };
-
-
 
 

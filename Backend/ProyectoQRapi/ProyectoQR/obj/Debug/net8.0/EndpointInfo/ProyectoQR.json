@@ -105,6 +105,37 @@
         }
       }
     },
+    "/api/Auth/dev-hash": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevHashRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevHashRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevHashRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Estudiantes": {
       "post": {
         "tags": [
@@ -216,6 +247,16 @@
   },
   "components": {
     "schemas": {
+      "DevHashRequest": {
+        "type": "object",
+        "properties": {
+          "plaintext": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "EstudianteDto": {
         "type": "object",
         "properties": {
@@ -244,6 +285,18 @@
             "nullable": true
           },
           "sede": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "rol": {
             "type": "string",
             "nullable": true
           }

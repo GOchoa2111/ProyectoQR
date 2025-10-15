@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "ProyectoQR.Controllers.AuthController",
+    "Method": "DevHash",
+    "RelativePath": "api/Auth/dev-hash",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "ProyectoQR.Controllers.AuthController\u002BDevHashRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.AuthController",
     "Method": "Health",
     "RelativePath": "api/Auth/health",
     "HttpMethod": "GET",
