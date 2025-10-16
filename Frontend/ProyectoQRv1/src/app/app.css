@@ -7,3 +7,78 @@ body {
   margin: 0;
   padding-bottom: var(--footer-h);     /* reserva espacio para el footer fijo */
 }
+
+/* Variables de color para consistencia */
+:root {
+  --azul: #004383;
+  --cta: #ea8a1a;
+  --texto: #ffffff;
+}
+
+/* -------------------
+ * SPLASH SCREEN STYLES
+ * ------------------- */
+.splash-screen {
+  /* Fija la pantalla de carga sobre todo lo demás */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--azul); /* Usa el color azul principal */
+  color: var(--texto);
+  z-index: 9999; 
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.splash-logo {
+  width: 150px; 
+  height: auto;
+  margin-bottom: 25px;
+  /* Animación sutil para indicar actividad */
+  animation: pulse 1.5s infinite ease-in-out; 
+}
+
+.splash-screen h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.splash-screen p {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: var(--texto);
+}
+
+/* Animación de pulso para el logo */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* -------------------
+ * MAIN CONTENT STYLES
+ * ------------------- */
+.main-content {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.router-view-container {
+  /* Permite que el contenido tome el espacio restante entre el menú y el footer */
+  flex-grow: 1;
+  padding: 20px;
+}

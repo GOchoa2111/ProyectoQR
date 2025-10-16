@@ -1,6 +1,29 @@
-<app-menu></app-menu>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<!-- Muestra el Splash Screen mientras showSplash es true -->
+<div *ngIf="showSplash; else mainContent">
+  <!-- SPLASH SCREEN -->
+  <div class="splash-screen">
+    <div class="splash-content">
+      <!-- El [src] usa la variable logoUrl definida en app.ts -->
+      <img [src]="logoUrl" alt="Logo de la Universidad" class="splash-logo">
+      <h1>Universidad Regional de Guatemala</h1>
+      <h1>Sede San Raymundo</h1>
+      <!-- Utilizamos el spinner de Material para indicar carga -->
+      <mat-spinner color="warn" diameter="50"></mat-spinner>
+      <p>Cargando aplicación...</p>
+    </div>
+  </div>
+</div>
 
-
-
+<!-- Main content que se muestra cuando showSplash es false -->
+<ng-template #mainContent>
+  <div class="main-content">
+    <!-- 1. Menu -->
+    <app-menu></app-menu>
+    <!-- 2. Contenedor principal de las rutas -->
+    <main class="router-view-container">
+      <router-outlet></router-outlet>
+    </main>
+    <!-- 3. Footer -->
+    <app-footer></app-footer>
+  </div>
+</ng-template>
