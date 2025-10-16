@@ -132,7 +132,7 @@ namespace ProyectoQR.Controllers
             catch (OracleException ex) when (ex.Number == 1) // ORA-00001: restricción única violada
             {
                 // Puede ser por índice único de USUARIO o (si lo activaste) NUMEROCARNET
-                return BadRequest("Registro duplicado. Verifique usuario y/o número de carnet.");
+                return BadRequest("Registro duplicado. Verifique Email y/o nombre de usuario.");
             }
             catch (Exception ex)
             {

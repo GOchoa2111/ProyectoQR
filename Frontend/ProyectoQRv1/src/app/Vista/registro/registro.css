@@ -1,60 +1,19 @@
-/* Fondo de la página */
-body {
-  background-color: #f0f0f0; /* Color de fondo de la página */
-  margin: 0;
-  padding: 0;
-}
+/* src/app/Vista/registro/registro.css */
+:host { display: block; padding: 16px; }
 
-/* Estilo del título (h2) */
-h2 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 20px;
-  background-color: #003563; /* Fondo del h2 */
-  padding: 10px;
-  border-radius: 8px;
-  color: #e1fa56; /* Color del texto dentro del h2 */
-}
+.np-card { max-width: 1100px; margin: 0 auto; border-radius: 16px; }
+.np-title { display: flex; align-items: center; gap: 12px; }
+.np-title mat-icon { font-size: 28px; height: 28px; width: 28px; }
+.np-subtitle { margin: 4px 0 0; opacity: .8; }
 
-/* Estilo del formulario */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 400px;
-  margin: 20px auto;
-  background-color: #ffffff; /* Fondo del formulario */
-  padding: 20px;  /* Espacio alrededor del contenido */
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra alrededor del formulario */
+.np-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  margin-top: 16px;
 }
-
-input, button {
-  padding: 10px;
-  font-size: 16px;
-}
-
-button {
-  background-color: #003563;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #003563;
-}
-
-img {
-  display: block;
-  margin: 20px auto;
-  max-width: 200px;
-}
-
-/* Estilo para el modal*/
-.is-invalid { border: 1px solid #e53935; }
-.error small { color: #e53935; display: block; margin-top: 4px; }
+.np-col { display: flex; flex-direction: column; gap: 14px; }
+.np-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 4px; }
 
 .qr-overlay { position: fixed; inset: 0; z-index: 2000; pointer-events: none; }
 .qr-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.35); pointer-events: auto; }
@@ -64,7 +23,7 @@ img {
   transform: translate(-50%, -50%);
   background: #fff; border-radius: 12px; padding: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,.2);
-  width: 320px; max-width: 90vw; text-align: center;
+  width: 360px; max-width: 90vw; text-align: center;
   pointer-events: auto;
 }
 .qr-card img { width: 240px; max-width: 80%; height: auto; margin: 8px 0 12px; }
@@ -74,5 +33,5 @@ img {
   font-size: 20px; border: none; background: transparent; cursor: pointer;
 }
 
-/* Asegura que el toast no quede detrás del modal */
+/* Para los toasts sobre el overlay */
 #toast-container { z-index: 99999 !important; }
