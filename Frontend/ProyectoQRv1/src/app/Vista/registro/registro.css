@@ -1,10 +1,33 @@
 /* src/app/Vista/registro/registro.css */
-:host { display: block; padding: 16px; }
 
-.np-card { max-width: 1100px; margin: 0 auto; border-radius: 16px; }
-.np-title { display: flex; align-items: center; gap: 12px; }
-.np-title mat-icon { font-size: 28px; height: 28px; width: 28px; }
-.np-subtitle { margin: 4px 0 0; opacity: .8; }
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.np-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 16px;
+
+}
+
+.np-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.np-title mat-icon {
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+}
+
+.np-subtitle {
+  margin: 4px 0 0;
+  opacity: .8;
+}
 
 .np-form {
   display: grid;
@@ -12,26 +35,73 @@
   gap: 18px 24px;
   margin-top: 16px;
 }
-.np-col { display: flex; flex-direction: column; gap: 14px; }
-.np-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 4px; }
 
-.qr-overlay { position: fixed; inset: 0; z-index: 2000; pointer-events: none; }
-.qr-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.35); pointer-events: auto; }
+.np-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-.qr-card {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff; border-radius: 12px; padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.2);
-  width: 360px; max-width: 90vw; text-align: center;
+.np-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.qr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.qr-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
   pointer-events: auto;
 }
-.qr-card img { width: 240px; max-width: 80%; height: auto; margin: 8px 0 12px; }
-.qr-actions { display: flex; gap: 8px; justify-content: center; }
+
+.qr-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(8, 38, 170, 0.616);
+  width: 360px;
+  max-width: 90vw;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.qr-card img {
+  width: 240px;
+  max-width: 80%;
+  height: auto;
+  margin: 8px 0 12px;
+}
+
+.qr-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
 .qr-close {
-  position: absolute; top: 6px; right: 8px;
-  font-size: 20px; border: none; background: transparent; cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 /* Para los toasts sobre el overlay */
-#toast-container { z-index: 99999 !important; }
+#toast-container {
+  z-index: 99999 !important;
+}

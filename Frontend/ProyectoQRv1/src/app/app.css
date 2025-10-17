@@ -31,6 +31,11 @@ body {
   background-color: var(--azul); /* Usa el color azul principal */
   color: var(--texto);
   z-index: 9999; 
+  background-color: #034a8b; /* Color de fondo azul */
+  color: #ffffff; /* Color de texto blanco */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-style: italic;
+  
 }
 
 .splash-content {
