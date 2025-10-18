@@ -130,8 +130,7 @@
               "RelativeToolTip": "ProyectoQR\\Controllers\\EmailController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T21:18:52.513Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T21:18:52.513Z"
             },
             {
               "$type": "Document",
@@ -155,8 +154,7 @@
               "RelativeToolTip": "ProyectoQR\\Service\\EmailService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T19:13:59.177Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-15T19:13:59.177Z"
             },
             {
               "$type": "Document",
@@ -178,7 +176,7 @@
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\EstudiantesController.cs",
               "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\EstudiantesController.cs",
               "RelativeToolTip": "ProyectoQR\\Controllers\\EstudiantesController.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAkwIcAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAB8BAAAAAAAAAAAAwIcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-14T15:29:52.276Z",
               "EditorCaption": ""

@@ -1,25 +1,47 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
+
+// Páginas existentes (standalone)
 import { Inicio } from './Vista/inicio/inicio';
 import { Registro } from './Vista/registro/registro';
 import { Historial } from './Vista/historial/historial';
 import { LectorQR } from './Vista/lector-qr/lector-qr';
-//import { LoginComponent } from './features/auth/login/login';
+
+// Login (standalone)
+import { LoginComponent } from '../app/features/auth/login/login';
+
+// Guard de autenticación/rol
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
-  // OPCIONAL: si quieres que arranque en /login, usa esta línea y comenta la de Inicio:
-  // { path: '', pathMatch: 'full', redirectTo: 'login' },
+  // Arranque en Inicio (público)
+  { path: '', pathMatch: 'full', redirectTo: 'inicio' },
 
-  // Tu ruta por defecto actual (déjala si quieres seguir entrando a Inicio)
-  { path: '', component: Inicio },
-
-  // NUEVO: Login (standalone, lazy)
-  //{path: 'login', component: LoginComponent},
-
-  { path: 'lector', component: LectorQR },
+  // Público
   { path: 'inicio', component: Inicio },
-  { path: 'registro', component: Registro },
-  { path: 'historial', component: Historial },
+  { path: 'login', component: LoginComponent },
+  {path: 'registro', component: Registro},//ruta para registro de usuarios pública para pruebas
 
-  // (opcional) 404
-  // { path: '**', redirectTo: 'inicio' }
+  // Protegidas por rol (ajusta si lo deseas)
+  {
+    path: 'lector',
+    component: LectorQR,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'DOCENTE'] }
+  },
+  {
+    path: 'registro',
+    component: Registro,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] }
+  },
+  {
+    path: 'historial',
+    component: Historial,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'DOCENTE','ESTUDIANTE'] }
+  },
+
+  // 404 → inicio
+  { path: '**', redirectTo: 'inicio' }
 ];

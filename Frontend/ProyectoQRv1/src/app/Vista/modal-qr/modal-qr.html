@@ -1,0 +1,15 @@
+
+<div *ngIf="visible" class="modal-overlay">
+  <div class="modal-content">
+    <h3>¡Bienvenido {{ nombre }} {{ apellido }}!</h3>
+    <p>Tu código QR es:</p>
+    <img [src]="qrImagen" alt="QR del estudiante" id="qrImage" />
+
+    <div class="botones">
+      <button (click)="descargarQR()">Descargar QR</button>
+      <button (click)="enviarQR()">Enviar por correo</button> <!-- ✅ Nuevo botón -->
+      <button (click)="cerrar.emit()">Cerrar</button>
+    </div>
+  </div>
+</div>
+

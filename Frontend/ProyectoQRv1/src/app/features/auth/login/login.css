@@ -1,6 +1,10 @@
-:host { display: block; }
+/* :host asegura que los estilos se apliquen al componente */
+:host {
+  display: block;
+}
 
-.login-bg {
+/* 1. Wrapper (El fondo de toda la página) */
+.login-wrapper {
   min-height: 100dvh;
   background:
     radial-gradient(1200px 600px at -10% -10%, #7c4dff22, transparent 60%),
@@ -9,105 +13,135 @@
   display: grid;
   place-items: center;
   padding: 24px;
-  color: #e2e8f0;
 }
 
-.grid {
-  width: 100%;
-  max-width: 1080px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-@media (min-width: 900px) {
-  .grid {
-    grid-template-columns: 480px 1fr;
-    align-items: center;
-  }
-}
-
+/* 2. Tarjeta de Login */
 .login-card {
-  background: #0b1326;
+  width: 100%;
+  max-width: 420px;
+  background: #1e293b;
   color: #e2e8f0;
   border-radius: 16px;
-  padding: 24px;
+  padding: 28px 32px;
   box-shadow:
-    0 10px 30px rgba(0,0,0,.35),
+    0 10px 30px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.04);
   display: grid;
   gap: 16px;
 }
 
-.brand {
+/* 3. Títulos (Ajuste de contraste) */
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+.subtitle {
+  margin: -10px 0 10px;
+  color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
+  font-size: 15px;
+  text-align: center;
+}
+
+/* 4. Formulario */
+.form {
   display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 12px;
-  align-items: center;
+  gap: 16px;
 }
 
-.logo {
-  width: 56px; height: 56px;
-  border-radius: 14px;
+.full {
+  width: 100%;
+}
+
+/* 5. Campos de Angular Material (Ajuste de contraste) */
+mat-form-field.mat-mdc-form-field {
+  --mdc-outlined-container-color: #1e293b;
+  --mdc-outlined-outline-color: #334155;
+  --mdc-outlined-error-text-color: #ff8a80;
+
+  /* --- CAMBIOS DE BRILLO AQUÍ --- */
+  --mdc-outlined-label-color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
+  --mdc-outlined-text-color: #f1f5f9; /* <-- CAMBIO: MÁS BRILLO (antes #e2e8f0) */
+  --mdc-outlined-trailing-icon-color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
+
+  /* --- Colores en estado :focus (sin cambios) --- */
+  --mdc-outlined-focused-outline-color: #7c4dff;
+  --mdc-outlined-focused-label-color: #7c4dff;
+  --mdc-outlined-focused-trailing-icon-color: #7c4dff;
+}
+
+/* 6. Acciones y Botón Principal */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+/* Botón normal (sin cambios) */
+.actions button[mat-raised-button] {
+  height: 44px;
+  font-weight: 600;
+  letter-spacing: .2px;
   background: linear-gradient(135deg, #7c4dff, #03a9f4);
-  display: grid; place-items: center;
-  font-weight: 800; color: white; font-size: 22px;
-  letter-spacing: .5px;
-  box-shadow: 0 10px 20px rgba(124,77,255,.35);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s ease;
 }
 
-.title h1 {
-  margin: 0; font-size: 22px; font-weight: 700; color: #fff;
-}
-.title p {
-  margin: 2px 0 0; color: #94a3b8; font-size: 14px;
-}
-
-.form { display: grid; gap: 14px; }
-.full { width: 100%; }
-
-.row {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+/* Hover del botón (sin cambios) */
+.actions button[mat-raised-button]:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
-.link {
-  color: #90caf9;
-  text-decoration: none;
-  font-weight: 500;
-}
-.link:hover { text-decoration: underline; }
-
-.cta { height: 44px; font-weight: 600; letter-spacing: .2px; }
-
-.loading-inline {
-  display: inline-flex; align-items: center; gap: .5rem;
+/* --- ¡AQUÍ ESTÁ EL ARREGLO DE CONTRASTE! --- */
+.actions button[mat-raised-button]:disabled {
+  background: #334155;
+  color: #f1f5f9;     /* <-- CAMBIO: Texto claro */
+  opacity: 0.5;       /* <-- CAMBIO: Opacidad para que se vea */
+  transform: scale(1);
 }
 
-.server-error {
-  display: flex; align-items: center; gap: 8px;
+/* --- NUEVO ESTILO para el contenido de carga --- */
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espacio entre spinner y texto */
+}
+
+/* Estilo para el spinner (usa ::ng-deep para forzar el color) */
+.actions mat-spinner ::ng-deep .mdc-circular-progress__determinate-circle {
+  stroke: white !important;
+}
+
+/* 7. Mensaje de Error (sin cambios) */
+.error {
   color: #ff8a80;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border-radius: 10px;
   background: #ff8a8014;
   border: 1px solid #ff8a8044;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.footer {
-  display: flex; align-items: center; gap: 8px; justify-content: center;
-  color: #94a3b8; font-size: 14px; margin-top: 4px;
+/* 8. Enlace de "Volver" (sin cambios) */
+.back-link {
+  color: #90caf9;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-top: 8px;
 }
 
-.side {
-  backdrop-filter: blur(6px);
-  padding: 24px;
-  border-radius: 16px;
-  background: #0b132680;
-  border: 1px solid #ffffff12;
+.back-link:hover {
+  text-decoration: underline;
 }
-
-.side h2 { margin: 0 0 8px; font-weight: 700; color: #fff; }
-.side p { margin: 0 0 12px; color: #cbd5e1; }
-.side ul { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 8px; }
-.side li { display: flex; align-items: center; gap: 8px; color: #cbd5e1; }

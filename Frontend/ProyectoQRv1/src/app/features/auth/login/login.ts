@@ -1,31 +1,29 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+// src/app/features-auth-login/login.ts
+import { Component, signal, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../.../../../core/services/auth.service';
 
-// Angular Material
-import { MatCardModule } from '@angular/material/card';
+// Angular Material (ajusta según lo que uses)
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule }      from '@angular/material/input';
+import { MatButtonModule }     from '@angular/material/button';
+import { MatIconModule }       from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatRippleModule } from '@angular/material/core';
-
-import { AuthService } from '../../../core/services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatIconModule, MatProgressSpinnerModule,
-    MatCheckboxModule, MatDividerModule, MatRippleModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
@@ -34,45 +32,43 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
-  private toast = inject(ToastrService);
 
   loading = signal(false);
   hide = signal(true);
-  toggle = () => this.hide.set(!this.hide());
+  errorMsg = signal<string | null>(null);
 
-  serverError = signal<string | null>(null);
-
-  form = this.fb.group({
-    usuario: ['', [Validators.required, Validators.minLength(3)]],
-    contrasena: ['', [Validators.required, Validators.minLength(4)]],
-    remember: [false]
+  form = this.fb.nonNullable.group({
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
-  // Helpers UI
-  canSubmit = computed(() => !this.loading() && this.form.valid);
+  submit(): void {
+    this.errorMsg.set(null);
+    if (this.form.invalid || this.loading()) return;
 
-  onSubmit(): void {
-    if (!this.canSubmit()) return;
-    this.serverError.set(null);
     this.loading.set(true);
 
-    this.auth.login({
-      usuario: this.form.value.usuario!,
-      contrasena: this.form.value.contrasena!
-    }).subscribe({
-      next: (res) => {
-        this.auth.storeSession(res);
-        this.toast.success(`¡Bienvenido, ${res.usuario}!`, 'Inicio de sesión');
-        this.router.navigateByUrl('/');
+    const payload = this.form.getRawValue(); // { username, password }
+    this.auth.login(payload).subscribe({
+      next: (resp) => {
+        // guarda token/estado y redirige por rol
+        this.auth.handleLoginSuccess(resp);
+        this.loading.set(false);
       },
       error: (err) => {
-        const msg = (err?.error && typeof err.error === 'string')
-          ? err.error
-          : 'Usuario o contraseña inválidos';
-        this.serverError.set(msg);
-        this.toast.error(msg, 'Error');
         this.loading.set(false);
+        // mensajes comunes
+        if (err?.status === 401) {
+          this.errorMsg.set('Usuario o contraseña incorrectos.');
+        } else if (err?.status === 0) {
+          this.errorMsg.set('No hay conexión con el servidor.');
+        } else {
+          this.errorMsg.set('Ocurrió un error. Intenta nuevamente.');
+        }
       }
     });
   }
+
+  // helpers de template
+  get f() { return this.form.controls; }
 }

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [
     MatButtonModule,
     MatCardModule,
-    RouterLinkWithHref,
+    //RouterLinkWithHref, // Descomentar si se usa en la plantilla
     CommonModule
   ],
   templateUrl: './inicio.html',
