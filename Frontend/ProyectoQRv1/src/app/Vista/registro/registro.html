@@ -176,20 +176,20 @@
   </form>
 </mat-card>
 
-<!-- Modal/Card para el QR -->
-<div class="qr-overlay" *ngIf="qrVisible">
-  <div class="qr-card">
-    <button type="button" class="qr-close" (click)="cerrarQR()" aria-label="Cerrar">×</button>
-    <h3>Código QR generado</h3>
-    <img [src]="qrGenerado" alt="QR del estudiante" />
-    <div class="qr-actions">
-      <button mat-stroked-button color="primary" type="button" (click)="descargarQR()">
-        <mat-icon>download</mat-icon> Descargar
-      </button>
-      <button mat-stroked-button type="button" (click)="cerrarQR()">
-        Cerrar
-      </button>
-    </div>
-  </div>
-  <div class="qr-backdrop" (click)="cerrarQR()"></div>
-</div>
+<!-- 
+  INTEGRACIÓN DEL COMPONENTE MODAL-QR
+  Se reemplaza la estructura anterior del modal por el componente reutilizable.
+  - [visible]: Controla si el modal se muestra o no.
+  - [qrImagen]: Le pasa la URL de la imagen del QR generada.
+  - [nombre], [apellido], [correo]: Pasa los datos del estudiante para el envío por correo.
+  - (cerrar): Escucha el evento del modal para llamar a la función cerrarQR().
+-->
+<app-modal-qr 
+  [visible]="qrVisible" 
+  [qrImagen]="qrGenerado"
+  [nombre]="estudiante.nombre"
+  [apellido]="estudiante.apellido"
+  [correo]="estudiante.email"
+  (cerrar)="cerrarQR()">
+</app-modal-qr>
+

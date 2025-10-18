@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 
+// Se importa el componente del Modal para poder usarlo
+import { ModalQr } from '../modal-qr/modal-qr'; // Ruta de importación corregida
+
 import { RegistroEstudiante } from '../../Interface/registro-estudiante';
 import { RegistroEstudianteService } from '../../Service/registro-estudiante.service';
 
@@ -22,7 +25,9 @@ import { RegistroEstudianteService } from '../../Service/registro-estudiante.ser
   imports: [
     CommonModule, FormsModule,
     MatCardModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, MatIconModule, MatButtonModule, MatDividerModule
+    MatSelectModule, MatIconModule, MatButtonModule, MatDividerModule,
+    // Se añade el componente del Modal a los imports
+    ModalQr
   ],
   templateUrl: './registro.html',
   styleUrls: ['./registro.css']
@@ -46,8 +51,8 @@ export class Registro {
 
   qrGenerado: string | null = null;
   qrVisible = false;
-  private qrFileName = 'QR_estudiante.png';
 
+  // La propiedad roles se mantiene intacta
   roles = ['ESTUDIANTE', 'DOCENTE', 'ADMIN'];
 
   constructor(
@@ -65,10 +70,6 @@ export class Registro {
 
     // Si el usuario se deja vacío, el backend lo autogenera
     if (!this.estudiante.usuario) delete (this.estudiante as any).usuario;
-
-    // Nombre para el archivo de QR
-    const carnet = this.estudiante.numeroCarnet?.trim();
-    this.qrFileName = carnet ? `QR_${carnet}.png` : 'QR_estudiante.png';
 
     this.servicio.registrar(this.estudiante).subscribe({
       next: (respuesta: any) => {
@@ -96,16 +97,13 @@ export class Registro {
     });
   }
 
-  cerrarQR() { this.qrVisible = false; }
-
-  descargarQR() {
-    if (!this.qrGenerado) return;
-    const link = document.createElement('a');
-    link.href = this.qrGenerado;
-    link.download = this.qrFileName || 'QR_estudiante.png';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Se llama cuando el modal emite el evento (cerrar)
+  cerrarQR() { 
+    this.qrVisible = false; 
+    this.qrGenerado = null; // Se limpia la imagen para la próxima vez
   }
+
+  // La función descargarQR() se elimina de aquí porque ahora está en el componente modal-qr.ts
 }
+
+
