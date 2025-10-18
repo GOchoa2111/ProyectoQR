@@ -13,19 +13,14 @@ import { importProvidersFrom } from '@angular/core';
 import { APP_INITIALIZER } from '@angular/core';
 
 // withInterceptors y tu interceptor
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // registro del interceptor junto a withFetch (todo lo demás igual)
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([authInterceptor])
-    ),
-    importProvidersFrom(HttpClientModule),
-    provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
+    // HttpClient con soporte de fetch; el interceptor se registra globalmente en main.ts
+    provideHttpClient(withFetch()),
+      importProvidersFrom(HttpClientModule),
+      provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
       withViewTransitions()

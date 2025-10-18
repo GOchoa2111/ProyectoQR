@@ -1,7 +1,10 @@
 // src/app/services/auth.service.ts
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 import {
   LoginRequest,
   LoginResponse,
@@ -17,16 +20,19 @@ import {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  // PLATFORM / Browser check to avoid accessing localStorage during SSR
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
 
-  /** Endpoint del login (verifica bien el host/puerto y protocolo) */
-  private baseUrl = 'http://109.199.118.104:5111/api/Auth/login';
+  /** Endpoint del login (utiliza environment.apiUrl) */
+  private baseUrl = `${environment.apiUrl}/Auth/login`;
 
-  /** Estado reactivo de autenticación */
+  /** Estado reactivo de autenticación (no leer localStorage en servidor) */
   readonly authState = signal<AuthState>({
-    token: localStorage.getItem(AUTH_TOKEN_KEY),
-    user: this.loadUser(),
-    expiresAt: Number(localStorage.getItem(AUTH_EXP_KEY)) || null,
-    isAuthenticated: !!localStorage.getItem(AUTH_TOKEN_KEY),
+    token: this.isBrowser ? localStorage.getItem(AUTH_TOKEN_KEY) : null,
+    user: this.isBrowser ? this.loadUser() : null,
+    expiresAt: this.isBrowser ? (Number(localStorage.getItem(AUTH_EXP_KEY)) || null) : null,
+    isAuthenticated: this.isBrowser ? !!localStorage.getItem(AUTH_TOKEN_KEY) : false,
   });
 
   /** === LOGIN === */
@@ -52,10 +58,12 @@ export class AuthService {
       role: resp.rol,
     };
 
-    // Guardar en storage
-    localStorage.setItem(AUTH_TOKEN_KEY, resp.accessToken);
-    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
-    localStorage.setItem(AUTH_EXP_KEY, String(expiresAt));
+    // Guardar en storage (solo en browser)
+    if (this.isBrowser) {
+      localStorage.setItem(AUTH_TOKEN_KEY, resp.accessToken);
+      localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+      localStorage.setItem(AUTH_EXP_KEY, String(expiresAt));
+    }
 
     // Actualizar signal
     this.authState.set({
@@ -72,6 +80,7 @@ export class AuthService {
 
   /** === CARGAR USUARIO DESDE STORAGE === */
   private loadUser(): AuthUser | null {
+    if (!this.isBrowser) return null;
     const data = localStorage.getItem(AUTH_USER_KEY);
     return data ? (JSON.parse(data) as AuthUser) : null;
   }
@@ -98,6 +107,9 @@ export class AuthService {
 
   /** === VALIDAR / SINCRONIZAR SESIÓN AL ARRANCAR LA APP === */
   ensureSessionOnBoot(): void {
+    // No ejecutar durante prerender/SSR
+    if (!this.isBrowser) return;
+
     const token = localStorage.getItem(AUTH_TOKEN_KEY);
     let expiresAt = Number(localStorage.getItem(AUTH_EXP_KEY)) || null;
 
@@ -146,9 +158,11 @@ export class AuthService {
 
   /** === CERRAR SESIÓN === */
   logout(navigateToLogin: boolean = true): void {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(AUTH_USER_KEY);
-    localStorage.removeItem(AUTH_EXP_KEY);
+    if (this.isBrowser) {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_USER_KEY);
+      localStorage.removeItem(AUTH_EXP_KEY);
+    }
 
     this.authState.set({
       token: null,

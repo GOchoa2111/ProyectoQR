@@ -6,6 +6,7 @@ import { App } from './app/app';
 // Standalone: usar providers, no módulos.
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { authInterceptorProvider } from './app/core/interceptors/auth.interceptor';
 
 bootstrapApplication(App, {
   ...appConfig,
@@ -21,5 +22,6 @@ bootstrapApplication(App, {
       newestOnTop: true,
       
     }),
+      authInterceptorProvider,
   ],
 }).catch(err => console.error(err));

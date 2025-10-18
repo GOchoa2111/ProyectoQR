@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {path: 'registro', component: Registro},//ruta para registro de usuarios pública para pruebas
 
+
   // Protegidas por rol (ajusta si lo deseas)
   {
     path: 'lector',
@@ -32,12 +33,6 @@ export const routes: Routes = [
   {
     path: 'registro',
     component: Registro,
-    canActivate: [authGuard],
-    data: { roles: ['ADMIN'] }
-  },
-  {
-    path: 'historial',
-    component: Historial,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'DOCENTE','ESTUDIANTE'] }
   },
