@@ -1,5 +1,5 @@
 // src/app/services/auth.service.ts
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, signal, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { PLATFORM_ID } from '@angular/core';
 import {
   LoginRequest,
   LoginResponse,
+  Role,
   AuthState,
   AuthUser,
   AUTH_TOKEN_KEY,
@@ -18,21 +19,35 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
+  // Prefer constructor injection to avoid calling `inject()` outside an injection context
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    // Inicializar estado desde localStorage solo si estamos en el browser
+    if (this.isBrowser) {
+      const token = localStorage.getItem(AUTH_TOKEN_KEY);
+      const user = this.loadUser();
+      const expiresAt = Number(localStorage.getItem(AUTH_EXP_KEY)) || null;
+      this.authState.set({
+        token,
+        user,
+        expiresAt,
+        isAuthenticated: !!token,
+      });
+    }
+  }
+
   // PLATFORM / Browser check to avoid accessing localStorage during SSR
-  private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
+  private isBrowser: boolean;
 
   /** Endpoint del login (utiliza environment.apiUrl) */
   private baseUrl = `${environment.apiUrl}/Auth/login`;
 
   /** Estado reactivo de autenticación (no leer localStorage en servidor) */
   readonly authState = signal<AuthState>({
-    token: this.isBrowser ? localStorage.getItem(AUTH_TOKEN_KEY) : null,
-    user: this.isBrowser ? this.loadUser() : null,
-    expiresAt: this.isBrowser ? (Number(localStorage.getItem(AUTH_EXP_KEY)) || null) : null,
-    isAuthenticated: this.isBrowser ? !!localStorage.getItem(AUTH_TOKEN_KEY) : false,
+    token: null,
+    user: null,
+    expiresAt: null,
+    isAuthenticated: false,
   });
 
   /** === LOGIN === */
@@ -55,7 +70,8 @@ export class AuthService {
     const user: AuthUser = {
       id: this.decodeTokenSub(resp.accessToken),
       username: resp.usuario,
-      role: resp.rol,
+      // Normalize role to uppercase to avoid mismatches (backend may send different casing)
+      role: (String(resp.rol || '').toUpperCase()) as Role,
     };
 
     // Guardar en storage (solo en browser)
@@ -74,8 +90,16 @@ export class AuthService {
     });
 
     // Redirigir según rol
-    const redirect = ROLE_ROUTE[resp.rol] || '/';
-    this.router.navigate([redirect]);
+  const redirect = ROLE_ROUTE[resp.rol] || '/';
+  try { console.log('[AuthService] login role=', resp.rol, 'redirecting to', redirect); } catch (e) {}
+  this.router.navigate([redirect]);
+  }
+
+  /** Utility: check if current user has any of the provided roles */
+  hasRole(...roles: Role[]): boolean {
+    const r = this.getRole();
+    if (!r) return false;
+    return roles.includes(r as Role);
   }
 
   /** === CARGAR USUARIO DESDE STORAGE === */

@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="en"><head>
+  <script type="module" src="/@vite/client"></script>
+
+  <meta charset="utf-8">
+  <title>SGA</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Global error overlay: muestra errores JS en la página para depuración -->
+  <script>
+    (function () {
+      function renderError(msg) {
+        try {
+          var existing = document.getElementById('global-error-overlay');
+          if (existing) {
+            existing.innerText = msg;
+            return;
+          }
+          var el = document.createElement('div');
+          el.id = 'global-error-overlay';
+          el.style.position = 'fixed';
+          el.style.zIndex = 2147483647;
+          el.style.left = 0;
+          el.style.top = 0;
+          el.style.right = 0;
+          el.style.padding = '12px 16px';
+          el.style.background = 'rgba(200,20,20,0.95)';
+          el.style.color = 'white';
+          el.style.fontFamily = 'monospace';
+          el.style.whiteSpace = 'pre-wrap';
+          el.style.maxHeight = '40vh';
+          el.style.overflow = 'auto';
+          el.innerText = msg;
+          document.documentElement.appendChild(el);
+        } catch (e) {
+          /* noop */
+        }
+      }
+
+      window.addEventListener('error', function (ev) {
+        var message = (ev && ev.message) || String(ev || 'Unknown error');
+        renderError('Uncaught error: ' + message + '\n' + (ev && ev.filename ? ev.filename + ':' + ev.lineno + ':' + ev.colno : ''));
+        console.error('Uncaught error (global handler):', ev.error || ev);
+      });
+
+      window.addEventListener('unhandledrejection', function (ev) {
+        var reason = ev && ev.reason ? ev.reason : ev;
+        renderError('Unhandled Promise rejection: ' + (reason && reason.message ? reason.message : String(reason)));
+        console.error('Unhandled rejection (global handler):', reason);
+      });
+    })();
+  </script>
+  <!-- Banner de debug: indica que JS se ejecuta antes del bootstrap de Angular -->
+  <script>
+    try {
+      console.log('[index] inline script executed');
+      var debugBanner = document.createElement('div');
+      debugBanner.id = 'debug-js-banner';
+      debugBanner.textContent = 'JS executed — waiting Angular...';
+      debugBanner.style.position = 'fixed';
+      debugBanner.style.right = '8px';
+      debugBanner.style.bottom = '8px';
+      debugBanner.style.zIndex = 2147483646;
+      debugBanner.style.background = 'rgba(0,0,0,0.6)';
+      debugBanner.style.color = 'white';
+      debugBanner.style.padding = '6px 10px';
+      debugBanner.style.borderRadius = '6px';
+      debugBanner.style.fontFamily = 'sans-serif';
+      debugBanner.style.fontSize = '12px';
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.appendChild(debugBanner);
+      });
+    } catch (e) {
+      console.error('debug banner error:', e);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css"><style type="text/css"></style><style>
+
+[_ngcontent-ng-c3388137277]:root {
+  --footer-h: 80px;
+}
+@media (max-width: 768px) {
+  [_ngcontent-ng-c3388137277]:root {
+    --footer-h: 120px;
+  }
+}
+body[_ngcontent-ng-c3388137277] {
+  margin: 0;
+  padding-bottom: var(--footer-h);
+}
+[_ngcontent-ng-c3388137277]:root {
+  --azul: #004383;
+  --cta: #ea8a1a;
+  --texto: #ffffff;
+}
+.splash-screen[_ngcontent-ng-c3388137277] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--azul);
+  color: var(--texto);
+  z-index: 9999;
+  background-color: #034a8b;
+  color: #ffffff;
+  font-family:
+    "Segoe UI",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+  font-style: italic;
+}
+.splash-content[_ngcontent-ng-c3388137277] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.splash-logo[_ngcontent-ng-c3388137277] {
+  width: 150px;
+  height: auto;
+  margin-bottom: 25px;
+  animation: _ngcontent-ng-c3388137277_pulse 1.5s infinite ease-in-out;
+}
+.splash-screen[_ngcontent-ng-c3388137277]   h1[_ngcontent-ng-c3388137277] {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.splash-screen[_ngcontent-ng-c3388137277]   p[_ngcontent-ng-c3388137277] {
+  margin-top: 15px;
+  font-size: 1rem;
+  color: var(--texto);
+}
+@keyframes _ngcontent-ng-c3388137277_pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.main-content[_ngcontent-ng-c3388137277] {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.router-view-container[_ngcontent-ng-c3388137277] {
+  flex-grow: 1;
+  padding: 20px;
+}
+/*# sourceMappingURL=/app.css.map */</style><style>.mat-mdc-progress-spinner{--mat-progress-spinner-animation-multiplier: 1;display:block;overflow:hidden;line-height:0;position:relative;direction:ltr;transition:opacity 250ms cubic-bezier(0.4, 0, 0.6, 1)}.mat-mdc-progress-spinner circle{stroke-width:var(--mat-progress-spinner-active-indicator-width, 4px)}.mat-mdc-progress-spinner._mat-animation-noopable,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__determinate-circle{transition:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__spinner-layer,.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container{animation:none !important}.mat-mdc-progress-spinner._mat-animation-noopable .mdc-circular-progress__indeterminate-container circle{stroke-dasharray:0 !important}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic,.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle{stroke:currentColor;stroke:CanvasText}}.mat-progress-spinner-reduced-motion{--mat-progress-spinner-animation-multiplier: 1.25}.mdc-circular-progress__determinate-container,.mdc-circular-progress__indeterminate-circle-graphic,.mdc-circular-progress__indeterminate-container,.mdc-circular-progress__spinner-layer{position:absolute;width:100%;height:100%}.mdc-circular-progress__determinate-container{transform:rotate(-90deg)}.mdc-circular-progress--indeterminate .mdc-circular-progress__determinate-container{opacity:0}.mdc-circular-progress__indeterminate-container{font-size:0;letter-spacing:0;white-space:nowrap;opacity:0}.mdc-circular-progress--indeterminate .mdc-circular-progress__indeterminate-container{opacity:1;animation:mdc-circular-progress-container-rotate calc(1568.2352941176ms*var(--mat-progress-spinner-animation-multiplier)) linear infinite}.mdc-circular-progress__determinate-circle-graphic,.mdc-circular-progress__indeterminate-circle-graphic{fill:rgba(0,0,0,0)}.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:var(--mat-progress-spinner-active-indicator-color, var(--mat-sys-primary))}@media(forced-colors: active){.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{stroke:CanvasText}}.mdc-circular-progress__determinate-circle{transition:stroke-dashoffset 500ms cubic-bezier(0, 0, 0.2, 1)}.mdc-circular-progress__gap-patch{position:absolute;top:0;left:47.5%;box-sizing:border-box;width:5%;height:100%;overflow:hidden}.mdc-circular-progress__gap-patch .mdc-circular-progress__indeterminate-circle-graphic{left:-900%;width:2000%;transform:rotate(180deg)}.mdc-circular-progress__circle-clipper .mdc-circular-progress__indeterminate-circle-graphic{width:200%}.mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{left:-100%}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-left .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-left-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress--indeterminate .mdc-circular-progress__circle-right .mdc-circular-progress__indeterminate-circle-graphic{animation:mdc-circular-progress-right-spin calc(1333ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}.mdc-circular-progress__circle-clipper{display:inline-flex;position:relative;width:50%;height:100%;overflow:hidden}.mdc-circular-progress--indeterminate .mdc-circular-progress__spinner-layer{animation:mdc-circular-progress-spinner-layer-rotate calc(5332ms*var(--mat-progress-spinner-animation-multiplier)) cubic-bezier(0.4, 0, 0.2, 1) infinite both}@keyframes mdc-circular-progress-container-rotate{to{transform:rotate(360deg)}}@keyframes mdc-circular-progress-spinner-layer-rotate{12.5%{transform:rotate(135deg)}25%{transform:rotate(270deg)}37.5%{transform:rotate(405deg)}50%{transform:rotate(540deg)}62.5%{transform:rotate(675deg)}75%{transform:rotate(810deg)}87.5%{transform:rotate(945deg)}100%{transform:rotate(1080deg)}}@keyframes mdc-circular-progress-left-spin{from{transform:rotate(265deg)}50%{transform:rotate(130deg)}to{transform:rotate(265deg)}}@keyframes mdc-circular-progress-right-spin{from{transform:rotate(-265deg)}50%{transform:rotate(-130deg)}to{transform:rotate(-265deg)}}
+</style></head>
+<body>
+  <app-root ng-version="20.3.6" _nghost-ng-c3388137277=""><div _ngcontent-ng-c3388137277=""><div _ngcontent-ng-c3388137277="" class="splash-screen"><div _ngcontent-ng-c3388137277="" class="splash-content"><img _ngcontent-ng-c3388137277="" alt="Logo de la Universidad" class="splash-logo" src="https://static.wixstatic.com/media/8a2cdc_fb088ff4add94711854b569553889689~mv2.png/v1/fill/w_164,h_58,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20blanco%20con%20l%C3%ADnea%20naranja.png"><h1 _ngcontent-ng-c3388137277="">Universidad Regional de Guatemala</h1><h1 _ngcontent-ng-c3388137277="">Sede San Raymundo</h1><mat-spinner _ngcontent-ng-c3388137277="" role="progressbar" tabindex="-1" color="warn" diameter="50" class="mat-mdc-progress-spinner mdc-circular-progress mat-warn mdc-circular-progress--indeterminate" aria-valuemin="0" aria-valuemax="100" mode="indeterminate" style="width: 50px; height: 50px; --mat-progress-spinner-size: 50px; --mat-progress-spinner-active-indicator-width: 50px;"><!--container--><div aria-hidden="true" class="mdc-circular-progress__determinate-container"><svg xmlns="http://www.w3.org/2000/svg" focusable="false" class="mdc-circular-progress__determinate-circle-graphic" viewBox="0 0 45 45"><circle cx="50%" cy="50%" class="mdc-circular-progress__determinate-circle" r="20" style="stroke-dasharray: 125.664px; stroke-width: 10%;"></circle></svg></div><div aria-hidden="true" class="mdc-circular-progress__indeterminate-container"><div class="mdc-circular-progress__spinner-layer"><div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-left"><svg xmlns="http://www.w3.org/2000/svg" focusable="false" class="mdc-circular-progress__indeterminate-circle-graphic" viewBox="0 0 45 45"><circle cx="50%" cy="50%" r="20" style="stroke-dasharray: 125.664px; stroke-dashoffset: 62.8319px; stroke-width: 10%;"></circle></svg><!--ng-container--></div><div class="mdc-circular-progress__gap-patch"><svg xmlns="http://www.w3.org/2000/svg" focusable="false" class="mdc-circular-progress__indeterminate-circle-graphic" viewBox="0 0 45 45"><circle cx="50%" cy="50%" r="20" style="stroke-dasharray: 125.664px; stroke-dashoffset: 62.8319px; stroke-width: 10%;"></circle></svg><!--ng-container--></div><div class="mdc-circular-progress__circle-clipper mdc-circular-progress__circle-right"><svg xmlns="http://www.w3.org/2000/svg" focusable="false" class="mdc-circular-progress__indeterminate-circle-graphic" viewBox="0 0 45 45"><circle cx="50%" cy="50%" r="20" style="stroke-dasharray: 125.664px; stroke-dashoffset: 62.8319px; stroke-width: 10%;"></circle></svg><!--ng-container--></div></div></div></mat-spinner><p _ngcontent-ng-c3388137277="">Cargando aplicación...</p></div></div></div><!--container--><!--container--></app-root>
+<script src="main.js" type="module"></script>
+
+<div id="debug-js-banner" style="position: fixed; right: 8px; bottom: 8px; z-index: 2147483646; background: rgba(0, 0, 0, 0.6); color: white; padding: 6px 10px; border-radius: 6px; font-family: sans-serif; font-size: 12px;">JS executed — waiting Angular...</div></body></html>

@@ -20,10 +20,10 @@ export const routes: Routes = [
   // Público
   { path: 'inicio', component: Inicio },
   { path: 'login', component: LoginComponent },
-  {path: 'registro', component: Registro},//ruta para registro de usuarios pública para pruebas
 
 
   // Protegidas por rol (ajusta si lo deseas)
+  // Protegidas por rol
   {
     path: 'lector',
     component: LectorQR,
@@ -34,7 +34,13 @@ export const routes: Routes = [
     path: 'registro',
     component: Registro,
     canActivate: [authGuard],
-    data: { roles: ['ADMIN', 'DOCENTE','ESTUDIANTE'] }
+    data: { roles: ['ADMIN'] }
+  },
+  {
+    path: 'historial',
+    component: Historial,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'DOCENTE', 'ESTUDIANTE'] }
   },
 
   // 404 → inicio
