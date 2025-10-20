@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\estudiantescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\estudiantescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\dtos\\correodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\dtos\\correodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -66,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -86,31 +90,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "JwtOptions.cs",
-              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Models\\JwtOptions.cs",
-              "RelativeDocumentMoniker": "ProyectoQR\\Models\\JwtOptions.cs",
-              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Models\\JwtOptions.cs",
-              "RelativeToolTip": "ProyectoQR\\Models\\JwtOptions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T21:08:12.724Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ProyectoQR.csproj",
-              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
-              "RelativeDocumentMoniker": "ProyectoQR\\ProyectoQR.csproj",
-              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
-              "RelativeToolTip": "ProyectoQR\\ProyectoQR.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-13T21:45:53.648Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
               "RelativeDocumentMoniker": "ProyectoQR\\appsettings.json",
@@ -122,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "EmailController.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\EmailController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\EmailController.cs",
@@ -134,7 +114,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Pbkdf2PasswordHasher.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Service\\password\\Pbkdf2PasswordHasher.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Service\\password\\Pbkdf2PasswordHasher.cs",
@@ -146,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Service\\EmailService.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Service\\EmailService.cs",
@@ -158,7 +138,57 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
+              "RelativeDocumentMoniker": "ProyectoQR\\Program.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
+              "RelativeToolTip": "ProyectoQR\\Program.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAAAGEAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T01:56:37.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ProyectoQR.csproj",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
+              "RelativeDocumentMoniker": "ProyectoQR\\ProyectoQR.csproj",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
+              "RelativeToolTip": "ProyectoQR\\ProyectoQR.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T21:45:53.648Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MarcajeController.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
+              "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\MarcajeController.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
+              "RelativeToolTip": "ProyectoQR\\Controllers\\MarcajeController.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAmwIcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T22:51:34.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "JwtOptions.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Models\\JwtOptions.cs",
+              "RelativeDocumentMoniker": "ProyectoQR\\Models\\JwtOptions.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Models\\JwtOptions.cs",
+              "RelativeToolTip": "ProyectoQR\\Models\\JwtOptions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-13T21:08:12.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "AuthRepository.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Data\\AuthRepository.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Data\\AuthRepository.cs",
@@ -170,20 +200,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "EstudiantesController.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\EstudiantesController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\EstudiantesController.cs",
               "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\EstudiantesController.cs",
               "RelativeToolTip": "ProyectoQR\\Controllers\\EstudiantesController.cs",
-              "ViewState": "AgIAAB8BAAAAAAAAAAAAwIcAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwIcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T15:29:52.276Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T15:29:52.276Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CorreoDto.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Dtos\\CorreoDto.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Dtos\\CorreoDto.cs",
@@ -195,7 +224,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "AuthDtos.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Models\\AuthDtos.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Models\\AuthDtos.cs",
@@ -207,19 +236,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
-              "RelativeDocumentMoniker": "ProyectoQR\\Program.cs",
-              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Program.cs",
-              "RelativeToolTip": "ProyectoQR\\Program.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAGoAAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T01:56:37.569Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\AuthController.cs",
@@ -231,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "TokenService.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Service\\tokens\\TokenService.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Service\\tokens\\TokenService.cs",
@@ -243,7 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "ProyectoQR\\Properties\\launchSettings.json",

@@ -152,5 +152,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.MarcajeController",
+    "Method": "GetMyMarcajes",
+    "RelativePath": "api/Marcaje/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

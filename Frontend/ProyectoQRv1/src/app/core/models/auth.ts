@@ -39,7 +39,7 @@ export const AUTH_EXP_KEY    = 'auth.expiresAt';
 
 /** Rutas destino según rol (ajústalas a tu app real) */
 export const ROLE_ROUTE: Record<Role, string> = {
-  ESTUDIANTE: '../../Vista/historial',
-  DOCENTE: '../../Vista/historial',
-  ADMIN: '../../Vista/registro',
+  ESTUDIANTE: '/mis-marcajes',
+  DOCENTE: '/lector',
+  ADMIN: '/registro',
 };

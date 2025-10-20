@@ -1,51 +1,44 @@
-// src/app/core-interceptors/auth.interceptor.ts
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { environment } from '../../../environments/environments';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
-/**
- * Interceptor que:
- * 1) Adjunta Authorization: Bearer <token> a peticiones del API (excepto /auth/login)
- * 2) Si recibe 401/403, limpia sesión y redirige a /login
- */
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(AuthService);
-  const router = inject(Router);
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor(private auth: AuthService, private router: Router, private toastr: ToastrService) {}
 
-  // Evitar adjuntar token al endpoint de login
-  const isLogin = req.url.toLowerCase().includes('/auth/login');
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = this.auth.token;
 
-  // Solo añadimos token a llamadas contra nuestro API (opcional pero recomendado)
-  const isApiUrl =
-    req.url.startsWith(environment.apiBaseUrl) ||
-    req.url.startsWith(environment.apiBaseUrl.replace(/\/api$/, ''));
-
-  let request: HttpRequest<unknown> = req;
-
-  if (!isLogin && isApiUrl) {
-    const token = auth.token;
+    let authReq = req;
     if (token) {
-      request = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      authReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
     }
-  }
 
-  return next(request).pipe(
-    catchError((err) => {
-      if (err?.status === 401 || err?.status === 403) {
-        // Sesión inválida/expirada: limpiar y mandar al login
-        auth.logout();
-        // (si ya estás en /login, Router ignorará navegación duplicada)
-        router.navigate(['/login']);
-      }
-      return throwError(() => err);
-    })
-  );
+  // Debug: indicate whether Authorization header will be sent (do not log the token)
+  try { console.debug('[AuthInterceptor] Authorization header present:', authReq.headers.has('Authorization')); } catch {}
+  return next.handle(authReq).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          // token inválido/expirado → limpiar sesión y redirigir
+          this.auth.logout(false);
+          try {
+            this.toastr.warning('Tu sesión expiró. Por favor inicia sesión nuevamente.');
+          } catch {}
+          this.router.navigate(['/login']);
+        }
+        return throwError(() => err);
+      })
+    );
+  }
+}
+
+export const authInterceptorProvider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true,
 };
+

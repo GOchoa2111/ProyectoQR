@@ -5,7 +5,10 @@ import { Routes } from '@angular/router';
 import { Inicio } from './Vista/inicio/inicio';
 import { Registro } from './Vista/registro/registro';
 import { Historial } from './Vista/historial/historial';
+import { HistorialResolver } from './Vista/historial/historial.resolver';
 import { LectorQR } from './Vista/lector-qr/lector-qr';
+import { MisMarcajesComponent } from './features/mis-marcajes/mis-marcajes';
+import { Carreras } from './features/carreras/carreras';
 
 // Login (standalone)
 import { LoginComponent } from '../app/features/auth/login/login';
@@ -19,10 +22,12 @@ export const routes: Routes = [
 
   // Público
   { path: 'inicio', component: Inicio },
+  { path: 'carreras', component: Carreras },
   { path: 'login', component: LoginComponent },
-  {path: 'registro', component: Registro},//ruta para registro de usuarios pública para pruebas
+
 
   // Protegidas por rol (ajusta si lo deseas)
+  // Protegidas por rol
   {
     path: 'lector',
     component: LectorQR,
@@ -39,7 +44,14 @@ export const routes: Routes = [
     path: 'historial',
     component: Historial,
     canActivate: [authGuard],
-    data: { roles: ['ADMIN', 'DOCENTE','ESTUDIANTE'] }
+    data: { roles: ['ADMIN', 'DOCENTE'] },
+    resolve: { historialData: HistorialResolver }
+  },
+  {
+    path: 'mis-marcajes',
+    component: MisMarcajesComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN', 'DOCENTE', 'ESTUDIANTE'] }
   },
 
   // 404 → inicio

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ProyectoQRv1": {
+    "SGA": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -26,11 +26,7 @@
               "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "outputMode": "static"
           },
           "configurations": {
             "production": {
@@ -60,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ProyectoQRv1:build:production"
+              "buildTarget": "SGA:build:production"
             },
             "development": {
-              "buildTarget": "ProyectoQRv1:build:development"
+              "buildTarget": "SGA:build:development"
             }
           },
           "defaultConfiguration": "development"

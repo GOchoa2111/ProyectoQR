@@ -1,0 +1,14 @@
+<div class="carreras-page">
+  <h2>Nuestras Carreras</h2>
+  <div class="cards">
+    <mat-card *ngFor="let c of carreras" class="career-card">
+      <mat-card-header>
+        <mat-card-title>{{ c.nombre }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Duración: {{ c.duracion }}</p>
+        <p>Más información en la página oficial de la universidad.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

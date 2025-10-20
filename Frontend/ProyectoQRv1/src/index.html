@@ -2,13 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ProyectoQRv1</title>
+  <title>SGA</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Global error overlay: muestra errores JS en la página para depuración -->
+  <script>
+    (function () {
+      function renderError(msg) {
+        try {
+          var existing = document.getElementById('global-error-overlay');
+          if (existing) {
+            existing.innerText = msg;
+            return;
+          }
+          var el = document.createElement('div');
+          el.id = 'global-error-overlay';
+          el.style.position = 'fixed';
+          el.style.zIndex = 2147483647;
+          el.style.left = 0;
+          el.style.top = 0;
+          el.style.right = 0;
+          el.style.padding = '12px 16px';
+          el.style.background = 'rgba(200,20,20,0.95)';
+          el.style.color = 'white';
+          el.style.fontFamily = 'monospace';
+          el.style.whiteSpace = 'pre-wrap';
+          el.style.maxHeight = '40vh';
+          el.style.overflow = 'auto';
+          el.innerText = msg;
+          document.documentElement.appendChild(el);
+        } catch (e) {
+          /* noop */
+        }
+      }
+
+      window.addEventListener('error', function (ev) {
+        var message = (ev && ev.message) || String(ev || 'Unknown error');
+        renderError('Uncaught error: ' + message + '\n' + (ev && ev.filename ? ev.filename + ':' + ev.lineno + ':' + ev.colno : ''));
+        console.error('Uncaught error (global handler):', ev.error || ev);
+      });
+
+      window.addEventListener('unhandledrejection', function (ev) {
+        var reason = ev && ev.reason ? ev.reason : ev;
+        renderError('Unhandled Promise rejection: ' + (reason && reason.message ? reason.message : String(reason)));
+        console.error('Unhandled rejection (global handler):', reason);
+      });
+    })();
+  </script>
+  <!-- Banner de debug: indica que JS se ejecuta antes del bootstrap de Angular -->
+  <script>
+    try {
+      console.log('[index] inline script executed');
+      var debugBanner = document.createElement('div');
+      debugBanner.id = 'debug-js-banner';
+      debugBanner.textContent = 'JS executed — waiting Angular...';
+      debugBanner.style.position = 'fixed';
+      debugBanner.style.right = '8px';
+      debugBanner.style.bottom = '8px';
+      debugBanner.style.zIndex = 2147483646;
+      debugBanner.style.background = 'rgba(0,0,0,0.6)';
+      debugBanner.style.color = 'white';
+      debugBanner.style.padding = '6px 10px';
+      debugBanner.style.borderRadius = '6px';
+      debugBanner.style.fontFamily = 'sans-serif';
+      debugBanner.style.fontSize = '12px';
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.appendChild(debugBanner);
+      });
+    } catch (e) {
+      console.error('debug banner error:', e);
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <app-root></app-root>

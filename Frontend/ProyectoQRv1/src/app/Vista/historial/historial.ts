@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, inject, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -49,10 +50,22 @@ export class Historial implements OnInit, AfterViewInit {
 
   // DI
   private historialService = inject(HistorialService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  // To unsubscribe router events
+  private navigationSub: any = null;
 
   ngOnInit(): void {
     this.configurarFiltroPredicado();
-    this.cargarHistorial();
+    // If resolver provided data, use it to avoid an extra round-trip and ensure first-click load
+    const resolved = this.route.snapshot.data['historialData'] as HistorialMarcaje[] | undefined | null;
+    if (resolved && Array.isArray(resolved)) {
+      this.dataSource.data = resolved;
+      this.cargando = false;
+    } else {
+      this.cargarHistorial();
+    }
 
     // Filtro con debounce
     this.searchCtrl.valueChanges
@@ -67,6 +80,28 @@ export class Historial implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // Re-cargar después de que la vista esté lista para asegurarnos que la tabla se actualiza
+    // esto evita escenarios donde la navegación ocurre pero la tabla aún no está inicializada
+    this.cargarHistorial();
+
+    // Escuchar eventos de navegación para recargar cuando la ruta /historial se active
+    try {
+      this.navigationSub = this.router.events.subscribe(evt => {
+        if (evt instanceof NavigationEnd) {
+          // si navegamos a /historial forzamos recarga
+          if (evt.urlAfterRedirects?.startsWith('/historial')) {
+            this.cargarHistorial();
+          }
+        }
+      });
+    } catch (e) {
+      // ignore if Router not available
+    }
+  }
+
+  ngOnDestroy(): void {
+    try { if (this.navigationSub) this.navigationSub.unsubscribe?.(); } catch {}
   }
 
   private configurarFiltroPredicado(): void {
@@ -80,7 +115,6 @@ export class Historial implements OnInit, AfterViewInit {
   cargarHistorial(): void {
     this.cargando = true;
     this.errorCarga = null;
-
     this.historialService.obtenerHistorial().subscribe({
       next: (data) => {
         this.dataSource.data = data ?? [];

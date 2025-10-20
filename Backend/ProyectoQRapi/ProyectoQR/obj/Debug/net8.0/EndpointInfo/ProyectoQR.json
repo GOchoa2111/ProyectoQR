@@ -274,6 +274,18 @@
           }
         }
       }
+    },
+    "/api/Marcaje/me": {
+      "get": {
+        "tags": [
+          "Marcaje"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

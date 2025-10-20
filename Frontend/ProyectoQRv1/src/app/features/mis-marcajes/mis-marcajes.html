@@ -1,0 +1,27 @@
+<div class="mis-marcajes-root">
+  <h2>Mis marcajes</h2>
+
+  <div *ngIf="loading">Cargando marcajes...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!loading && marcajes.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Carnet</th>
+        <th>Nombre</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of marcajes">
+        <td>{{ m.fechaHora }}</td>
+        <td>{{ m.tipo }}</td>
+        <td>{{ m.numeroCarnet }}</td>
+        <td>{{ m.nombreCompleto }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && marcajes.length === 0">No hay marcajes registrados.</div>
+</div>

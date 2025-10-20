@@ -28,10 +28,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--azul); /* Usa el color azul principal */
   color: var(--texto);
   z-index: 9999; 
+  /* Imagen de splash (con fallback color) */
   background-color: #034a8b; /* Color de fondo azul */
+  background-image: linear-gradient(rgba(3,6,23,0.35), rgba(3,6,23,0.35)), url('../assets//img//carga-intro-v2.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   color: #ffffff; /* Color de texto blanco */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-style: italic;
@@ -47,7 +51,7 @@ body {
 }
 
 .splash-logo {
-  width: 150px; 
+  width: 120px; 
   height: auto;
   margin-bottom: 25px;
   /* Animación sutil para indicar actividad */
