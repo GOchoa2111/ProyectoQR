@@ -1,90 +1,126 @@
 <div class="mis-marcajes-root">
   <h2>Mis marcajes</h2>
 
-  <!-- [NUEVO] Contenedor para los filtros -->
+  <!-- 
+    Sección de Filtros: visible en todo momento para que el usuario pueda interactuar.
+    El botón "Mostrar Historial" está deshabilitado mientras se cargan los datos.
+  -->
   <div class="filtros-container">
     <label for="filtroFecha">Filtrar por fecha:</label>
-    <input
-      id="filtroFecha"
-      type="date"
-      [value]="filtroFecha"
+    <input 
+      id="filtroFecha" 
+      type="date" 
+      [value]="filtroFecha" 
       (input)="onFechaChange($event)">
+    
+    <button 
+      class="btn-historial" 
+      (click)="mostrarHistorial()"
+      [disabled]="loading">
+        Mostrar Historial
+    </button>
   </div>
 
-  <!-- Indicadores de carga y error (sin cambios) -->
-  <div *ngIf="loading">Cargando marcajes...</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <!-- 
+    Estado Inicial: Se muestra solo al principio, antes de que el usuario haga clic en "Mostrar Historial".
+  -->
+  <div *ngIf="!busquedaIniciada && !loading" class="initial-prompt">
+    <p>Selecciona una fecha o presiona "Mostrar Historial" para ver tus marcajes.</p>
+  </div>
 
-  <!-- [MODIFICADO] La tabla ahora se muestra si hay marcajes FILTRADOS -->
-  <div *ngIf="!loading && marcajesFiltrados.length > 0" class="table-wrap">
-    <div class="table-card">
-      <table class="simple-table">
-        <thead>
-          <tr>
-            <th>
-              Fecha
-              <button class="sort-btn" (click)="sortBy('fechaHora')">
-                <span *ngIf="sortColumn !== 'fechaHora'">⇅</span>
-                <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'desc'">↓</span>
-                <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'asc'">↑</span>
-              </button>
-            </th>
-            <th>Carnet</th>
-            <th>Nombre</th>
-            <th>
-              Tipo
-              <button class="sort-btn" (click)="sortBy('tipo')">
-                <span *ngIf="sortColumn !== 'tipo'">⇅</span>
-                <span *ngIf="sortColumn === 'tipo' && sortDirection === 'desc'">↓</span>
-                <span *ngIf="sortColumn === 'tipo' && sortDirection === 'asc'">↑</span>
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- [MODIFICADO] El *ngFor ahora itera sobre la lista PAGINADA -->
-          <tr *ngFor="let m of marcajesPaginados">
-            <td data-label="Fecha">{{ formatDate(m.fechaHora) }}</td>
-            <td data-label="Carnet">{{ m.numeroCarnet }}</td>
-            <td data-label="Nombre">{{ m.nombreCompleto }}</td>
-            <td data-label="Tipo">{{ m.tipo }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- 
+    Estado de Carga: Se muestra cada vez que la propiedad 'loading' es true.
+  -->
+  <div *ngIf="loading" class="loading-card">
+    Cargando marcajes...
+  </div>
+
+  <!-- 
+    Estado de Error: Se muestra si la propiedad 'error' tiene un mensaje.
+  -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- 
+    Contenedor Principal de la Tabla:
+    Se muestra solo si la búsqueda ya fue iniciada, no hay carga y no hay errores.
+  -->
+  <div *ngIf="busquedaIniciada && !loading && !error">
+    
+    <!-- La tabla solo se muestra si hay registros después de filtrar -->
+    <div *ngIf="marcajesFiltrados.length > 0" class="table-wrap">
+      <div class="table-card">
+        <table class="simple-table">
+          <thead>
+            <tr>
+              <th>
+                Fecha
+                <button class="sort-btn" (click)="sortBy('fechaHora')">
+                  <span *ngIf="sortColumn !== 'fechaHora'">⇅</span>
+                  <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'desc'">↓</span>
+                  <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'asc'">↑</span>
+                </button>
+              </th>
+              <th>Carnet</th>
+              <th>Nombre</th>
+              <th>
+                Tipo
+                <button class="sort-btn" (click)="sortBy('tipo')">
+                  <span *ngIf="sortColumn !== 'tipo'">⇅</span>
+                  <span *ngIf="sortColumn === 'tipo' && sortDirection === 'desc'">↓</span>
+                  <span *ngIf="sortColumn === 'tipo' && sortDirection === 'asc'">↑</span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Iteramos sobre 'marcajesPaginados', que es la lista que se muestra en la página actual -->
+            <tr *ngFor="let m of marcajesPaginados">
+              <td data-label="Fecha">{{ formatDate(m.fechaHora) }}</td>
+              <td data-label="Carnet">{{ m.numeroCarnet }}</td>
+              <td data-label="Nombre">{{ m.nombreCompleto }}</td>
+              <td data-label="Tipo">{{ m.tipo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <!-- [NUEVO] Controles de Paginación -->
-  <!-- Solo se muestran si hay más de una página en total -->
-  <div *ngIf="!loading && getTotalPaginas() > 1" class="paginacion-controls">
-    <button
-      (click)="cambiarPagina(paginaActual - 1)"
-      [disabled]="paginaActual === 1">
-      &laquo; Anterior
-    </button>
+    <!-- 
+      Mensajes de "No hay resultados":
+      Se muestran diferentes mensajes dependiendo de la situación.
+    -->
+    <div *ngIf="marcajes.length === 0" class="no-results-card">
+      No hay marcajes registrados en tu historial.
+    </div>
+    <div *ngIf="marcajes.length > 0 && marcajesFiltrados.length === 0" class="no-results-card">
+      No se encontraron marcajes para la fecha seleccionada.
+    </div>
 
-    <span>
-      Página {{ paginaActual }} de {{ getTotalPaginas() }}
-    </span>
+    <!-- 
+      Controles de Paginación:
+      Solo se muestran si hay más de una página de resultados.
+    -->
+    <div *ngIf="getTotalPaginas() > 1" class="paginacion-controls">
+      <button 
+        (click)="cambiarPagina(paginaActual - 1)" 
+        [disabled]="paginaActual === 1">
+        &laquo; Anterior
+      </button>
+      
+      <span>
+        Página {{ paginaActual }} de {{ getTotalPaginas() }}
+      </span>
+      
+      <button 
+        (click)="cambiarPagina(paginaActual + 1)" 
+        [disabled]="paginaActual === getTotalPaginas()">
+        Siguiente &raquo;
+      </button>
+    </div>
 
-    <button
-      (click)="cambiarPagina(paginaActual + 1)"
-      [disabled]="paginaActual === getTotalPaginas()">
-      Siguiente &raquo;
-    </button>
-  </div>
-
-
-  <!-- [MODIFICADO] Mensajes condicionales para cuando no hay datos -->
-
-  <!-- Se muestra si la API no devolvió ningún marcaje -->
-  <div *ngIf="!loading && marcajes.length === 0 && !error">
-    No hay marcajes registrados.
-  </div>
-
-  <!-- Se muestra si la API sí trajo datos, pero el filtro no encontró coincidencias -->
-  <div *ngIf="!loading && marcajes.length > 0 && marcajesFiltrados.length === 0">
-    No se encontraron marcajes para la fecha seleccionada.
-  </div>
+  </div> <!-- Fin del contenedor principal de la tabla -->
 
 </div>
+
