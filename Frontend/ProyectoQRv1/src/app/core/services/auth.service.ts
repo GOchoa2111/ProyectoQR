@@ -3,6 +3,7 @@ import { Injectable, signal, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import {
@@ -20,7 +21,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   // Prefer constructor injection to avoid calling `inject()` outside an injection context
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private toastr: ToastrService) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     // Inicializar estado desde localStorage solo si estamos en el browser
     if (this.isBrowser) {
@@ -49,6 +50,9 @@ export class AuthService {
     expiresAt: null,
     isAuthenticated: false,
   });
+
+  // Timer handle used to auto-logout when the token expires
+  private logoutTimer: any = null;
 
   /** === LOGIN === */
   login(payload: LoginRequest) {
@@ -89,10 +93,14 @@ export class AuthService {
       isAuthenticated: true,
     });
 
+    // Programar auto-logout cuando expire el token
+    const msUntilExpire = Math.max(0, expiresAt - Date.now());
+    this.scheduleAutoLogout(msUntilExpire);
+
     // Redirigir según rol
-  const redirect = ROLE_ROUTE[resp.rol] || '/';
-  try { console.log('[AuthService] login role=', resp.rol, 'redirecting to', redirect); } catch (e) {}
-  this.router.navigate([redirect]);
+    const redirect = ROLE_ROUTE[resp.rol] || '/';
+    try { console.log('[AuthService] login role=', resp.rol, 'redirecting to', redirect); } catch (e) {}
+    this.router.navigate([redirect]);
   }
 
   /** Utility: check if current user has any of the provided roles */
@@ -160,6 +168,9 @@ export class AuthService {
         expiresAt,
         isAuthenticated: true,
       });
+      // Programar auto-logout con el tiempo restante
+      const remaining = Math.max(0, expiresAt - Date.now());
+      this.scheduleAutoLogout(remaining);
     }
   }
 
@@ -182,6 +193,9 @@ export class AuthService {
 
   /** === CERRAR SESIÓN === */
   logout(navigateToLogin: boolean = true): void {
+    // Clear any pending auto-logout timer
+    this.clearAutoLogout();
+
     if (this.isBrowser) {
       localStorage.removeItem(AUTH_TOKEN_KEY);
       localStorage.removeItem(AUTH_USER_KEY);
@@ -197,6 +211,39 @@ export class AuthService {
 
     if (navigateToLogin) {
       this.router.navigate(['/login']);
+    }
+  }
+
+  /** Schedule an automatic logout after ms milliseconds. If ms is zero or negative the logout happens immediately. */
+  private scheduleAutoLogout(ms: number) {
+    // Clear any existing timer
+    this.clearAutoLogout();
+
+    if (!this.isBrowser) return;
+
+    if (ms <= 0) {
+      // Token already expired — perform immediate logout without navigation (we'll navigate to login)
+      this.logout(true);
+      return;
+    }
+
+      try {
+      this.logoutTimer = setTimeout(() => {
+        console.log('[AuthService] token expired — auto-logging out');
+        try { this.toastr.warning('Tu sesión expiró. Por favor inicia sesión nuevamente.'); } catch {}
+        // Force logout and navigate to login
+        this.logout(true);
+      }, ms);
+    } catch (e) {
+      // In some envs setTimeout may throw; fallback to no-op
+      this.logoutTimer = null;
+    }
+  }
+
+  private clearAutoLogout() {
+    if (this.logoutTimer) {
+      try { clearTimeout(this.logoutTimer); } catch {}
+      this.logoutTimer = null;
     }
   }
 }

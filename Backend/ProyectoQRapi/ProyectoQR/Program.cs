@@ -1,14 +1,13 @@
-using System.Data;
-using System.Text; // [+] para la clave JWT
 using Microsoft.AspNetCore.Authentication.JwtBearer; // [+]
 using Microsoft.IdentityModel.Tokens;               // [+]
 using Oracle.ManagedDataAccess.Client;
-
 // [+] Namespaces de tus servicios/repos y opciones
 using ProyectoQR.Data;
 using ProyectoQR.Models;
 using ProyectoQR.Service.password;
 using ProyectoQR.Service.tokens;
+using System.Data;
+using System.Text; // [+] para la clave JWT
 
 var builder = WebApplication.CreateBuilder(args);
 

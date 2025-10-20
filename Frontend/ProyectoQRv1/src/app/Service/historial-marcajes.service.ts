@@ -1,8 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-// Asegúrate de que esta ruta sea correcta para tu interfaz
-import { HistorialMarcaje } from '../Interface/historial-marcajes'; 
+import { timeout } from 'rxjs/operators';
+import { HistorialMarcaje } from '../Interface/historial-marcajes';
+
+@Injectable({ providedIn: 'root' })
+export class HistorialMarcajesService {
+  private base = `${environment.apiUrl}/marcaje`;
+
+  constructor(private http: HttpClient) {}
+
+  // Obtener los marcajes del usuario autenticado
+  getMyMarcajes(): Observable<HistorialMarcaje[]> {
+    // aplicamos un timeout para evitar requests infinitos en cliente
+    return this.http.get<HistorialMarcaje[]>(`${this.base}/me`).pipe(timeout(10000));
+  }
+
+  // Obtener marcajes por carnet (para admin/docente)
+  getMarcajesByCarnet(carnet: string): Observable<HistorialMarcaje[]> {
+    return this.http.get<HistorialMarcaje[]>(`${this.base}/by-carnet/${encodeURIComponent(carnet)}`);
+  }
+}
 
 @Injectable({
   // 'providedIn: root' hace que el servicio esté disponible en toda la aplicación

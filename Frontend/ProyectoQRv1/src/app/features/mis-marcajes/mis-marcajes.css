@@ -1,0 +1,5 @@
+.mis-marcajes-root { padding: 16px; }
+.mis-marcajes-root h2 { margin-bottom: 12px; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { border: 1px solid #ddd; padding: 8px; }
+.error { color: red; }

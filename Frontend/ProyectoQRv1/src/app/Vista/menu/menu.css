@@ -60,6 +60,28 @@
   gap: 14px;
 }
 
+/* Agrupar login/logout en desktop en columna para mostrar logout debajo */
+.menu-actions .session-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end; /* alinear a la derecha */
+}
+
+.logout-button {
+  background: transparent;
+  color: var(--texto);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.logout-button:hover { background: rgba(255,255,255,0.04); }
+
 /* Botón opcional (CTA genérico, mantenido) */
 .cta {
   background: var(--cta);
@@ -242,6 +264,33 @@ mat-icon {
 }
 .drawer .drawer-items a:hover {
   background: rgba(255, 255, 255, .08);
+}
+
+/* Footer fijo dentro del drawer para logout */
+.drawer .drawer-footer {
+  margin-top: auto; /* empuja al fondo */
+  padding: 12px 8px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.logout-button-mobile {
+  width: 100%;
+  background: transparent;
+  color: var(--texto);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: left;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.mobile-username {
+  font-weight: 700;
+  color: var(--texto);
 }
 
 /* Responsive */

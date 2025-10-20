@@ -18,7 +18,9 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
     }
 
-    return next.handle(authReq).pipe(
+  // Debug: indicate whether Authorization header will be sent (do not log the token)
+  try { console.debug('[AuthInterceptor] Authorization header present:', authReq.headers.has('Authorization')); } catch {}
+  return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
           // token inválido/expirado → limpiar sesión y redirigir
