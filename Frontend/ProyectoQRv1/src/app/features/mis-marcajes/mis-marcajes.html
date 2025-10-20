@@ -1,27 +1,90 @@
 <div class="mis-marcajes-root">
   <h2>Mis marcajes</h2>
 
+  <!-- [NUEVO] Contenedor para los filtros -->
+  <div class="filtros-container">
+    <label for="filtroFecha">Filtrar por fecha:</label>
+    <input
+      id="filtroFecha"
+      type="date"
+      [value]="filtroFecha"
+      (input)="onFechaChange($event)">
+  </div>
+
+  <!-- Indicadores de carga y error (sin cambios) -->
   <div *ngIf="loading">Cargando marcajes...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
 
-  <table *ngIf="!loading && marcajes.length > 0" class="table">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Tipo</th>
-        <th>Carnet</th>
-        <th>Nombre</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let m of marcajes">
-        <td>{{ m.fechaHora }}</td>
-        <td>{{ m.tipo }}</td>
-        <td>{{ m.numeroCarnet }}</td>
-        <td>{{ m.nombreCompleto }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- [MODIFICADO] La tabla ahora se muestra si hay marcajes FILTRADOS -->
+  <div *ngIf="!loading && marcajesFiltrados.length > 0" class="table-wrap">
+    <div class="table-card">
+      <table class="simple-table">
+        <thead>
+          <tr>
+            <th>
+              Fecha
+              <button class="sort-btn" (click)="sortBy('fechaHora')">
+                <span *ngIf="sortColumn !== 'fechaHora'">⇅</span>
+                <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'desc'">↓</span>
+                <span *ngIf="sortColumn === 'fechaHora' && sortDirection === 'asc'">↑</span>
+              </button>
+            </th>
+            <th>Carnet</th>
+            <th>Nombre</th>
+            <th>
+              Tipo
+              <button class="sort-btn" (click)="sortBy('tipo')">
+                <span *ngIf="sortColumn !== 'tipo'">⇅</span>
+                <span *ngIf="sortColumn === 'tipo' && sortDirection === 'desc'">↓</span>
+                <span *ngIf="sortColumn === 'tipo' && sortDirection === 'asc'">↑</span>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- [MODIFICADO] El *ngFor ahora itera sobre la lista PAGINADA -->
+          <tr *ngFor="let m of marcajesPaginados">
+            <td data-label="Fecha">{{ formatDate(m.fechaHora) }}</td>
+            <td data-label="Carnet">{{ m.numeroCarnet }}</td>
+            <td data-label="Nombre">{{ m.nombreCompleto }}</td>
+            <td data-label="Tipo">{{ m.tipo }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <div *ngIf="!loading && marcajes.length === 0">No hay marcajes registrados.</div>
+  <!-- [NUEVO] Controles de Paginación -->
+  <!-- Solo se muestran si hay más de una página en total -->
+  <div *ngIf="!loading && getTotalPaginas() > 1" class="paginacion-controls">
+    <button
+      (click)="cambiarPagina(paginaActual - 1)"
+      [disabled]="paginaActual === 1">
+      &laquo; Anterior
+    </button>
+
+    <span>
+      Página {{ paginaActual }} de {{ getTotalPaginas() }}
+    </span>
+
+    <button
+      (click)="cambiarPagina(paginaActual + 1)"
+      [disabled]="paginaActual === getTotalPaginas()">
+      Siguiente &raquo;
+    </button>
+  </div>
+
+
+  <!-- [MODIFICADO] Mensajes condicionales para cuando no hay datos -->
+
+  <!-- Se muestra si la API no devolvió ningún marcaje -->
+  <div *ngIf="!loading && marcajes.length === 0 && !error">
+    No hay marcajes registrados.
+  </div>
+
+  <!-- Se muestra si la API sí trajo datos, pero el filtro no encontró coincidencias -->
+  <div *ngIf="!loading && marcajes.length > 0 && marcajesFiltrados.length === 0">
+    No se encontraron marcajes para la fecha seleccionada.
+  </div>
+
 </div>

@@ -42,6 +42,16 @@ body {
   
 }
 
+/* Force dialog content to use dark text for readability over light backgrounds */
+.mat-dialog-container, .mat-dialog-content, .mat-dialog-title {
+  color: #111 !important;
+}
+
+/* Buttons keep their Material color styles */
+.mat-dialog-actions button {
+  color: inherit;
+}
+
 .splash-content {
   display: flex;
   flex-direction: column;
