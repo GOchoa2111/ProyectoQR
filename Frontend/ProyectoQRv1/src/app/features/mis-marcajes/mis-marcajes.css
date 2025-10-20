@@ -1,5 +1,171 @@
-.mis-marcajes-root { padding: 16px; }
-.mis-marcajes-root h2 { margin-bottom: 12px; }
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { border: 1px solid #ddd; padding: 8px; }
-.error { color: red; }
+.mis-marcajes-root {
+  /* Contenedor principal de la vista "Mis marcajes".
+     Ahora renderizamos la imagen de fondo en un ::before para asegurarnos de que
+     solo existe UNA capa con la imagen (evita problemas en los que la propia
+     imagen o el layout producen varias capas visuales).
+  */
+  padding: 12px;
+  min-height: 40vh;
+  color: #111;
+  position: relative; /* necesario para posicionar el ::before */
+}
+
+/* Pseudo-elemento que contiene la imagen de fondo en una sola capa.
+   - pointer-events: none => no interfiere con interacción
+   - z-index: -1 => queda detrás del contenido
+   - background-size: cover/no-repeat/center para un solo fondo centrado
+*/
+.mis-marcajes-root::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background-image: url('../../../assets/img/mis-marcajes-v2.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 1; /* si quieres ajustar transparencia, cámbialo aquí */
+  pointer-events: none;
+  z-index: -1;
+}
+
+.mis-marcajes-root h2 { margin-bottom: 10px; color: #111; }
+
+/* Mensajes de error dentro de la vista */
+.error { color: #b00020; background: #fff0f0; padding:6px; border-radius:4px; }
+
+/* Estado de carga (spinner / texto) */
+.loading { margin: 8px 0; }
+
+
+/* --- [NUEVO] Estilos para el contenedor de filtros y paginación --- */
+
+.filtros-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(20, 30, 50, 0.05);
+}
+
+.filtros-container label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.filtros-container input[type="date"] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  color: #1f2937;
+  background-color: #f9fafb;
+}
+.filtros-container input[type="date"]:focus {
+  outline: 2px solid #3b82f6;
+  border-color: #3b82f6;
+}
+
+.paginacion-controls {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(20, 30, 50, 0.05);
+}
+
+.paginacion-controls button {
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
+
+.paginacion-controls button:hover:not(:disabled) {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.paginacion-controls button:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.paginacion-controls span {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* --- Fin de nuevos estilos --- */
+
+
+.table-wrap { overflow-x: auto; }
+
+.simple-table { width: 100%; border-collapse: collapse; }
+.simple-table th, .simple-table td { padding: 8px 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+.simple-table thead th { font-weight: 600; }
+
+.sort-btn { background: transparent; border: none; cursor: pointer; font-size: 12px; margin-left: 6px; }
+.sort-btn:focus { outline: none; }
+
+@media (max-width: 600px) {
+  .simple-table th, .simple-table td { padding: 6px 8px; }
+  .filtros-container, .paginacion-controls { flex-direction: column; align-items: stretch; gap: 8px; }
+}
+
+/* Estilos tipo tarjeta (card) para la tabla: bordes redondeados y sombra ligera */
+.table-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(20, 30, 50, 0.08);
+  padding: 10px;
+  overflow: hidden;
+}
+
+/* Cabecera de la tabla con un degradado sutil para aspecto moderno.
+    position: sticky para que el encabezado se mantenga visible al hacer scroll.
+*/
+.simple-table thead th {
+  background: linear-gradient(90deg, #f6f9fc 0%, #ffffff 100%);
+  color: #1f2937;
+  font-size: 13px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* Filas zebra y efecto hover para mejorar legibilidad */
+.simple-table tbody tr:nth-child(even) { background: #fbfdff; }
+.simple-table tbody tr:hover { background: #f1f7ff; }
+
+/* Estilo de las celdas */
+.simple-table td { color: #374151; font-size: 14px; }
+
+/* Botón de orden más visible */
+.sort-btn { color: #2563eb; font-weight: 600; border-radius: 6px; padding: 2px 6px; }
+.sort-btn:hover { background: rgba(37,99,235,0.06); }
+
+/* Ajustes responsivos: en pantallas muy pequeñas mostramos cada fila como bloque con etiqueta */
+@media (max-width: 420px) {
+  .simple-table thead { display: none; }
+  .simple-table, .simple-table tbody, .simple-table tr, .simple-table td { display: block; width: 100%; }
+  .simple-table tr { margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(16,24,40,0.04); padding: 8px; background: #fff; }
+  .simple-table td { text-align: right; padding-left: 50%; position: relative; }
+  .simple-table td::before { content: attr(data-label); position: absolute; left: 12px; width: calc(50% - 24px); text-align: left; font-weight:600; color:#111827; }
+}
