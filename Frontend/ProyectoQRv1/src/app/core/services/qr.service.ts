@@ -8,7 +8,8 @@ export class QrService {
 
   // Llama al endpoint protegido y devuelve un Blob (image/png)
   async getMyQrBlob(): Promise<Blob> {
-    const url = '/api/Estudiantes/me/qr';
+    const url = 'http://109.199.118.104:5111/api/Estudiantes/me/qr';
+    console.debug('[QrService] llamando a', url);
     return firstValueFrom(this.http.get(url, { responseType: 'blob' }));
   }
 }
