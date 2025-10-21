@@ -13,6 +13,8 @@
     <li *ngIf="auth.hasRole('ADMIN','DOCENTE')"><a routerLink="/lector" routerLinkActive="active-link"><mat-icon>qr_code_scanner</mat-icon> Escanear QR</a></li>
     <!-- Link personal: mis marcajes (todos los roles autenticados) -->
     <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/mis-marcajes" routerLinkActive="active-link"><mat-icon>list</mat-icon> Mis marcajes</a></li>
+  <!-- Link personal: mi QR -->
+  <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/mi-qr" routerLinkActive="active-link"><mat-icon>qr_code</mat-icon> Mi QR</a></li>
       </ul>
 
     <!-- IZQUIERDA ADICIONAL: mostrar nombre de usuario si está autenticado -->

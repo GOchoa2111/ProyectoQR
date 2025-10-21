@@ -9,6 +9,7 @@ import { HistorialResolver } from './Vista/historial/historial.resolver';
 import { LectorQR } from './Vista/lector-qr/lector-qr';
 import { MisMarcajesComponent } from './features/mis-marcajes/mis-marcajes';
 import { CarrerasComponent } from './features/carreras/carreras';
+import { MiQrComponent } from './features/mi-qr/mi-qr';
 
 // Login (standalone)
 import { LoginComponent } from '../app/features/auth/login/login';
@@ -52,6 +53,12 @@ export const routes: Routes = [
     component: MisMarcajesComponent,
     canActivate: [authGuard],
     data: { roles: ['ADMIN', 'DOCENTE', 'ESTUDIANTE'] }
+  },
+  {
+    path: 'mi-qr',
+    component: MiQrComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN','DOCENTE','ESTUDIANTE'] }
   },
 
   // 404 → inicio
