@@ -1,179 +1,170 @@
+/* =========================================================
+   NOTA DE TIPOGRAFÍAS:
+   - Lo ideal es mover estos @import a styles.css global
+     para evitar duplicación si reusas Material Icons y la fuente.
+   ========================================================= */
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
+/* El host del componente: define tipografía y fondo base */
 :host {
-    display: block;
-    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background-color: #f8fafc;
+  display: block;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background-color: #f8fafc; /* slate-50 */
 }
 
-/* Grid con buena separación */
-main>.grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    column-gap: 2rem;
-    row-gap: 2.25rem;
+/* =========================================================
+   GRID RESPONSIVO (1 → 2 → 3 columnas)
+   - El selector apunta al primer .grid dentro del <main>
+   ========================================================= */
+main > .grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
-
 @media (min-width: 768px) {
-    main>.grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 2.5rem;
-        row-gap: 2.75rem;
-    }
+  main > .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
-
 @media (min-width: 1280px) {
-    main>.grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        column-gap: 3rem;
-        row-gap: 3rem;
-    }
+  main > .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-/* Tarjeta */
-.card {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
-    will-change: transform, box-shadow;
-    transition: transform 200ms ease, box-shadow 200ms ease;
-    border-radius: 0.75rem;
-    background: #fff;
+/* =========================================================
+   TARJETA E IMAGEN
+   ========================================================= */
+.faculty-card img.faculty-image {
+  height: 240px;     /* ajusta la altura visual de la franja superior */
+  width: 100%;
+  object-fit: cover; /* recorta sin deformar */
+  display: block;
+  transform: translateZ(0); /* mejora la suavidad del hover */
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow:
-        0 6px 16px rgba(15, 23, 42, 0.15),
-        0 2px 6px rgba(15, 23, 42, 0.10);
+/* Degradado inferior para mejorar contraste del título */
+.faculty-card .overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(2, 6, 23, 0.75) 0%,   /* #020617 ~ slate-950 con 75% */
+    rgba(2, 6, 23, 0.35) 35%,
+    rgba(2, 6, 23, 0) 60%
+  );
+  pointer-events: none;
 }
 
-/* Portada + overlay */
-.cover {
-    height: 240px;
-    width: 100%;
-    object-fit: cover;
-    display: block;
-    transform: translateZ(0);
+/* Sombra base y transición de elevación */
+.faculty-card {
+  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  will-change: transform, box-shadow;
+  transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top,
-            rgba(2, 6, 23, 0.70) 0%,
-            rgba(2, 6, 23, 0.30) 35%,
-            rgba(2, 6, 23, 0) 60%);
-    pointer-events: none;
+/* Hover: eleva y desplaza */
+.faculty-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.15),
+    0 2px 6px rgba(15, 23, 42, 0.10);
 }
 
-/* Cuerpo: miniatura opcional + descripción */
-.body-row {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 1rem;
-    align-items: start;
+/* Limpieza de paddings por defecto en secciones del mat-card */
+.faculty-card .mat-mdc-card-header,
+.faculty-card .mat-mdc-card-content,
+.faculty-card .mat-mdc-card-actions {
+  padding: 0;
 }
 
-.body-row--single {
-    grid-template-columns: 1fr;
-    /* ocupa todo el ancho cuando no hay miniUrl */
+/* --------------------------
+   Styles adicionales para look moderno
+   -------------------------- */
+.card-title {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card-title h3 { margin: 0; color: #fff; font-size: 1.15rem; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+.icon-circle { width: 48px; height: 48px; border-radius: 999px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg,#6366f1,#4f46e5); color: white; }
+
+.card-body { padding: 18px; }
+.card-body .desc { color: #334155; margin: 0 0 12px 0; }
+.carreras-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.carrera-item { padding: 8px 12px; background: #fbfdff; border-radius: 8px; color: #1f2937; font-weight: 600; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+
+.card-actions { padding: 12px 18px 18px 18px; display:flex; }
+.card-actions button { margin-left: auto; }
+
+/* Ajuste para que las imágenes no desborden en pantallas pequeñas */
+@media (max-width: 420px) {
+  .faculty-card img.faculty-image { height: 180px; }
+  .card-title h3 { font-size: 1rem; }
 }
 
-.thumb {
-    width: 160px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    background: #eef2ff;
-    border: 1px solid #e5e7eb;
+/* Título del grupo de programas (Licenciaturas, Maestrías) */
+.program-group-title {
+  margin: 18px 0 8px 0;
+  font-size: 0.95rem;
+  color: #0f172a;
+  font-weight: 700;
 }
 
-.desc {
-    color: #475569;
-    font-size: 1rem;
-    line-height: 1.7;
-    margin: 0;
-}
-
-/* Limpieza paddings mat-card */
-.card .mat-mdc-card-header,
-.card .mat-mdc-card-content,
-.card .mat-mdc-card-actions {
-    padding: 0;
-}
-
-/* Botón primario indigo */
+/* =========================================================
+   BOTÓN PRIMARIO (consistente con indigo)
+   - Sobrescribimos CSS vars de MDC para el color del botón.
+   ========================================================= */
 .mat-mdc-flat-button.mat-primary {
-    --mdc-protected-button-container-color: #4f46e5;
-    --mdc-protected-button-label-text-color: #ffffff;
+  --mdc-protected-button-container-color: #4f46e5; /* indigo-600 */
+  --mdc-protected-button-label-text-color: #ffffff;
 }
-
 .mat-mdc-flat-button.mat-primary:hover {
-    --mdc-protected-button-container-color: #4338ca;
+  --mdc-protected-button-container-color: #4338ca; /* indigo-700 */
 }
 
-/* utilitarias mínimas */
-.text-white {
-    color: #fff;
-}
-
-.text-2xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-}
-
-.font-extrabold {
-    font-weight: 800;
-}
-
-.w-14 {
-    width: 3.5rem;
-}
-
-.h-14 {
-    height: 3.5rem;
-}
-
-.flex {
-    display: flex;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.gap-4 {
-    gap: 1rem;
-}
-
-.relative {
-    position: relative;
-}
-
-.absolute {
-    position: absolute;
-}
-
-.bottom-0 {
-    bottom: 0;
-}
-
-.left-0 {
-    left: 0;
-}
-
-.right-0 {
-    right: 0;
-}
-
-.p-5 {
-    padding: 1.25rem;
-}
-
-.mt-6 {
-    margin-top: 1.5rem;
-}
-
-.group:hover .group-hover\:scale-105 {
-    transform: scale(1.05);
-}
+/* Utilities opcionales si NO usas Tailwind (fallbacks muy básicos) */
+.text-center { text-align: center; }
+.text-white { color: #fff; }
+.text-slate-200 { color: #e2e8f0; }
+.text-slate-600 { color: #475569; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.md\:text-5xl { font-size: clamp(2.25rem, 2vw + 1rem, 3rem); line-height: 1.1; }
+.font-extrabold { font-weight: 800; }
+.tracking-tight { letter-spacing: -0.02em; }
+.mt-4 { margin-top: 1rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.max-w-3xl { max-width: 48rem; }
+.max-w-7xl { max-width: 80rem; }
+.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.p-4 { padding: 1rem; }
+.sm\:p-8 { padding: clamp(1rem, 3vw, 2rem); }
+.md\:p-12 { padding: clamp(1.5rem, 4vw, 3rem); }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); }
+.rounded-xl { border-radius: 0.75rem; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-grow { flex-grow: 1; }
+.items-center { align-items: center; }
+.gap-4 { gap: 1rem; }
+.w-full { width: 100%; }
+.w-14 { width: 3.5rem; }
+.h-14 { height: 3.5rem; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+.p-5 { padding: 1.25rem; }
+.mt-5 { margin-top: 1.25rem; }
+.transition-all { transition: all .2s ease; }
+.duration-300 { transition-duration: .3s; }
+.duration-500 { transition-duration: .5s; }
+.ease-out { transition-timing-function: ease-out; }
+.group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+/* Fin de fallbacks */
