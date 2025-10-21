@@ -3,6 +3,10 @@ using Oracle.ManagedDataAccess.Client;
 using QRCoder;
 using System.Text.RegularExpressions;
 using ProyectoQR.Service.password;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks; // <- para IPasswordHasher
 
 namespace ProyectoQR.Controllers
@@ -180,6 +184,58 @@ namespace ProyectoQR.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al obtener estudiante: {ex.Message}");
+            }
+        }
+
+        // =============== OBTENER MI QR (imagen PNG) ===============
+        [HttpGet("me/qr")]
+        [Authorize]
+        public IActionResult ObtenerMiQr()
+        {
+            try
+            {
+                // El token JWT creado en TokenService pone el ID del estudiante en el claim 'sub'.
+                // Dependiendo de cómo el middleware mapea claims, 'sub' puede aparecer como
+                // JwtRegisteredClaimNames.Sub o como ClaimTypes.NameIdentifier. Comprobamos varios.
+                var sub = User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                          ?? User.FindFirstValue(ClaimTypes.NameIdentifier)
+                          ?? User.FindFirstValue("nameid");
+
+                if (string.IsNullOrWhiteSpace(sub) || !int.TryParse(sub, out var estudianteId))
+                {
+                    // Logueamos las claims para ayudar al diagnóstico en caso de tokens inesperados
+                    try
+                    {
+                        var all = string.Join(";", User.Claims.Select(c => $"{c.Type}={c.Value}"));
+                        Console.Error.WriteLine("[Estudiantes] Claim 'sub' no encontrada o inválida. Claims: " + all);
+                    }
+                    catch { }
+
+                    return Unauthorized("Token inválido");
+                }
+
+                using var conn = new OracleConnection(_config.GetConnectionString("OracleDb"));
+                conn.Open();
+
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT CODIGOQR FROM Estudiantes WHERE ESTUDIANTEID = :id";
+                cmd.Parameters.Add(new OracleParameter("id", estudianteId));
+
+                var codigoObj = cmd.ExecuteScalar();
+                var codigo = codigoObj == null || codigoObj == DBNull.Value ? null : codigoObj.ToString();
+                if (string.IsNullOrWhiteSpace(codigo))
+                    return NotFound("Codigo QR no encontrado para este usuario.");
+
+                // Generar imagen PNG a partir del código QR (bytes)
+                var qrGenerator = new QRCodeGenerator();
+                var qrCodeData = qrGenerator.CreateQrCode(codigo, QRCodeGenerator.ECCLevel.Q);
+                var pngBytes = new PngByteQRCode(qrCodeData).GetGraphic(20);
+
+                return File(pngBytes, "image/png", "mi-qr.png");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al generar QR: {ex.Message}");
             }
         }
 

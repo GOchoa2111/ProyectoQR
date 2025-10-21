@@ -1,0 +1,16 @@
+<div class="mi-qr-root">
+  <div *ngIf="loading" class="spinner">Cargando tu QR…</div>
+
+  <div *ngIf="!loading && !error" class="qr-card">
+    <img [src]="qrUrl" alt="Mi QR" class="qr-image" />
+    <div class="actions">
+      <button mat-flat-button color="primary" (click)="descargar()">Descargar</button>
+      <button mat-stroked-button (click)="loadQr()">Reintentar</button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button mat-stroked-button (click)="loadQr()">Reintentar</button>
+  </div>
+</div>

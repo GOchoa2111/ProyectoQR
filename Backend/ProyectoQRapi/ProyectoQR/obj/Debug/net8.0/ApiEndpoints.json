@@ -128,6 +128,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
+    "Method": "ObtenerMiQr",
+    "RelativePath": "api/Estudiantes/me/qr",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ProyectoQR.Controllers.HistorialController",
     "Method": "ObtenerHistorial",
     "RelativePath": "api/Historial",
