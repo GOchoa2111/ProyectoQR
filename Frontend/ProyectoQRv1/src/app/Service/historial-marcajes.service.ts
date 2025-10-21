@@ -31,7 +31,7 @@ export class HistorialService {
 
   
   // Endpoint.
-  private baseUrl = 'http://109.199.118.104:5111/api/Estudiantes';
+  private baseUrl = `${environment.apiUrl}/Estudiantes`;
 
   constructor(private http: HttpClient) { }
 

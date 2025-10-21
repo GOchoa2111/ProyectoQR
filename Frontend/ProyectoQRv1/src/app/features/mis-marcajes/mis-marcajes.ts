@@ -86,6 +86,9 @@ export class MisMarcajesComponent implements OnInit {
    */
   ngOnInit(): void {
     // El componente espera la acción del usuario para cargar datos.
+    console.debug('[MisMarcajes] ngOnInit - componente inicializado');
+    // DEBUG: si quieres probar carga automática en la navegación, descomenta la línea siguiente
+    // this.cargarMarcajes();
   }
 
   /**

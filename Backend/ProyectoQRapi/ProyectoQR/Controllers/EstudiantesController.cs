@@ -103,19 +103,21 @@ namespace ProyectoQR.Controllers
                     cmd.Parameters.Add(new OracleParameter("rol", rol));
                     cmd.Parameters.Add(new OracleParameter("email", (object?)estudiante.Email ?? DBNull.Value));
                     cmd.ExecuteNonQuery();
-
+                    
                     if (!string.IsNullOrWhiteSpace(estudiante.Email))
+                    {
+                        // Enviar el correo en background para no bloquear la respuesta HTTP
+                        _ = Task.Run(async () => {
+                            try
                             {
-                        try
-                        {
-                            await _email.SendWelcomeAsync(estudiante.Email!, usuario);
-                        }
-                        catch (Exception mailEx)
-                        {
-                            // No detiene el registro si falla el envió del correo electronico de bienvenida
-                            Console.Error.WriteLine($"No fue posible enviar su nombre de usuario, " +
-                                $"porfavor comuniquese con el personal administrativo: {mailEx.Message}");
-                        }
+                                await _email.SendWelcomeAsync(estudiante.Email!, usuario);
+                            }
+                            catch (Exception mailEx)
+                            {
+                                // Logueamos el error, pero no detenemos el registro
+                                Console.Error.WriteLine($"No fue posible enviar su nombre de usuario (background): {mailEx.Message}");
+                            }
+                        });
                     }
                 }
 

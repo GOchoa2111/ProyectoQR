@@ -10,6 +10,7 @@ import { ROLE_ROUTE } from '../core/models/auth';
 export const authGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
+  console.debug('[authGuard] evaluating for route', state.url, 'isLoggedIn=', auth.isLoggedIn());
 
   // 1) ¿Hay sesión válida?
   if (!auth.isLoggedIn()) {
