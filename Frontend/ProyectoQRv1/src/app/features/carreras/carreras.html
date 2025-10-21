@@ -1,14 +1,69 @@
-<div class="carreras-page">
-  <h2>Nuestras Carreras</h2>
-  <div class="cards">
-    <mat-card *ngFor="let c of carreras" class="career-card">
-      <mat-card-header>
-        <mat-card-title>{{ c.nombre }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Duración: {{ c.duracion }}</p>
-        <p>Más información en la página oficial de la universidad.</p>
-      </mat-card-content>
-    </mat-card>
+<main class="p-4 sm:p-8 md:p-12" role="main">
+  <div class="grid max-w-7xl mx-auto">
+    @for (carrera of carrerasVm(); track carrera.nombre) {
+      <mat-card
+        class="card rounded-xl overflow-hidden transition-all duration-300 ease-out"
+        matRipple
+        [matRippleCentered]="true"
+        [matRippleDisabled]="false"
+        [attr.aria-label]="'Tarjeta de carrera: ' + carrera.nombre"
+        role="article"
+      >
+        <!-- Portada con overlay -->
+        <div class="relative group">
+          <img
+            mat-card-image
+            [src]="carrera.imagenUrl"
+            [alt]="'Imagen de la carrera ' + carrera.nombre"
+            class="cover transition-transform duration-500 ease-out group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="overlay pointer-events-none"></div>
+
+          <!-- Título sobre la imagen (sin sombra ni subtítulo pequeño) -->
+          <div class="absolute bottom-0 left-0 right-0 p-5 flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-indigo-600/90 text-white flex items-center justify-center">
+              <mat-icon class="text-3xl" aria-hidden="true">{{ carrera.icono }}</mat-icon>
+            </div>
+            <h3 class="text-white text-2xl font-extrabold">
+              {{ carrera.nombre }}
+            </h3>
+          </div>
+        </div>
+
+        <!-- Cuerpo: mini imagen opcional + descripción -->
+        <div class="p-6 flex flex-col flex-grow">
+          <mat-card-content class="!p-0 flex-grow">
+            <div class="body-row" [class.body-row--single]="!carrera.miniUrl">
+              <img
+                *ngIf="carrera.miniUrl"
+                class="thumb"
+                [src]="carrera.miniUrl"
+                [alt]="'Miniatura de ' + carrera.nombre"
+                loading="lazy"
+                decoding="async"
+              />
+              <p class="desc">
+                {{ carrera.descripcion }}
+              </p>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions class="!p-0 mt-6">
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full !text-base !py-5 !rounded-lg"
+              type="button"
+              aria-label="Ver detalles de {{ carrera.nombre }}"
+            >
+              <mat-icon class="!mr-2" aria-hidden="true">school</mat-icon>
+              Ver detalles
+            </button>
+          </mat-card-actions>
+        </div>
+      </mat-card>
+    }
   </div>
-</div>
+</main>

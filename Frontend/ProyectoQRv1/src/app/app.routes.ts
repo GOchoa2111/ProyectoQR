@@ -8,7 +8,7 @@ import { Historial } from './Vista/historial/historial';
 import { HistorialResolver } from './Vista/historial/historial.resolver';
 import { LectorQR } from './Vista/lector-qr/lector-qr';
 import { MisMarcajesComponent } from './features/mis-marcajes/mis-marcajes';
-import { Carreras } from './features/carreras/carreras';
+import { CarrerasComponent } from './features/carreras/carreras';
 
 // Login (standalone)
 import { LoginComponent } from '../app/features/auth/login/login';
@@ -22,7 +22,7 @@ export const routes: Routes = [
 
   // Público
   { path: 'inicio', component: Inicio },
-  { path: 'carreras', component: Carreras },
+  { path: 'carreras', component: CarrerasComponent },
   { path: 'login', component: LoginComponent },
 
 
