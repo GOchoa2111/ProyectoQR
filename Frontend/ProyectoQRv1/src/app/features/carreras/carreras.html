@@ -2,7 +2,7 @@
   <div class="grid max-w-7xl mx-auto">
     @for (carrera of carrerasVm(); track carrera.nombre) {
       <mat-card
-        class="card rounded-xl overflow-hidden transition-all duration-300 ease-out"
+        class="faculty-card rounded-xl overflow-hidden transition-all duration-300 ease-out"
         matRipple
         [matRippleCentered]="true"
         [matRippleDisabled]="false"
@@ -15,26 +15,24 @@
             mat-card-image
             [src]="carrera.imagenUrl"
             [alt]="'Imagen de la carrera ' + carrera.nombre"
-            class="cover transition-transform duration-500 ease-out group-hover:scale-105"
+            class="faculty-image transition-transform duration-500 ease-out group-hover:scale-105"
             loading="lazy"
             decoding="async"
           />
-          <div class="overlay pointer-events-none"></div>
+          <div class="overlay-gradient pointer-events-none"></div>
 
           <!-- Título sobre la imagen (sin sombra ni subtítulo pequeño) -->
-          <div class="absolute bottom-0 left-0 right-0 p-5 flex items-center gap-4">
-            <div class="w-14 h-14 rounded-full bg-indigo-600/90 text-white flex items-center justify-center">
+          <div class="card-title">
+            <div class="icon-circle">
               <mat-icon class="text-3xl" aria-hidden="true">{{ carrera.icono }}</mat-icon>
             </div>
-            <h3 class="text-white text-2xl font-extrabold">
-              {{ carrera.nombre }}
-            </h3>
+            <h3>{{ carrera.nombre }}</h3>
           </div>
         </div>
 
         <!-- Cuerpo: mini imagen opcional + descripción -->
-        <div class="p-6 flex flex-col flex-grow">
-          <mat-card-content class="!p-0 flex-grow">
+        <div class="card-body">
+          <mat-card-content>
             <div class="body-row" [class.body-row--single]="!carrera.miniUrl">
               <img
                 *ngIf="carrera.miniUrl"
@@ -50,11 +48,11 @@
             </div>
           </mat-card-content>
 
-          <mat-card-actions class="!p-0 mt-6">
+          <mat-card-actions class="card-actions">
             <button
               mat-flat-button
               color="primary"
-              class="w-full !text-base !py-5 !rounded-lg"
+              class="detail-btn"
               type="button"
               aria-label="Ver detalles de {{ carrera.nombre }}"
             >

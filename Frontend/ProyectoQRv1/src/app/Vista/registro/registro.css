@@ -98,8 +98,11 @@
 
 /* Side panel removed - QR is shown in modal now */
 
+/* Ensure footer placeholder exists so fixed footer doesn't cover form fields */
+.form-footer-placeholder { height: 0; }
+
 /* Footer fijo (móvil y escritorio pequeño) */
-.reg-footer { position: sticky; bottom: 0; background: transparent; margin-top: 12px; }
+.reg-footer { position: sticky; bottom: 0; background: transparent; margin-top: 12px; z-index: 2000; }
 .reg-footer-inner { display:flex; justify-content:space-between; align-items:center; gap:12px; background: rgba(255,255,255,0.95); padding:10px 16px; border-radius:10px; box-shadow: 0 -6px 18px rgba(0,0,0,0.03); }
 
 /* Responsive: apilar en móvil */
@@ -107,8 +110,13 @@
   .reg-layout { grid-template-columns: 1fr; padding: 12px; }
   .fields-grid { grid-template-columns: 1fr; }
   .reg-side { order: 2; }
+  /* Reserve space for fixed footer so inputs are not covered */
+  .form-footer-placeholder { height: 84px; }
   .reg-footer { position: fixed; left: 0; right: 0; bottom: 8px; padding: 0 12px; }
   .reg-footer-inner { max-width: 1080px; margin: 0 auto; }
+
+  /* Make the submit button easy to tap on small screens */
+  .reg-footer-inner .np-submit { width: 100%; min-width: 0; }
 }
 
 .spin { animation: spin 1s linear infinite; }
