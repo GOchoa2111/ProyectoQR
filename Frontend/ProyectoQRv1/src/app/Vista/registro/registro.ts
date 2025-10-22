@@ -13,8 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 
-// Se importa el componente del Modal para poder usarlo
-import { ModalQr } from '../modal-qr/modal-qr'; // Ruta de importación corregida
+// Reintegrando el componente ModalQr: el modal seguirá disponible para enviar/descargar el QR desde la UI
+import { ModalQr } from '../modal-qr/modal-qr';
 
 import { RegistroEstudiante } from '../../Interface/registro-estudiante';
 import { RegistroEstudianteService } from '../../Service/registro-estudiante.service';
@@ -25,15 +25,15 @@ import { RegistroEstudianteService } from '../../Service/registro-estudiante.ser
   imports: [
     CommonModule, FormsModule,
     MatCardModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, MatIconModule, MatButtonModule, MatDividerModule,
-    // Se añade el componente del Modal a los imports
-    ModalQr
+  MatSelectModule, MatIconModule, MatButtonModule, MatDividerModule,
+  ModalQr
   ],
   templateUrl: './registro.html',
   styleUrls: ['./registro.css']
 })
 export class Registro {
   hide = true; // mostrar/ocultar contraseña
+  submitting = false; // bandera UI para deshabilitar boton y mostrar spinner
 
   estudiante: RegistroEstudiante = {
     nombre: '',
@@ -68,23 +68,29 @@ export class Registro {
       return;
     }
 
+    this.submitting = true; // UI: empezamos a enviar
     // Si el usuario se deja vacío, el backend lo autogenera
     if (!this.estudiante.usuario) delete (this.estudiante as any).usuario;
 
     this.servicio.registrar(this.estudiante).subscribe({
       next: (respuesta: any) => {
-        this.qrGenerado = respuesta?.imagenQR ?? null;
+        // Aceptar ambas formas (ImagenQR o imagenQR) según lo que devuelva el backend
+        this.qrGenerado = respuesta?.ImagenQR ?? respuesta?.imagenQR ?? null;
         this.qrVisible = !!this.qrGenerado;
 
         this.zone.run(() => {
           setTimeout(() => {
             this.toastr.success('Estudiante registrado correctamente', 'Éxito');
+            if (respuesta?.EmailSent === true) {
+              this.toastr.info('La información fue enviada a su correo electrónico.');
+            }
           }, 60);
         });
 
         form.resetForm({
           rol: 'ESTUDIANTE'
         });
+        this.submitting = false; // UI: terminado
       },
       error: (error: any) => {
         console.error('Error al registrar:', error);
@@ -93,6 +99,7 @@ export class Registro {
         } else {
           this.toastr.error('Error inesperado al registrar estudiante');
         }
+        this.submitting = false; // UI: terminado con error
       }
     });
   }

@@ -18,6 +18,19 @@ import { LoginComponent } from '../app/features/auth/login/login';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
+  /**
+   * Diagnóstico / pruebas (comentar/activar según se necesite):
+   *
+   * 1) Forzar re-ejecución de guards y resolvers en cada navegación (útil
+   *    si navegas repetidamente a la misma ruta y quieres forzar recarga):
+   *
+   *    { path: 'mis-marcajes', component: MisMarcajesComponent, canActivate: [authGuard], runGuardsAndResolvers: 'always', data: { roles: [...] } }
+   *
+   * 2) Alternativa: ejecutar carga automática en ngOnInit() del componente
+   *    (ya hay una línea comentada en `mis-marcajes.ts` que puedes activar):
+   *
+   *    // this.cargarMarcajes(); // en ngOnInit
+   */
   // Arranque en Inicio (público)
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
 

@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-qr',
@@ -17,7 +19,7 @@ export class ModalQr {
   @Input() correo: string = ''; // ✅ Nuevo input
   @Output() cerrar = new EventEmitter();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   descargarQR() {
     if (!this.qrImagen) return;
@@ -29,20 +31,34 @@ export class ModalQr {
 
   enviarQR() {
     if (!this.qrImagen || !this.correo) {
-      alert('No se puede enviar el QR. Verifica que el correo esté disponible.');
+      this.toastr.error('No se puede enviar el QR. Verifica que el correo esté disponible.');
       return;
     }
+    // Construir DTO que espera el backend: { Email, Asunto, Cuerpo }
+    const asunto = 'Tu código QR - SGAE';
+    const cuerpo = `
+      <div style="font-family:Segoe UI,Arial,sans-serif;color:#222">
+        <h2>¡Hola ${this.nombre} ${this.apellido}!</h2>
+        <p>Adjuntamos tu código QR generado desde la plataforma.</p>
+        <p><strong>Usuario:</strong> ${this.nombre || ''}</p>
+        <p><img src="${this.qrImagen}" alt="QR" style="width:220px;height:auto;border:0;"/></p>
+        <p>También puedes descargarlo desde la aplicación.</p>
+        <hr/><small>Este es un mensaje automático, por favor no responder.</small>
+      </div>`;
 
     const payload = {
-      correo: this.correo,
-      nombre: this.nombre,
-      apellido: this.apellido,
-      imagenQR: this.qrImagen
+      Email: this.correo,
+      Asunto: asunto,
+      Cuerpo: cuerpo
     };
 
-    this.http.post('http://109.199.118.104:5111/api/Email/enviar-correo', payload).subscribe({
-      next: () => alert('QR enviado por correo exitosamente.'),
-      error: () => alert('Error al enviar el QR por correo.')
+    this.http.post(`${environment.apiUrl}/Email/enviar-correo`, payload).subscribe({
+      next: () => {
+        this.toastr.success('QR enviado por correo exitosamente.');
+      },
+      error: () => {
+        this.toastr.error('Error al enviar el QR por correo.');
+      }
     });
   }
 

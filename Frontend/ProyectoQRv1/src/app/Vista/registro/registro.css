@@ -5,11 +5,20 @@
   padding: 16px;
 }
 
-.np-card {
+.np-container {
   max-width: 1100px;
   margin: 0 auto;
-  border-radius: 16px;
+  border-radius: 12px;
+  padding: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), #ffffff);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+}
 
+.np-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
 .np-title {
@@ -47,6 +56,75 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 4px;
+}
+
+/* Mejoras para el botón de envío */
+.np-submit {
+  min-width: 160px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* En pantallas muy grandes, mantener el botón dentro de la tarjeta pero ligeramente separado y siempre visible */
+@media (min-width: 1100px) {
+  .np-container { padding-bottom: 72px; }
+  .np-actions {
+    position: absolute;
+    right: 28px;
+    bottom: 18px;
+    left: auto;
+    z-index: 5;
+  }
+}
+
+/* En móviles el botón ocupa todo el ancho y está centrado debajo de los campos */
+@media (max-width: 880px) {
+  .np-actions { justify-content: center; }
+  .np-submit { width: 100%; }
+}
+
+/* QR handled by modal - inline preview removed */
+
+/* Nuevo diseño: layout con panel lateral */
+.reg-layout { display:grid; grid-template-columns: 1fr 320px; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 20px; }
+.reg-form-area { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.04); }
+.reg-header .reg-title { display:flex; gap:12px; align-items:center; }
+.reg-header h1 { margin:0; font-size:20px; }
+.muted { color: rgba(0,0,0,0.6); margin:0; }
+.fields-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.fields-grid .full-span { grid-column: 1 / -1; }
+
+/* Side panel removed - QR is shown in modal now */
+
+/* Ensure footer placeholder exists so fixed footer doesn't cover form fields */
+.form-footer-placeholder { height: 0; }
+
+/* Footer fijo (móvil y escritorio pequeño) */
+.reg-footer { position: sticky; bottom: 0; background: transparent; margin-top: 12px; z-index: 2000; }
+.reg-footer-inner { display:flex; justify-content:space-between; align-items:center; gap:12px; background: rgba(255,255,255,0.95); padding:10px 16px; border-radius:10px; box-shadow: 0 -6px 18px rgba(0,0,0,0.03); }
+
+/* Responsive: apilar en móvil */
+@media (max-width: 920px) {
+  .reg-layout { grid-template-columns: 1fr; padding: 12px; }
+  .fields-grid { grid-template-columns: 1fr; }
+  .reg-side { order: 2; }
+  /* Reserve space for fixed footer so inputs are not covered */
+  .form-footer-placeholder { height: 84px; }
+  .reg-footer { position: fixed; left: 0; right: 0; bottom: 8px; padding: 0 12px; }
+  .reg-footer-inner { max-width: 1080px; margin: 0 auto; }
+
+  /* Make the submit button easy to tap on small screens */
+  .reg-footer-inner .np-submit { width: 100%; min-width: 0; }
+}
+
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Responsive: apilar columnas en pantallas pequeñas */
+@media (max-width: 880px) {
+  .np-form { grid-template-columns: 1fr; }
 }
 
 .qr-overlay {

@@ -2,11 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QrService } from '../../core/services/qr.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-mi-qr',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './mi-qr.html',
   styleUrls: ['./mi-qr.css']
 })
@@ -16,6 +18,7 @@ export class MiQrComponent implements OnDestroy {
   qrUrl: string | null = null; // object URL
 
   constructor(private qrSvc: QrService, private sanitizer: DomSanitizer) {
+    console.debug('[MiQr] constructor');
     this.loadQr();
   }
 
@@ -24,7 +27,9 @@ export class MiQrComponent implements OnDestroy {
     this.error = null;
     this.qrUrl = null;
     try {
+      console.debug('[MiQr] solicitando QR...');
       const blob = await this.qrSvc.getMyQrBlob();
+      console.debug('[MiQr] recibido blob, tamaño:', blob.size);
       const objectUrl = URL.createObjectURL(blob);
       this.qrUrl = objectUrl;
     } catch (err: any) {
