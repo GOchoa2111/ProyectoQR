@@ -9,7 +9,7 @@ import { ConfirmDialog } from '../../core/components/confirm-dialog/confirm-dial
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, MatIconModule, NgIf, MatDialogModule],
+  imports: [CommonModule, NgIf, RouterLink, RouterLinkActive, MatIconModule, MatDialogModule],
   templateUrl: './menu.html',
   styleUrls: ['./menu.css']
 })

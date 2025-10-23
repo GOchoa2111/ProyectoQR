@@ -16,6 +16,8 @@ export class MiQrComponent implements OnDestroy {
   loading = true;
   error: string | null = null;
   qrUrl: string | null = null; // object URL
+  // CSS variable for background image; used in template via inline style
+  bgStyle = "url('/assets/img/fondo-mi-qr.jpg')";
 
   constructor(private qrSvc: QrService, private sanitizer: DomSanitizer) {
     console.debug('[MiQr] constructor');

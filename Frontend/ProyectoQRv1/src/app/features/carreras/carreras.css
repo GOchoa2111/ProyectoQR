@@ -10,24 +10,27 @@
 :host {
   display: block;
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background-color: #f8fafc; /* slate-50 */
+  background-color: #f8fafc;
+  /* slate-50 */
 }
 
 /* =========================================================
    GRID RESPONSIVO (1 → 2 → 3 columnas)
    - El selector apunta al primer .grid dentro del <main>
    ========================================================= */
-main > .grid {
+main>.grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+
 @media (min-width: 768px) {
-  main > .grid {
+  main>.grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 @media (min-width: 1280px) {
-  main > .grid {
+  main>.grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -36,37 +39,31 @@ main > .grid {
    TARJETA E IMAGEN
    ========================================================= */
 .faculty-card img.faculty-image {
-  height: 220px;     /* altura visual de la franja superior */
+  height: 240px;
+  /* ajusta la altura visual de la franja superior */
   width: 100%;
-  object-fit: cover; /* recorta sin deformar */
+  object-fit: cover;
+  /* recorta sin deformar */
   display: block;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  transform: translateZ(0); /* mejora la suavidad del hover */
+  transform: translateZ(0);
+  /* mejora la suavidad del hover */
 }
 
 /* Degradado inferior para mejorar contraste del título */
 .faculty-card .overlay-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(2, 6, 23, 0.75) 0%,   /* #020617 ~ slate-950 con 75% */
-    rgba(2, 6, 23, 0.35) 35%,
-    rgba(2, 6, 23, 0) 60%
-  );
+  background: linear-gradient(to top,
+      rgba(2, 6, 23, 0.75) 0%,
+      /* #020617 ~ slate-950 con 75% */
+      rgba(2, 6, 23, 0.35) 35%,
+      rgba(2, 6, 23, 0) 60%);
   pointer-events: none;
 }
 
-/* Asegura que el título se posicione dentro de la franja y no tape contenido */
-.faculty-card .card-title { position: absolute; bottom: 12px; left: 16px; display:flex; align-items:center; gap:12px; z-index: 2; }
-.faculty-card .card-title h3 { margin: 0; color: #fff; font-size: 1.15rem; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
-
-.faculty-card { border-radius: 12px; overflow: hidden; background: #fff; }
-
 /* Sombra base y transición de elevación */
 .faculty-card {
-  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
   will-change: transform, box-shadow;
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
@@ -87,7 +84,7 @@ main > .grid {
 }
 
 /* --------------------------
-   Styles adicionales para look moderno
+
    -------------------------- */
 .card-title {
   position: absolute;
@@ -97,38 +94,70 @@ main > .grid {
   align-items: center;
   gap: 12px;
 }
-.card-title h3 { margin: 0; color: #fff; font-size: 1.15rem; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
-.icon-circle { width: 48px; height: 48px; border-radius: 999px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg,#6366f1,#4f46e5); color: white; }
 
-.card-body { padding: 16px; display:flex; flex-direction:column; gap:12px; }
-.card-body .desc { color: #334155; margin: 0 0 12px 0; line-height: 1.45; }
-.carreras-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
-.carrera-item { padding: 8px 12px; background: #fbfdff; border-radius: 8px; color: #1f2937; font-weight: 600; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+.card-title h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
 
-.card-actions { padding: 12px 18px 18px 18px; display:flex; }
-.card-actions button { margin-left: auto; }
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+}
 
-/* Thumbnail in body */
-.body-row { display:flex; gap: 12px; align-items:flex-start; }
-.body-row--single { align-items: center; }
-.body-row .thumb { width: 88px; height: 88px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.card-body {
+  padding: 18px;
+}
 
-/* Detail button styling */
-.detail-btn { width: 160px; height: 44px; border-radius: 10px; font-weight: 600; }
-.faculty-card .detail-btn { margin-left: auto; }
+.card-body .desc {
+  color: #334155;
+  margin: 0 0 12px 0;
+}
 
-/* Small screens adjustments */
-@media (max-width: 420px) {
-  .faculty-card img.faculty-image { height: 160px; }
-  .card-title h3 { font-size: 1rem; }
-  .detail-btn { width: 100%; }
-  .body-row .thumb { width: 72px; height: 72px; }
+.carreras-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.carrera-item {
+  padding: 8px 12px;
+  background: #fbfdff;
+  border-radius: 8px;
+  color: #1f2937;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.card-actions {
+  padding: 12px 18px 18px 18px;
+  display: flex;
+}
+
+.card-actions button {
+  margin-left: auto;
 }
 
 /* Ajuste para que las imágenes no desborden en pantallas pequeñas */
 @media (max-width: 420px) {
-  .faculty-card img.faculty-image { height: 180px; }
-  .card-title h3 { font-size: 1rem; }
+  .faculty-card img.faculty-image {
+    height: 180px;
+  }
+
+  .card-title h3 {
+    font-size: 1rem;
+  }
 }
 
 /* Título del grupo de programas (Licenciaturas, Maestrías) */
@@ -139,57 +168,220 @@ main > .grid {
   font-weight: 700;
 }
 
+/* Banner para la sección de carreras */
+.carreras-banner {
+  width: 100%;
+  margin-bottom: 20px;
+  /* Ruta de la imagen por defecto. Cambia este path si subes otra imagen.
+     Ejemplo: '/assets/img/carreras/banner-carreras.jpg' */
+  background-image: url('../../../assets/img//banner-v1.png'); /* cambiar ruta si es necesario */
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  overflow: hidden;
+  /* ALTURA DEL BANNER: ajusta min-height para aumentar/reducir la altura en desktop */
+  min-height: 320px; /* <--- editar este valor para obtener un banner más alto */
+}
+.carreras-banner .banner-inner {
+  background: linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.45));
+  /* Padding aumentado para dar más espacio vertical dentro del banner */
+  padding: 56px 20px; /* <--- editar padding si necesita más espacio */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.carreras-banner .banner-text { text-align:center; color: #fff; max-width: 1100px; margin: 0 auto; }
+.carreras-banner h1 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
+.carreras-banner .subtitle { margin-top: 8px; opacity: 0.9; font-size: 1rem; }
+
+@media (max-width: 720px) {
+  /* Altura adaptativa en móviles: modificar si quieres banner aun más alto en pantallas pequeñas */
+  .carreras-banner { min-height: 220px; }
+  .carreras-banner .banner-inner { padding: 36px 14px; }
+  .carreras-banner h1 { font-size: 1.4rem; }
+  .carreras-banner .subtitle { font-size: 0.95rem; }
+}
+
 /* =========================================================
    BOTÓN PRIMARIO (consistente con indigo)
    - Sobrescribimos CSS vars de MDC para el color del botón.
    ========================================================= */
 .mat-mdc-flat-button.mat-primary {
-  --mdc-protected-button-container-color: #4f46e5; /* indigo-600 */
+  --mdc-protected-button-container-color: #4f46e5;
+  /* indigo-600 */
   --mdc-protected-button-label-text-color: #ffffff;
 }
+
 .mat-mdc-flat-button.mat-primary:hover {
-  --mdc-protected-button-container-color: #4338ca; /* indigo-700 */
+  --mdc-protected-button-container-color: #4338ca;
+  /* indigo-700 */
 }
 
 /* Utilities opcionales si NO usas Tailwind (fallbacks muy básicos) */
-.text-center { text-align: center; }
-.text-white { color: #fff; }
-.text-slate-200 { color: #e2e8f0; }
-.text-slate-600 { color: #475569; }
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-.md\:text-5xl { font-size: clamp(2.25rem, 2vw + 1rem, 3rem); line-height: 1.1; }
-.font-extrabold { font-weight: 800; }
-.tracking-tight { letter-spacing: -0.02em; }
-.mt-4 { margin-top: 1rem; }
-.mx-auto { margin-left: auto; margin-right: auto; }
-.max-w-3xl { max-width: 48rem; }
-.max-w-7xl { max-width: 80rem; }
-.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.p-4 { padding: 1rem; }
-.sm\:p-8 { padding: clamp(1rem, 3vw, 2rem); }
-.md\:p-12 { padding: clamp(1.5rem, 4vw, 3rem); }
-.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); }
-.rounded-xl { border-radius: 0.75rem; }
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-grow { flex-grow: 1; }
-.items-center { align-items: center; }
-.gap-4 { gap: 1rem; }
-.w-full { width: 100%; }
-.w-14 { width: 3.5rem; }
-.h-14 { height: 3.5rem; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.bottom-0 { bottom: 0; }
-.left-0 { left: 0; }
-.right-0 { right: 0; }
-.p-5 { padding: 1.25rem; }
-.mt-5 { margin-top: 1.25rem; }
-.transition-all { transition: all .2s ease; }
-.duration-300 { transition-duration: .3s; }
-.duration-500 { transition-duration: .5s; }
-.ease-out { transition-timing-function: ease-out; }
-.group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-slate-200 {
+  color: #e2e8f0;
+}
+
+.text-slate-600 {
+  color: #475569;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.md\:text-5xl {
+  font-size: clamp(2.25rem, 2vw + 1rem, 3rem);
+  line-height: 1.1;
+}
+
+.font-extrabold {
+  font-weight: 800;
+}
+
+.tracking-tight {
+  letter-spacing: -0.02em;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.sm\:p-8 {
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.md\:p-12 {
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -4px rgba(0, 0, 0, .1);
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.h-14 {
+  height: 3.5rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.transition-all {
+  transition: all .2s ease;
+}
+
+.duration-300 {
+  transition-duration: .3s;
+}
+
+.duration-500 {
+  transition-duration: .5s;
+}
+
+.ease-out {
+  transition-timing-function: ease-out;
+}
+
+.group:hover .group-hover\:scale-105 {
+  transform: scale(1.05);
+}
+
 /* Fin de fallbacks */

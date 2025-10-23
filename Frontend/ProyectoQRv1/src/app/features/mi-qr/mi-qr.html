@@ -1,4 +1,4 @@
-<div class="mi-qr-root">
+<div class="mi-qr-root" [style]="{'--mi-qr-bg': bgStyle}">
   <div *ngIf="loading" class="spinner">Cargando tu QR…</div>
 
   <div *ngIf="!loading && !error" class="qr-card">

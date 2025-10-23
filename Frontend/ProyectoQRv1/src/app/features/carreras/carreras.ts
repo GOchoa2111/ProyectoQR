@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../core/components/confirm-dialog/confirm-dialog';
 
 // Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -16,18 +19,20 @@ type Carrera = {
   imagenUrl: string;             // portada superior
   slug?: string;
   miniUrl?: string;              // opcional: miniatura en el cuerpo
+  externalUrl?: string;          // opcional: URL externa con la información oficial de la carrera
 };
 
 @Component({
   selector: 'app-carreras',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatRippleModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatRippleModule, MatDialogModule],
   templateUrl: './carreras.html',
   styleUrls: ['./carreras.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarrerasComponent {
   readonly carreras = signal<Carrera[]>([
+
     // ==== Ciencias Jurídicas y Sociales ====
     {
       nombre: 'Licenciatura en Ciencias Jurídicas y Sociales',
@@ -36,9 +41,9 @@ export class CarrerasComponent {
       area: 'Ciencias Jurídicas y Sociales',
       nivel: 'Licenciatura',
       icono: 'gavel',
-      imagenUrl: 'assets/img/ciencias-economicas.jpg', // tu imagen local; cámbiala si deseas
+      imagenUrl: 'assets/img/carreras/ciencias-economicas.jpg', // tu imagen local; cámbiala si deseas
       slug: 'licenciatura-ciencias-juridicas-sociales',
-      // miniUrl: 'assets/img/mini-juridicas.jpg',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-ciencias-juridicas-y-sociales/',
     },
     {
       nombre: 'Licenciatura en Investigación Criminal y Forense',
@@ -47,8 +52,9 @@ export class CarrerasComponent {
       area: 'Ciencias Jurídicas y Sociales',
       nivel: 'Licenciatura',
       icono: 'fingerprint',
-      imagenUrl: 'assets/img/ciencias-juridicas-y-sociales.jpg', // tu imagen local; cámbiala si deseas
+      imagenUrl: 'assets/img/carreras/criminalistica-forense.webp', // tu imagen local; cámbiala si deseas
       slug: 'licenciatura-investigacion-criminal-forense',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-investigacion-criminal-y-forense/',
     },
 
     // ==== Ciencias de la Comunicación ====
@@ -59,8 +65,9 @@ export class CarrerasComponent {
       area: 'Ciencias de la Comunicación',
       nivel: 'Licenciatura',
       icono: 'campaign',
-      imagenUrl: 'assets/img/comunicacion.jpg',
+      imagenUrl: 'assets/img/carreras/comunicacion.jpg',
       slug: 'licenciatura-ciencias-comunicacion',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-ciencias-de-la-comunicacion-con-enfasis-en-publicidad/',
     },
 
     // ==== Humanidades ====
@@ -71,8 +78,9 @@ export class CarrerasComponent {
       area: 'Humanidades',
       nivel: 'Licenciatura',
       icono: 'diversity_3',
-      imagenUrl: 'https://placehold.co/1200x800/1e293b/ffffff?text=Trabajo+Social',
+      imagenUrl: 'assets/img/carreras/trabajo-social.webp',
       slug: 'licenciatura-trabajo-social',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-trabajo-social/',
     },
 
     // ==== Ciencias Económicas ====
@@ -83,9 +91,12 @@ export class CarrerasComponent {
       area: 'Ciencias Económicas',
       nivel: 'Licenciatura',
       icono: 'computer',
-      imagenUrl: 'https://placehold.co/1200x800/0b1220/ffffff?text=Admin.+Sistemas+Inform%C3%A1ticos',
+      imagenUrl: 'assets/img/carreras/sistemas.webp',
       slug: 'licenciatura-administracion-sistemas-informaticos',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-administracion-de-sistemas-informaticos/',
     },
+
+    // ==== Contaduria Publica ====
     {
       nombre: 'Licenciatura en Contaduría Pública y Auditoría',
       descripcion:
@@ -93,9 +104,14 @@ export class CarrerasComponent {
       area: 'Ciencias Económicas',
       nivel: 'Licenciatura',
       icono: 'calculate',
-      imagenUrl: 'https://placehold.co/1200x800/111827/ffffff?text=Contadur%C3%ADa+y+Auditor%C3%ADa',
+      imagenUrl: 'assets/img/carreras/auditoria.jpg',
       slug: 'licenciatura-contaduria-publica-auditoria',
+      // Ejemplo: URL oficial de la carrera proporcionada por el usuario
+      // Añade o edita esta propiedad para apuntar a la página oficial de la carrera
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-contaduria-publica-y-auditoria/',
     },
+
+    // ==== Administración de Empresas ====
     {
       nombre: 'Licenciatura en Administración de Empresas',
       descripcion:
@@ -103,8 +119,9 @@ export class CarrerasComponent {
       area: 'Ciencias Económicas',
       nivel: 'Licenciatura',
       icono: 'business_center',
-      imagenUrl: 'https://placehold.co/1200x800/1e293b/ffffff?text=Administraci%C3%B3n+de+Empresas',
+      imagenUrl: 'assets/img/carreras/administracion-de-empresas.jpg',
       slug: 'licenciatura-administracion-empresas',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-administracion-de-empresas-ele/',
     },
 
     // ==== Ciencias de la Salud ====
@@ -115,9 +132,13 @@ export class CarrerasComponent {
       area: 'Ciencias de la Salud',
       nivel: 'Licenciatura',
       icono: 'restaurant',
-      imagenUrl: 'https://placehold.co/1200x800/0f172a/ffffff?text=Nutrici%C3%B3n',
+      imagenUrl: 'assets/img/carreras/nutricion.jpg',
       slug: 'licenciatura-nutricion',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-nutricion/',
     },
+
+    // ==== Psicología ====
+
     {
       nombre: 'Licenciatura en Psicología Clínica',
       descripcion:
@@ -125,9 +146,13 @@ export class CarrerasComponent {
       area: 'Ciencias de la Salud',
       nivel: 'Licenciatura',
       icono: 'psychology',
-      imagenUrl: 'https://placehold.co/1200x800/1e293b/ffffff?text=Psicolog%C3%ADa+Cl%C3%ADnica',
+      imagenUrl: 'assets/img/carreras/psicologia-clinica.jpg',
       slug: 'licenciatura-psicologia-clinica',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-psicologia-clinica/',
     },
+
+    // ==== Psicología Industrial ====
+
     {
       nombre: 'Licenciatura en Psicología Industrial',
       descripcion:
@@ -135,21 +160,27 @@ export class CarrerasComponent {
       area: 'Ciencias de la Salud',
       nivel: 'Licenciatura',
       icono: 'psychology_alt',
-      imagenUrl: 'https://placehold.co/1200x800/111827/ffffff?text=Psicolog%C3%ADa+Industrial',
+      imagenUrl: 'assets/img/carreras/psicologia-industrial.webp',
       slug: 'licenciatura-psicologia-industrial',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-psicologia-industrial/',
     },
+
+    // ==== Técnico en Gestión ambiental ====
+
     {
-      nombre: 'Técnico en Enfermería',
+      nombre: 'Técnico en Gestión Ambiental',
       descripcion:
-        'Cuidados básicos, apoyo clínico y promoción de la salud bajo protocolos y estándares de calidad, con vocación de servicio.',
-      area: 'Ciencias de la Salud',
+        'La carrera de Técnico en Gestión Ambiental comprende el conocimiento crítico, la interpretación y comprensión de los fenómenos socioambientales desde una visión holística, con el fin de contribuir al desarrollo social y humano de la población guatemalteca.',
+      area: 'Ciencias Ambientales',
       nivel: 'Técnico',
-      icono: 'medical_services',
-      imagenUrl: 'https://placehold.co/1200x800/0b1220/ffffff?text=T%C3%A9cnico+en+Enfermer%C3%ADa',
-      slug: 'tecnico-en-enfermeria',
+      icono: 'engineering',
+      imagenUrl: 'assets/img/carreras/tecnico-en-gestion-ambiental.jpg',
+      slug: 'tecnico-en-gestion-ambiental',
+      externalUrl: 'https://uregionalregion2.edu.gt/tecnico-en-gestion-ambiental/',
     },
 
     // ==== Ingeniería ====
+
     {
       nombre: 'Ingeniería Industrial',
       descripcion:
@@ -157,21 +188,27 @@ export class CarrerasComponent {
       area: 'Ingeniería',
       nivel: 'Ingeniería',
       icono: 'engineering',
-      imagenUrl: 'https://placehold.co/1200x800/1f2937/ffffff?text=Ingenier%C3%ADa+Industrial',
+      imagenUrl: 'assets/img/carreras/ingenieria-industrial.jpg',
       slug: 'ingenieria-industrial',
+      externalUrl: 'https://uregionalregion2.edu.gt/ingenieria-industrial/',
     },
+
+    // ==== Técnico en Sistemas de Producción Agrícola ====
+
     {
-      nombre: 'Ingeniería en Sistemas de Producción Agrícola (Agronomía)',
+      nombre: 'Técnico en Sistemas de Producción Agrícola (Agronomía)',
       descripcion:
         'Gestión de cultivos y recursos para una producción sostenible. Integra tecnología y buenas prácticas agrícolas.',
       area: 'Ingeniería',
       nivel: 'Ingeniería',
       icono: 'agriculture',
-      imagenUrl: 'https://placehold.co/1200x800/0b1220/ffffff?text=Ing.+Sistemas+Producci%C3%B3n+Agr%C3%ADcola',
+      imagenUrl: 'assets/img/carreras/sistemas-de-produccion-agricola.jpg',
       slug: 'ingenieria-sistemas-produccion-agricola',
+      externalUrl: 'https://uregionalregion2.edu.gt/tecnico-en-sistemas-de-produccion-agricola/',
     },
 
-    // ==== Educación ====
+    // ==== Educación Primaria Intercultural ====
+
     {
       nombre: 'Licenciatura en Educación Primaria Intercultural',
       descripcion:
@@ -179,21 +216,56 @@ export class CarrerasComponent {
       area: 'Educación',
       nivel: 'Licenciatura',
       icono: 'school',
-      imagenUrl: 'https://placehold.co/1200x800/0f172a/ffffff?text=Educaci%C3%B3n+Primaria+Intercultural',
+      imagenUrl: 'assets/img/carreras/educacion-intercultural.jpg',
       slug: 'licenciatura-educacion-primaria-intercultural',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-educacion-primaria-intercultural/',
     },
+
+    // ==== Licenciatura en Liderazgo en Educación y Administración Educativa ====
+
     {
-      nombre: 'Liderazgo en Educación y Administración Educativa',
+      nombre: 'Licenciatura en Liderazgo en Educación y Administración Educativa',
       descripcion:
         'Gestión de centros educativos, liderazgo pedagógico y administración de proyectos académicos con enfoque en mejora continua.',
       area: 'Educación',
       nivel: 'Licenciatura',
       icono: 'leaderboard',
-      imagenUrl: 'https://placehold.co/1200x800/1e293b/ffffff?text=Liderazgo+en+Educaci%C3%B3n',
+      imagenUrl: 'assets/img/carreras/liderazgo-educacional.jpg',
       slug: 'licenciatura-liderazgo-educacion-administracion-educativa',
+      externalUrl: 'https://uregionalregion2.edu.gt/licenciatura-en-licenciatura-en-liderazgo-en-educacion-y-administracion-educativa/',
     },
+
   ]);
 
   trackByNombre = (_: number, c: Carrera) => c.nombre;
   readonly carrerasVm = computed(() => this.carreras());
+
+  constructor(private router: Router, private dialog: MatDialog) { }
+
+  verDetalles(c: Carrera) {
+    // If the carrera provides an externalUrl, prefer opening it (after user confirmation)
+    if (c.externalUrl) {
+      const url = c.externalUrl;
+      // We use a Material dialog for confirmation to keep UI consistent
+      const ref = this.dialog.open(ConfirmDialog, {
+        width: '460px',
+        data: {
+          title: 'Ir a página oficial',
+          message: 'Serás redirigido a la página oficial de la Universidad Regional (sede San Raymundo). ¿Deseas continuar?'
+        }
+      });
+
+      ref.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          window.open(url, '_blank', 'noopener');
+        }
+      });
+      return;
+    }
+
+    // For other carreras, navigate to internal detail route if slug exists
+    if (c.slug) {
+      this.router.navigate(['/carreras', c.slug]);
+    }
+  }
 }

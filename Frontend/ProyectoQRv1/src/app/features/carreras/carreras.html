@@ -1,4 +1,15 @@
 <main class="p-4 sm:p-8 md:p-12" role="main">
+
+  <!-- Banner: muestra una imagen grande y título para la sección de carreras -->
+  <section class="carreras-banner" role="region" aria-label="Banner Carreras">
+    <div class="banner-inner">
+      <div class="banner-text">
+        <h1>Nuestras Carreras Universitarias</h1>
+        <p class="subtitle">Explora nuestras licenciaturas, ingenierías y técnicos. Encuentra la información oficial para cada programa.</p>
+      </div>
+    </div>
+  </section>
+
   <div class="grid max-w-7xl mx-auto">
     @for (carrera of carrerasVm(); track carrera.nombre) {
       <mat-card
@@ -55,6 +66,7 @@
               class="detail-btn"
               type="button"
               aria-label="Ver detalles de {{ carrera.nombre }}"
+              (click)="verDetalles(carrera)"
             >
               <mat-icon class="!mr-2" aria-hidden="true">school</mat-icon>
               Ver detalles

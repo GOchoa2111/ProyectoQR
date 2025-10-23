@@ -17,10 +17,7 @@
   <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/mi-qr" routerLinkActive="active-link"><mat-icon>qr_code</mat-icon> Mi QR</a></li>
       </ul>
 
-    <!-- IZQUIERDA ADICIONAL: mostrar nombre de usuario si está autenticado -->
-    <div class="menu-user-left" *ngIf="auth.isLoggedIn()" style="margin-left:12px; color:rgba(255,255,255,0.95); font-weight:600">
-      {{ auth.authState().user?.username || 'Usuario' }}
-    </div>
+    <!-- IZQUIERDA ADICIONAL removido: ahora la zona de usuario se muestra en la derecha dentro de menu-actions -->
 
     <!-- HAMBURGUESA (solo movil) -->
     <button
@@ -40,29 +37,37 @@
 
     <!-- DERECHA: Login / Usuario -->
     <div class="menu-actions">
-      <div class="session-stack">
-        <!-- Si no está autenticado mostrar botón Iniciar sesión -->
-        <button *ngIf="!auth.isLoggedIn()" class="login-button" type="button" (click)="handleLogin()">
+      <!-- Si no está autenticado mostrar botón Iniciar sesión -->
+      <div *ngIf="!auth.isLoggedIn()">
+        <button class="login-button" type="button" (click)="handleLogin()">
           <mat-icon>login</mat-icon>
           Iniciar sesión
         </button>
+      </div>
 
-        <!-- Si está autenticado mostrar botón Cerrar sesión (nombre se muestra a la izquierda) -->
-        <button *ngIf="auth.isLoggedIn()" class="logout-button" type="button" (click)="handleLogout()">
-          <mat-icon>logout</mat-icon>
-          Cerrar sesión
-        </button>
+      <!-- Si está autenticado mostrar información del usuario y logout en desktop -->
+      <div *ngIf="auth.isLoggedIn()" class="menu-user-right">
+        <div class="user-box">
+          <div class="user-meta">
+            <div class="user-name">{{ auth.authState().user?.username || 'Usuario' }}</div>
+            <div class="user-role">{{ auth.getRole() || '' }}</div>
+          </div>
+          <button class="logout-button desktop-logout" type="button" (click)="handleLogout()">
+            <mat-icon>logout</mat-icon>
+            Cerrar sesión
+          </button>
+        </div>
       </div>
     </div>
 
   </nav>
 
-    <!-- DEBUG: mostrar estado de autenticación (temporal) -->
+    <!-- DEBUG: mostrar estado de autenticación (temporal) 
     <div class="menu-debug" aria-hidden="false" style="margin-left:16px; font-size:0.9rem; color:rgba(255,255,255,0.9)">
       <div>Autenticado: {{ auth.isLoggedIn() }}</div>
       <div>Rol: {{ auth.getRole() || '—' }}</div>
       <div>Token en localStorage: {{ (hasToken ? 'sí' : 'no') }}</div>
-    </div>
+    </div> DESABILITE EL DEBUG LO USARE MAS ADELANTE DE SER NECESARIO-->
 
     <!-- DRAWER MOVIL -->
   <div
