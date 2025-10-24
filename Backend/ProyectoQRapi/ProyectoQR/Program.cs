@@ -95,7 +95,8 @@ builder.Services.AddCors(options =>
                             "http://localhost:4200",
                             "http://localhost:44389",
                             "http://localhost:5111",
-                            "https://*euw.devtunnels.ms")
+                            "https://*euw.devtunnels.ms",
+                            "http://109.199.118.104")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
@@ -118,11 +119,13 @@ var app = builder.Build();
 // Activar CORS
 app.UseCors("AllowAngular");
 
+app.UseSwagger();
+app.UseSwaggerUI(); //swagger fuera de development para pruebas web
+
 // Swagger solo en desarrollo
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
