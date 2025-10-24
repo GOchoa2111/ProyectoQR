@@ -94,9 +94,10 @@ builder.Services.AddCors(options =>
         policy => policy.WithOrigins(
                             "http://localhost:4200",
                             "http://localhost:44389",
-                            "http://localhost:5111",
+                            // "http://localhost:5111", ya no se esta utilizando actualmente
                             "https://*euw.devtunnels.ms",
-                            "http://109.199.118.104")
+                            "http://109.199.118.104",
+                            "http://localhost")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
