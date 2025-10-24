@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -52,6 +52,8 @@ export class Historial implements OnInit, AfterViewInit {
   private historialService = inject(HistorialService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  // ChangeDetectorRef to force view refresh when needed
+  private cd = inject(ChangeDetectorRef);
 
   // To unsubscribe router events
   private navigationSub: any = null;
@@ -63,6 +65,7 @@ export class Historial implements OnInit, AfterViewInit {
     if (resolved && Array.isArray(resolved)) {
       this.dataSource.data = resolved;
       this.cargando = false;
+      try { this.cd.detectChanges(); } catch (e) {}
     } else {
       this.cargarHistorial();
     }
@@ -122,6 +125,7 @@ export class Historial implements OnInit, AfterViewInit {
         // fuerza actualización de paginator/sort si llegaron después
         if (this.paginator) this.dataSource.paginator = this.paginator;
         if (this.sort) this.dataSource.sort = this.sort;
+        try { this.cd.detectChanges(); } catch (e) {}
         console.log('Historial cargado correctamente:', data);
       },
       error: (err) => {

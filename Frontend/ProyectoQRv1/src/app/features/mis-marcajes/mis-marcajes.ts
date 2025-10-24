@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { HistorialMarcaje } from '../../Interface/historial-marcajes';
 import { HistorialMarcajesService } from '../../Service/historial-marcajes.service';
@@ -78,7 +78,7 @@ export class MisMarcajesComponent implements OnInit {
    * - HistorialMarcajesService: para hacer la petición a la API.
    * - Router: para redirigir al usuario (ej. si el token expira).
    */
-  constructor(private servicio: HistorialMarcajesService, private router: Router) { }
+  constructor(private servicio: HistorialMarcajesService, private router: Router, private cd: ChangeDetectorRef) { }
 
   /**
    * ngOnInit se ejecuta una vez cuando el componente es creado.
@@ -115,6 +115,9 @@ export class MisMarcajesComponent implements OnInit {
           this.marcajes = data || []; // Guardamos los datos en la lista maestra.
           this.ordenarLista(); // Aplicamos el orden por defecto.
           this.aplicarFiltrosYPaginacion(); // Mostramos la primera página.
+          // Forzar actualización de la vista en caso de que change detection no se haya disparado
+          // (esto soluciona el problema donde la respuesta 200 llega pero la UI no muestra los datos).
+          try { this.cd.detectChanges(); } catch (e) {}
           console.debug('[MisMarcajes] marcajes recibidos:', data);
         },
         // 4. Callback 'error': se ejecuta si la petición falla o entra en timeout.

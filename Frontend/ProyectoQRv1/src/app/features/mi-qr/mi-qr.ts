@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QrService } from '../../core/services/qr.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,7 +19,7 @@ export class MiQrComponent implements OnDestroy {
   // CSS variable for background image; used in template via inline style
   bgStyle = "url('/assets/img/fondo-mi-qr.jpg')";
 
-  constructor(private qrSvc: QrService, private sanitizer: DomSanitizer) {
+  constructor(private qrSvc: QrService, private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
     console.debug('[MiQr] constructor');
     this.loadQr();
   }
@@ -32,8 +32,9 @@ export class MiQrComponent implements OnDestroy {
       console.debug('[MiQr] solicitando QR...');
       const blob = await this.qrSvc.getMyQrBlob();
       console.debug('[MiQr] recibido blob, tamaño:', blob.size);
-      const objectUrl = URL.createObjectURL(blob);
-      this.qrUrl = objectUrl;
+  const objectUrl = URL.createObjectURL(blob);
+  this.qrUrl = objectUrl;
+  try { this.cd.detectChanges(); } catch (e) {}
     } catch (err: any) {
       console.error('Error al obtener QR', err);
       if (err?.status === 401) {
@@ -45,6 +46,7 @@ export class MiQrComponent implements OnDestroy {
       }
     } finally {
       this.loading = false;
+      try { this.cd.detectChanges(); } catch (e) {}
     }
   }
 
