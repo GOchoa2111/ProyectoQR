@@ -1,3 +1,4 @@
+/* --- SECCIÓN CARRUSEL --- */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -8,7 +9,7 @@
 
 .carousel-slide {
   position: absolute;
-  inset: 0;              /* equivale a top/right/bottom/left: 0 */
+  inset: 0;
   opacity: 0;
   transform: scale(1.02);
   transition: opacity 700ms ease, transform 700ms ease;
@@ -19,11 +20,10 @@
   z-index: 1;
 }
 
-
 .carousel-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
   display: block;
 }
 
@@ -38,7 +38,6 @@
   align-items: center;
   z-index: 2;
 }
-
 .register-button {
   background-color: #003563;
   color: #fff;
@@ -54,41 +53,152 @@
   outline-offset: 2px;
 }
 
-
-.card-container {
-  margin-top: 8rem;
-  margin: 32px auto;
-  max-width: 960px;
-  padding: 0 16px;
-  color: #003563;   
+/* ================================================
+  ESTILOS PARA SECCIÓN Misión/Visión/Valores
+  ================================================
+*/
+.info-section-container {
+  max-width: 1200px; 
+  margin: 4rem auto; 
+  padding: 0 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; 
 }
 
-
-mat-card {
-  background-color: #003563; 
-  box-shadow: 0 2px 8px rgba(255, 253, 253, 0.1);
-
-  display: flex;              /* activa flexbox */
-  flex-direction: column;     /* organiza el contenido en columna */
-  align-items: center;        /* centra horizontalmente */
-  justify-content: center;    /* centra verticalmente */
-  text-align: center;         /* centra texto e inline-blocks */
-  padding: 50px;              /* agrega espacio interno */
-  color: #ffffff;             
+.info-row {
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  gap: 1rem; 
+  margin-bottom: 4rem;
+  text-align: center;
+  letter-spacing: 1px;
+ 
 }
 
-/*
-    ================================================
-    ESTILOS DEL FAB DE WHATSAPP (Añadido para contexto)
-    ================================================
+.info-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.info-gif {
+  flex: 1; 
+  min-width: 300px; 
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.info-gif img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-card {
+  flex: 1; 
+  min-width: 300px;
+  background: #f7f7f7;
+  color: #000000;
+  transform: none; 
+  text-align: left;
+  align-items: flex-start;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.info-card h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #003563; 
+}
+
+.info-card p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  color: #555;
+  margin-top: 1.5rem; 
+  margin-bottom: 0;
+}
+
+.card-title-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem; 
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #003563;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 53, 99, 0.2);
+}
+
+.card-title-container h2 {
+  color: #ffffff; 
+  font-weight: 600; 
+  font-style: italic;
+}
+
+.title-icon {
+  width: 40px;
+  height: 40px;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%);
+}
+
+.card-mision {
+  border-top: 15px solid #e98714;
+}
+.card-vision {
+  border-top: 15px solid #e98714;
+}
+.card-valores {
+  border-top: 15px solid #e98714;
+}
+
+/* ================================================
+  ESTILOS MODIFICADOS PARA LA SECCIÓN DE ADVERTENCIA
+  ================================================
+*/
+.warning-section {
+    text-align: center; 
+    margin: 4rem 0; /* Ocupa todo el ancho, con márgenes verticales */
+    padding: 6rem 2rem; /* ¡Aquí está el cambio! Padding vertical para hacerlo alto */
+    color: #b25216; /* Rojo más oscuro para el texto */
+    font-size: 3rem; /* Texto más grande */
+    font-weight: 600; /* Texto más grueso */
+    background-color: #fdfdfd; /* Fondo rojo muy claro */
+    border-top: 5px solid #ffcccc; /* Borde superior */
+    border-bottom: 5px solid #ffcccc; /* Borde inferior */
+}
+
+.warning-image {
+    width: 950px; /* ¡Aquí está el cambio! Imagen mucho más grande */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block; 
+    margin: 0 auto 2rem auto; /* Centrada y con más espacio abajo */
+}
+
+/* ================================================
+  ESTILOS FAB WHATSAPP
+  ================================================
 */
 .fab-whatsapp {
     position: fixed;
-    bottom: 5.5rem; /* Elevado por encima del footer fijo */
+    bottom: 5.5rem; 
     right: 1.5rem;
     z-index: 1000;
     padding: 0.8rem;
-    background-color: #25d366; /* Verde WhatsApp */
+    background-color: #25d366; 
     border-radius: 9999px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     transition: transform 0.2s ease-in-out;
@@ -102,4 +212,59 @@ mat-card {
     width: 30px;
     height: 30px;
     fill: white;
+}
+
+/* ================================================
+  Media Query para Móviles
+  ================================================
+*/
+@media (max-width: 800px) {
+  .info-row,
+  .info-row.reverse {
+    flex-direction: column;
+  }
+
+  .info-section-container {
+    margin: 2rem auto;
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+  }
+  
+  .card-title-container {
+    padding: 0.8rem;
+  }
+  
+  .info-card h2 {
+    font-size: 1.5rem;
+  }
+  
+  .title-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .info-card p {
+    font-size: 1rem;
+  }
+
+  .carousel-container {
+    height: 400px; 
+  }
+  
+  /* Estilos de advertencia para móvil */
+  .warning-section {
+    font-size: 1.1rem;
+    margin: 6rem 0;
+    padding: 4rem 1rem;
+  }
+
+  .warning-image {
+    width: 300px; /* Más grande que antes, pero adaptado a móvil */
+    margin-bottom: 1.5rem;
+    height: auto;
+    }
 }
