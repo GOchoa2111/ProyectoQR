@@ -1,54 +1,57 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PLATFORM_ID } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-lector-qr',
   standalone: true,
   imports: [ZXingScannerModule, CommonModule, FormsModule],
   templateUrl: './lector-qr.html',
-  styleUrls: ['./lector-qr.css'],
+  styleUrls: ['./lector-qr.css']
 })
 export class LectorQR {
-  public qrResult: string | null = null;
-  public availableDevices: MediaDeviceInfo[] = [];
-  public selectedDevice: MediaDeviceInfo | undefined;
+  qrResult: string | null = null;
+  availableDevices: MediaDeviceInfo[] = [];
+  selectedDevice: MediaDeviceInfo | undefined;
+  mensajeMarcaje: string = '';
+  escaneoActivo: boolean = true;
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private toastr: ToastrService
-  ) {}
+  constructor(private http: HttpClient) {}
 
-  // ✅ Esta función se puede usar directamente en el HTML
-  public isRunningInBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
-
-  onCodeResult(result: string): void {
+  onCodeResult(result: string) {
+    if (!this.escaneoActivo) return;
+    this.escaneoActivo = false;
     this.qrResult = result;
 
-    this.http.post(`${environment.apiUrl}/marcaje`, {
-      codigoQR: result,
-      tipo: 'Ingreso'
-    }).subscribe({
-      next: (respuesta: any) => {
-        this.toastr.success(respuesta.mensaje || 'Marcaje registrado');
-      },
-      error: err => {
-        console.error('Error al registrar marcaje:', err);
-        this.toastr.error('Error al registrar marcaje: ' + (err?.message ?? '')); 
-      }
-    });
+    this.http.post('https://localhost:44389/api/marcaje', { codigoQR: result })
+      .subscribe({
+        next: (respuesta: any) => {
+          this.mensajeMarcaje = respuesta.mensaje; 
+          this.playBeep(); 
+          setTimeout(() => {
+            this.qrResult = null;
+            this.mensajeMarcaje = '';
+            this.escaneoActivo = true;
+          }, 3000);
+        },
+        error: err => {
+          console.error('Error al registrar marcaje:', err);
+          alert('Error al registrar marcaje: ' + err.message);
+          this.escaneoActivo = true;
+        }
+      });
   }
 
-  onDevicesFound(devices: MediaDeviceInfo[]): void {
+  onDevicesFound(devices: MediaDeviceInfo[]) {
     this.availableDevices = devices;
-    this.selectedDevice = devices.find(d => d.label.includes('C920')) || devices[0];
+    this.selectedDevice = devices.find(d => d.label.includes('C920')) ?? devices[0];
+  }
+
+  playBeep() {
+    const audio = new Audio('assets/beep.mp3'); 
+    audio.play().catch(err => console.error('Error al reproducir sonido:', err));
   }
 }
+``

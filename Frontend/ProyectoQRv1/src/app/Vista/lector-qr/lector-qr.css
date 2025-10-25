@@ -1,9 +1,54 @@
+.lector-container {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+h2 {
+  color: #0077cc;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.camera-selector {
+  margin-bottom: 20px;
+}
+
+.camera-selector label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.camera-selector select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
 .qr-container {
   width: 300px;
   height: 300px;
-  margin: 40px auto;
-  border: 2px solid #ec704a;
-  border-radius: 10px;
+  margin: 20px auto;
+  border: 3px solid #ec704a;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: border-color 0.3s ease;
+}
+
+.qr-container.success {
+  border-color: #28a745; /* Verde cuando hay éxito */
+}
+
+.mensaje-validacion {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #28a745;
+  background-color: #e6f9ec;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }

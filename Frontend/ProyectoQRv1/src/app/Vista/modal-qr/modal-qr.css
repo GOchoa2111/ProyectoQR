@@ -89,3 +89,11 @@
   background-color: #005fa3;
   transform: scale(1.05);
 }
+
+.botones button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

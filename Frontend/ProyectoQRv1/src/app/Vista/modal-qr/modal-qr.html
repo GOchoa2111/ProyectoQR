@@ -1,4 +1,3 @@
-
 <div *ngIf="visible" class="modal-overlay">
   <div class="modal-content">
     <h3>¡Bienvenido {{ nombre }} {{ apellido }}!</h3>
@@ -7,8 +6,11 @@
 
     <div class="botones">
       <button (click)="descargarQR()">Descargar QR</button>
-      <button (click)="enviarQR()">Enviar por correo</button> <!-- ✅ Nuevo botón -->
-      <button (click)="cerrar.emit()">Cerrar</button>
+      <button (click)="enviarQR()" [disabled]="enviando">
+        <span *ngIf="!enviando">Enviar por correo</span>
+        <mat-spinner *ngIf="enviando" diameter="20"></mat-spinner>
+      </button>
+      <button (click)="cerrarModal()">Cerrar</button>
     </div>
   </div>
 </div>
