@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Guía: Solución problema de "Mis Marcajes" (detección de cambios)</title>
+</head>
+<body>
+  <h1>Guía: Solución al problema de carga en "Mis Marcajes"</h1>
+  <p>Fecha: 24 de octubre de 2025</p>
+
+  <h2>Resumen</h2>
+  <p>
+    Se detectó un problema en la vista "Mis Marcajes": tras recargar la página con la sesión activa,
+    al pulsar "Mostrar Historial" la petición al backend devolvía datos correctamente (HTTP 200)
+    pero la vista no se actualizaba hasta que el usuario realizaba otra interacción (por ejemplo,
+    volver a pulsar el botón o navegar). Al iniciar sesión por primera vez, el comportamiento era
+    correcto.
+  </p>
+
+  <h2>Raíz del problema</h2>
+  <p>
+    Angular actualiza la vista mediante su mecanismo de detección de cambios (change detection).
+    En escenarios de recarga, la inicialización del estado de la aplicación y el momento en que
+    el componente se monta pueden provocar que la asignación de datos ocurra en un momento en el
+    que Angular no ejecuta automáticamente la verificación visual para ese componente concreto.
+    Como resultado, los datos quedan en memoria pero la plantilla (DOM) no se sincroniza hasta que
+    ocurre otra interacción que dispara la detección de cambios.
+  </p>
+
+  <h2>Solución aplicada (rápida, de bajo riesgo)</h2>
+  <ol>
+    <li>Se inyectó <code>ChangeDetectorRef</code> en los componentes afectados para forzar la detección de cambios cuando sea necesario.</li>
+    <li>En el componente <code>mis-marcajes</code> se añadió una llamada a <code>detectChanges()</code> inmediatamente después de asignar los datos recibidos por la petición.
+    </li>
+    <li>Además, y para cubrir el caso específico de la recarga de la página, se añadió una llamada adicional
+    dentro de un microtask: <code>Promise.resolve().then(() => this.cd.detectChanges())</code>. Esto asegura
+    que Angular ejecute otra comprobación cuando la microcola esté vacía y la vista esté lista.</li>
+  </ol>
+
+  <h2>Archivos modificados</h2>
+  <ul>
+    <li><code>src/app/features/mis-marcajes/mis-marcajes.ts</code>
+      <ul>
+        <li>Se añadió inyección de <code>ChangeDetectorRef</code>.</li>
+        <li>Se llamó <code>this.cd.detectChanges()</code> tras asignar los datos en el subscribe.</li>
+        <li>Se añadió <code>Promise.resolve().then(() => this.cd.detectChanges())</code> en <code>finalize()</code>.</li>
+        <li>Se añadieron logs <code>console.debug</code> para facilitar futuras depuraciones.</li>
+      </ul>
+    </li>
+    <li><code>src/app/Vista/historial/historial.ts</code>
+      <ul>
+        <li>Inyección y llamadas a <code>detectChanges()</code> cuando se usan datos del resolver o se asigna <code>dataSource.data</code>.</li>
+      </ul>
+    </li>
+    <li><code>src/app/features/mi-qr/mi-qr.ts</code>
+      <ul>
+        <li>Se forzó <code>detectChanges()</code> tras crear y asignar el object URL del QR.</li>
+      </ul>
+    </li>
+    <li><code>src/app/Service/historial-marcajes.service.ts</code>
+      <ul>
+        <li>Se añadieron logs para mostrar la URL solicitada al backend.</li>
+      </ul>
+    </li>
+    <li>Se añadió un botón y la funcionalidad de exportar a Excel en:
+      <ul>
+        <li><code>src/app/features/mis-marcajes/mis-marcajes.html</code> (botón 'Exportar a Excel')</li>
+        <li><code>src/app/features/mis-marcajes/mis-marcajes.ts</code> (función <code>exportarAExcel()</code> usando SheetJS)</li>
+        <li><code>src/app/features/mis-marcajes/mis-marcajes.css</code> (estilos para el botón verde)</li>
+        <li><code>package.json</code> (dependencia <code>xlsx</code> añadida)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Cómo probar</h2>
+  <ol>
+    <li>Instalar dependencias (si no lo has hecho):
+      <pre><code>npm install</code></pre>
+    </li>
+    <li>Arrancar la app:
+      <pre><code>npm start</code></pre>
+    </li>
+    <li>Flujos a probar:
+      <ul>
+        <li>Primer login: iniciar sesión y verificar que "Mostrar Historial" carga y muestra datos.
+        </li>
+        <li>Recarga con sesión activa: recargar la página, navegar a "Mis Marcajes", pulsar "Mostrar Historial" y verificar que los datos aparecen inmediatamente sin necesidad de otra interacción.
+        </li>
+        <li>Exportar: después de mostrar el historial, pulsar "Exportar a Excel" y comprobar que se descarga un archivo <code>.xlsx</code> con los datos de la página actual.
+        </li>
+      </ul>
+    </li>
+  </ol>
+
+  <h2>Recomendaciones a medio plazo</h2>
+  <ul>
+    <li>Para una solución más robusta, migrar la obtención de datos a <strong>resolvers</strong> de rutas o usar <code>APP_INITIALIZER</code> para asegurar que la app restaura el estado de autenticación antes de montar componentes que dependen de esos datos.</li>
+    <li>Usar <code>async</code> + <code>| async</code> en plantillas cuando sea posible para que Angular gestione suscripciones y detección de cambios automáticamente.</li>
+  </ul>
+
+  <h2>Contacto y notas</h2>
+  <p>Si necesitas que implemente la solución robusta o que adapte la exportación para manejar grandes volúmenes o formatos server-side, puedo hacerlo en la siguiente iteración.</p>
+
+  <p>Fin de la guía.</p>
+</body>
+</html>

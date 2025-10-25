@@ -13,11 +13,21 @@
       [value]="filtroFecha" 
       (input)="onFechaChange($event)">
     
+    <!-- Botón para cargar el historial -->
     <button 
       class="btn-historial" 
       (click)="mostrarHistorial()"
       [disabled]="loading">
         Mostrar Historial
+    </button>
+
+    <!-- Botón verde para exportar a Excel: exporta los datos que actualmente se muestran (paginados) -->
+    <button
+      class="btn-export"
+      (click)="exportarAExcel()"
+      [disabled]="loading || marcajesPaginados.length === 0"
+      title="Exportar a Excel">
+      Exportar a Excel
     </button>
   </div>
 

@@ -14,7 +14,9 @@ export class HistorialMarcajesService {
   // Obtener los marcajes del usuario autenticado
   getMyMarcajes(): Observable<HistorialMarcaje[]> {
     // aplicamos un timeout para evitar requests infinitos en cliente
-    return this.http.get<HistorialMarcaje[]>(`${this.base}/me`).pipe(timeout(10000));
+    const url = `${this.base}/me`;
+    try { console.debug('[HistorialMarcajesService] GET', url); } catch (e) {}
+    return this.http.get<HistorialMarcaje[]>(url).pipe(timeout(10000));
   }
 
   // Obtener marcajes por carnet (para admin/docente)

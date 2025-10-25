@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+// Import de SheetJS para generar archivos Excel (.xlsx)
+import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import { HistorialMarcaje } from '../../Interface/historial-marcajes';
 import { HistorialMarcajesService } from '../../Service/historial-marcajes.service';
@@ -98,7 +100,9 @@ export class MisMarcajesComponent implements OnInit {
     // 1. Activamos los flags para la UI.
     this.busquedaIniciada = true;
     this.loading = true;
-    this.error = null; // Limpiamos cualquier error previo.
+  this.error = null; // Limpiamos cualquier error previo.
+  // DEBUG: registrar inicio de la llamada para diagnosticar si 'loading' queda bloqueado
+  try { console.debug('[MisMarcajes] iniciar carga: busquedaIniciada=true, loading=true, filtroFecha=', this.filtroFecha); } catch (e) {}
 
     // 2. Llamamos al servicio para obtener los marcajes.
     this.servicio.getMyMarcajes()
@@ -107,7 +111,17 @@ export class MisMarcajesComponent implements OnInit {
         timeout(15000), 
         // El operador 'finalize' se ejecuta SIEMPRE, ya sea que la petición
         // tenga éxito, falle o caiga en timeout. Aquí desactivamos el 'loading'.
-        finalize(() => { this.loading = false; })
+        // Además forzamos una detección de cambios usando un microtask (Promise.resolve())
+        // porque al recargar la página (con sesión activa) puede ocurrir que la
+        // vista no se actualice aunque los datos ya estén asignados. El microtask
+        // asegura que Angular ejecute la comprobación de la vista después de que
+        // el flujo asíncrono haya completado y la vista esté lista.
+        finalize(() => {
+          this.loading = false;
+          try { this.cd.detectChanges(); } catch (e) {}
+          // Forzar otra comprobación en la microcola para cubrir casos de timing
+          Promise.resolve().then(() => { try { this.cd.detectChanges(); } catch (e) {} });
+        })
       )
       .subscribe({
         // 3. Callback 'next': se ejecuta si la petición es exitosa.
@@ -140,7 +154,7 @@ export class MisMarcajesComponent implements OnInit {
    * Este método es llamado por el botón "Mostrar Historial" en el HTML.
    */
   mostrarHistorial(): void {
-    console.log('Cargando historial completo...');
+    console.debug('[MisMarcajes] mostrarHistorial() invoked by button');
     this.cargarMarcajes();
   }
   
@@ -245,6 +259,39 @@ export class MisMarcajesComponent implements OnInit {
   getTotalPaginas(): number {
     if (!this.marcajesFiltrados || this.marcajesFiltrados.length === 0) return 0;
     return Math.ceil(this.marcajesFiltrados.length / this.registrosPorPagina);
+  }
+
+  /**
+   * Exportar a Excel (.xlsx) la página actual de resultados (marcajesPaginados).
+   * Usamos SheetJS (xlsx) para crear el archivo en el cliente y forzar descarga.
+   */
+  exportarAExcel(): void {
+    try {
+      // Mapeamos los datos a un formato plano adecuado para Excel
+      const datosParaExcel = this.marcajesPaginados.map(m => ({
+        Fecha: this.formatDate(String(m.fechaHora)),
+        Carnet: m.numeroCarnet ?? '',
+        Nombre: m.nombreCompleto ?? '',
+        Tipo: m.tipo ?? ''
+      }));
+
+      if (!datosParaExcel || datosParaExcel.length === 0) {
+        console.debug('[MisMarcajes] exportarAExcel: no hay datos para exportar');
+        return;
+      }
+
+      // Generar hoja y libro
+      const worksheet = XLSX.utils.json_to_sheet(datosParaExcel);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'MisMarcajes');
+
+      // Nombre de archivo con fecha
+      const fileName = `mis_marcajes_${new Date().toISOString().slice(0,19).replace(/[:T]/g, '_')}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+      console.debug('[MisMarcajes] exportarAExcel: archivo generado', fileName);
+    } catch (e) {
+      console.error('[MisMarcajes] exportarAExcel error:', e);
+    }
   }
 }
 
