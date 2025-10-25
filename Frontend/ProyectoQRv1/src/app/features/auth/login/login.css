@@ -33,7 +33,7 @@
 .login-card {
   width: 100%;
   max-width: 420px;
-  background: #003563;x
+  background: #003563;
   color: #fff;
   border-radius: 16px;
   padding: 28px 32px;
@@ -69,6 +69,28 @@
 
 .full {
   width: 100%;
+}
+
+/* Asegurar que el texto de los inputs sea claro sobre fondo oscuro */
+.login-card input,
+.login-card textarea,
+.login-card select,
+.login-card .mat-mdc-form-field .mdc-text-field__input,
+.login-card .mat-mdc-form-field input.mat-mdc-text-field__input {
+  color: #ffffff !important;
+  caret-color: #ffffff;
+}
+
+/* Placeholder más tenue pero legible */
+.login-card input::placeholder,
+.login-card textarea::placeholder {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* Forzar color del label/border cuando Angular Material no aplica variables */
+mat-form-field.mat-mdc-form-field {
+  --mdc-outlined-text-color: #f1f5f9;
+  --mdc-outlined-label-color: #cbd5e1;
 }
 
 /* 5. Campos de Angular Material (Ajuste de contraste) */
