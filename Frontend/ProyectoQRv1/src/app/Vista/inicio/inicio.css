@@ -23,7 +23,7 @@
 .carousel-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
 }
 
@@ -58,24 +58,23 @@
   ================================================
 */
 .info-section-container {
-  max-width: 1200px; 
-  margin: 4rem auto; 
+  max-width: 1200px;
+  margin: 4rem auto;
   padding: 0 2rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 3rem; 
+  gap: 3rem;
 }
 
 .info-row {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem; 
+  gap: 1rem;
   margin-bottom: 4rem;
   text-align: center;
   letter-spacing: 1px;
- 
 }
 
 .info-row.reverse {
@@ -83,8 +82,8 @@
 }
 
 .info-gif {
-  flex: 1; 
-  min-width: 300px; 
+  flex: 1;
+  min-width: 300px;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -97,11 +96,11 @@
 }
 
 .info-card {
-  flex: 1; 
+  flex: 1;
   min-width: 300px;
   background: #f7f7f7;
   color: #000000;
-  transform: none; 
+  transform: none;
   text-align: left;
   align-items: flex-start;
   overflow-y: auto;
@@ -117,7 +116,7 @@
   font-weight: 700;
   letter-spacing: 1px;
   margin: 0;
-  color: #003563; 
+  color: #003563;
 }
 
 .info-card p {
@@ -125,14 +124,14 @@
   line-height: 1.5;
   letter-spacing: 0.5px;
   color: #555;
-  margin-top: 1.5rem; 
+  margin-top: 1.5rem;
   margin-bottom: 0;
 }
 
 .card-title-container {
   display: flex;
   align-items: center;
-  gap: 1rem; 
+  gap: 1rem;
   width: 100%;
   margin-bottom: 1rem;
   background: #003563;
@@ -142,15 +141,16 @@
 }
 
 .card-title-container h2 {
-  color: #ffffff; 
-  font-weight: 600; 
+  color: #ffffff;
+  font-weight: 600;
   font-style: italic;
 }
 
 .title-icon {
   width: 40px;
   height: 40px;
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%) contrast(100%);
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(200%)
+    contrast(100%);
 }
 
 .card-mision {
@@ -168,50 +168,84 @@
   ================================================
 */
 .warning-section {
-    text-align: center; 
-    margin: 4rem 0; /* Ocupa todo el ancho, con márgenes verticales */
-    padding: 6rem 2rem; /* ¡Aquí está el cambio! Padding vertical para hacerlo alto */
-    color: #b25216; /* Rojo más oscuro para el texto */
-    font-size: 3rem; /* Texto más grande */
-    font-weight: 600; /* Texto más grueso */
-    background-color: #fdfdfd; /* Fondo rojo muy claro */
-    border-top: 5px solid #ffcccc; /* Borde superior */
-    border-bottom: 5px solid #ffcccc; /* Borde inferior */
+  text-align: center;
+  margin: 4rem 0; /* Ocupa todo el ancho, con márgenes verticales */
+  padding: 6rem 2rem; /* ¡Aquí está el cambio! Padding vertical para hacerlo alto */
+  color: #b25216; /* Rojo más oscuro para el texto */
+  font-size: 3rem; /* Texto más grande */
+  font-weight: 600; /* Texto más grueso */
+  background-color: #fdfdfd; /* Fondo rojo muy claro */
+  border-top: 5px solid #ffcccc; /* Borde superior */
+  border-bottom: 5px solid #ffcccc; /* Borde inferior */
 }
 
 .warning-image {
-    width: 950px; /* ¡Aquí está el cambio! Imagen mucho más grande */
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: block; 
-    margin: 0 auto 2rem auto; /* Centrada y con más espacio abajo */
+  width: 950px; /* ¡Aquí está el cambio! Imagen mucho más grande */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 auto 2rem auto; /* Centrada y con más espacio abajo */
 }
 
 /* ================================================
-  ESTILOS FAB WHATSAPP
+  ESTILOS FAB WHATSAPP (MODIFICADOS)
   ================================================
 */
 .fab-whatsapp {
-    position: fixed;
-    bottom: 5.5rem; 
-    right: 1.5rem;
-    z-index: 1000;
-    padding: 0.8rem;
-    background-color: #25d366; 
-    border-radius: 9999px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease-in-out;
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .fab-whatsapp:hover {
-    transform: scale(1.1);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.fab-whatsapp:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.12);
+  outline-offset: 4px;
 }
 
 .wa-icon {
-    width: 30px;
-    height: 30px;
-    fill: white;
+  /* *** CAMBIO REALIZADO AQUÍ *** */
+  width: 70%;  /* Aumentado para que el ícono ocupe más espacio */
+  height: 70%; /* Aumentado para que el ícono ocupe más espacio */
+  max-width: 40px;
+  max-height: 40px;
+  fill: white;
+  display: block;
+  vector-effect: non-scaling-stroke;
+  transform: translateY(0.5px);
+}
+
+.fab-whatsapp[data-label]:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* ================================================
@@ -233,15 +267,15 @@
   .info-card {
     padding: 1.5rem;
   }
-  
+
   .card-title-container {
     padding: 0.8rem;
   }
-  
+
   .info-card h2 {
     font-size: 1.5rem;
   }
-  
+
   .title-icon {
     width: 30px;
     height: 30px;
@@ -252,9 +286,9 @@
   }
 
   .carousel-container {
-    height: 400px; 
+    height: 400px;
   }
-  
+
   /* Estilos de advertencia para móvil */
   .warning-section {
     font-size: 1.1rem;
@@ -263,8 +297,20 @@
   }
 
   .warning-image {
-    width: 300px; /* Más grande que antes, pero adaptado a móvil */
+    width: 300px;
     margin-bottom: 1.5rem;
     height: auto;
-    }
+  }
+
+  /* Ajustes del FAB en móvil */
+  .fab-whatsapp {
+    width: 48px;
+    height: 48px;
+    bottom: 4.5rem;
+    right: 1rem;
+  }
+
+  /* *** CAMBIO REALIZADO AQUÍ *** */
+  /* Se eliminó la regla .wa-icon de aquí para que herede el 70% del tamaño del botón,
+     haciendo que escale correctamente en móvil. */
 }

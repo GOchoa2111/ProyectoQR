@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { HistorialMarcaje } from '../../Interface/historial-marcajes';
 import { HistorialService } from '../../Service/historial-marcajes.service';
 import { MatTableDataSource } from '@angular/material/table';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-historial',
@@ -88,6 +89,26 @@ export class Historial implements OnInit, AfterViewInit {
     // esto evita escenarios donde la navegación ocurre pero la tabla aún no está inicializada
     this.cargarHistorial();
 
+    // Suscribirse a eventos de paginador para asegurar que la tabla se refresque
+    try {
+      this.paginator.page.subscribe(() => {
+        // small delay to allow paginator state to update
+        setTimeout(() => {
+          try {
+            // Reasignar para forzar que MatTable reevalúe la página visible
+            this.dataSource.paginator = this.paginator;
+            // Forzar actualización interna del datasource (API no pública, pero útil en este caso)
+            (this.dataSource as any)._updateChangeSubscription?.();
+            this.cd.detectChanges();
+          } catch (e) {
+            // swallow
+          }
+        }, 0);
+      });
+    } catch (e) {
+      // ignore if paginator not available
+    }
+
     // Escuchar eventos de navegación para recargar cuando la ruta /historial se active
     try {
       this.navigationSub = this.router.events.subscribe(evt => {
@@ -140,4 +161,36 @@ export class Historial implements OnInit, AfterViewInit {
   // imprimirActual(): void {
   //   // Aquí tomaremos dataSource.filteredData y generaremos impresión/PDF.
   // }
+
+  /**
+   * Exporta la página actual (o todos si no hay paginador) a Excel (.xlsx)
+   */
+  exportarAExcel(): void {
+    try {
+      const rows = this.dataSource.filteredData ?? [];
+      let dataToExport = rows;
+      if (this.paginator) {
+        const start = this.paginator.pageIndex * this.paginator.pageSize;
+        const end = start + this.paginator.pageSize;
+        dataToExport = rows.slice(start, end);
+      }
+
+      // Mapear a un formato plano para Excel
+      const flat = (dataToExport || []).map(r => ({
+        Carnet: r.numeroCarnet ?? '',
+        Nombre: r.nombreCompleto ?? '',
+        FechaHora: r.fechaHora ? new Date(r.fechaHora).toLocaleString() : '',
+        Tipo: r.tipo ?? ''
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(flat);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Historial');
+
+      const filename = `historial_marcajes_${new Date().toISOString().slice(0,10)}.xlsx`;
+      XLSX.writeFile(wb, filename);
+    } catch (e) {
+      console.error('Error exportando a Excel:', e);
+    }
+  }
 }

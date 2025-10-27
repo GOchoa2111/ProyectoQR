@@ -126,7 +126,6 @@ C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Bac
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.csproj.Up2Date
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.dll
 C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\refint\ProyectoQR.dll
@@ -248,3 +247,6 @@ D:\Carlos Orozco DTI\Documents\Proyecto-asistencia-Windows-Server\ProyectoQR\Bac
 D:\Carlos Orozco DTI\Documents\Proyecto-asistencia-Windows-Server\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.pdb
 D:\Carlos Orozco DTI\Documents\Proyecto-asistencia-Windows-Server\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ProyectoQR.genruntimeconfig.cache
 D:\Carlos Orozco DTI\Documents\Proyecto-asistencia-Windows-Server\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\ref\ProyectoQR.dll
+c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\MailKit.dll
+c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\MimeKit.dll

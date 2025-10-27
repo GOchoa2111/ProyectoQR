@@ -1,6 +1,26 @@
 .historial-container {
   padding: 20px;
   max-width: 1100px;
+
+/* Botón Exportar (estilo coherente con otras vistas) */
+.btn-export {
+  margin-left: 16px;
+  height: 40px;
+  align-self: center;
+}
+
+/* En mobile colocamos el botón debajo del filtro para evitar apretar controles */
+@media (max-width: 600px) {
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-export {
+    margin-left: 0;
+    width: 100%;
+  }
+}
   margin: 20px auto;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -61,4 +81,18 @@ table {
 /* Material table tweak */
 .mat-mdc-table .mdc-data-table__header-cell {
   font-weight: 700;
+}
+
+/* Pseudo-elemento que contiene la imagen de fondo. */
+.historial-container::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* Equivalente a top:0; right:0; bottom:0; left:0 */
+  background-image: url('/assets/img/fondo-mi-qr.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 1;
+  pointer-events: none; /* No interfiere con los clics */
+  z-index: -1; /* Se posiciona detrás del contenido */
 }

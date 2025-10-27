@@ -14,6 +14,11 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+    <!-- Botón exportar a Excel (colocado al lado derecho de los filtros) -->
+    <button mat-flat-button color="primary" class="btn-export" (click)="exportarAExcel()" title="Exportar a Excel">
+      <mat-icon>file_download</mat-icon>
+      &nbsp;Exportar a Excel
+    </button>
   </div>
 
   <!-- 1. Estado de carga -->

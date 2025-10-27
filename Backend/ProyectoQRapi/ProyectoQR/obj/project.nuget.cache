@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Fu/wrQc5XSg=",
+  "dgSpecHash": "dsE8HuOabUk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
+  "projectFilePath": "c:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\ProyectoQR.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Carlos Orozco\\.nuget\\packages\\bouncycastle.cryptography\\2.6.1\\bouncycastle.cryptography.2.6.1.nupkg.sha512",
     "C:\\Users\\Carlos Orozco\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
