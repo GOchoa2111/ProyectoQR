@@ -53,23 +53,27 @@
   <!-- Banner de debug: indica que JS se ejecuta antes del bootstrap de Angular -->
   <script>
     try {
+      // Inline debug banner — opt-in. To show it, open the app with ?debug=1 in the URL.
       console.log('[index] inline script executed');
-      var debugBanner = document.createElement('div');
-      debugBanner.id = 'debug-js-banner';
-      debugBanner.textContent = 'JS executed — waiting Angular...';
-      debugBanner.style.position = 'fixed';
-      debugBanner.style.right = '8px';
-      debugBanner.style.bottom = '8px';
-      debugBanner.style.zIndex = 2147483646;
-      debugBanner.style.background = 'rgba(0,0,0,0.6)';
-      debugBanner.style.color = 'white';
-      debugBanner.style.padding = '6px 10px';
-      debugBanner.style.borderRadius = '6px';
-      debugBanner.style.fontFamily = 'sans-serif';
-      debugBanner.style.fontSize = '12px';
-      document.addEventListener('DOMContentLoaded', function () {
-        document.body.appendChild(debugBanner);
-      });
+      var params = new URLSearchParams(window.location.search || '');
+      if (params.get('debug') === '1') {
+        var debugBanner = document.createElement('div');
+        debugBanner.id = 'debug-js-banner';
+        debugBanner.textContent = 'JS executed — waiting Angular...';
+        debugBanner.style.position = 'fixed';
+        debugBanner.style.right = '8px';
+        debugBanner.style.bottom = '8px';
+        debugBanner.style.zIndex = 2147483646;
+        debugBanner.style.background = 'rgba(0,0,0,0.6)';
+        debugBanner.style.color = 'white';
+        debugBanner.style.padding = '6px 10px';
+        debugBanner.style.borderRadius = '6px';
+        debugBanner.style.fontFamily = 'sans-serif';
+        debugBanner.style.fontSize = '12px';
+        document.addEventListener('DOMContentLoaded', function () {
+          document.body.appendChild(debugBanner);
+        });
+      }
     } catch (e) {
       console.error('debug banner error:', e);
     }

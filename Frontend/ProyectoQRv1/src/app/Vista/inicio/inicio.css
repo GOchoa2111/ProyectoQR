@@ -217,18 +217,20 @@
 }
 
 .fab-whatsapp:focus {
-  outline: 3px solid rgba(255, 255, 255, 0.12);
+  outline: 3px solid rgba(255, 255, 255, 0.18);
   outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.12);
 }
 
 .wa-icon {
-  /* *** CAMBIO REALIZADO AQUÍ *** */
-  width: 70%;  /* Aumentado para que el ícono ocupe más espacio */
-  height: 70%; /* Aumentado para que el ícono ocupe más espacio */
-  max-width: 40px;
-  max-height: 40px;
-  fill: white;
+  /* *** Ajuste para el ícono WhatsApp (aplica a svg inline y a img extern) *** */
+  width: 80%;              /* escala dentro del botón */
+  height: 80%;             /* escala dentro del botón */
+  max-width: 56px;         /* límite superior en pantallas grandes */
+  max-height: 56px;        /* límite superior en pantallas grandes */
+  fill: white;             /* si es SVG inline */
   display: block;
+  object-fit: contain;     /* si es imagen externa */
   vector-effect: non-scaling-stroke;
   transform: translateY(0.5px);
 }
@@ -313,4 +315,14 @@
   /* *** CAMBIO REALIZADO AQUÍ *** */
   /* Se eliminó la regla .wa-icon de aquí para que herede el 70% del tamaño del botón,
      haciendo que escale correctamente en móvil. */
+}
+
+/* Respecta preferencia de reducir animaciones */
+@media (prefers-reduced-motion: reduce) {
+  .fab-whatsapp,
+  .fab-whatsapp:hover,
+  .fab-whatsapp:focus {
+    transition: none !important;
+    transform: none !important;
+  }
 }
