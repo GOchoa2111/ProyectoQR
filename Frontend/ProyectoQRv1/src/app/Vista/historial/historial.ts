@@ -89,25 +89,26 @@ export class Historial implements OnInit, AfterViewInit {
     // esto evita escenarios donde la navegación ocurre pero la tabla aún no está inicializada
     this.cargarHistorial();
 
-    // Suscribirse a eventos de paginador para asegurar que la tabla se refresque
+    // Suscribir al evento 'page' solo para depuración (no modificamos nada)
     try {
-      this.paginator.page.subscribe(() => {
-        // small delay to allow paginator state to update
-        setTimeout(() => {
-          try {
-            // Reasignar para forzar que MatTable reevalúe la página visible
-            this.dataSource.paginator = this.paginator;
-            // Forzar actualización interna del datasource (API no pública, pero útil en este caso)
-            (this.dataSource as any)._updateChangeSubscription?.();
-            this.cd.detectChanges();
-          } catch (e) {
-            // swallow
-          }
-        }, 0);
+      this.paginator.page.subscribe(evt => {
+        try {
+          console.log('[historial] paginator.page event', {
+            pageIndex: this.paginator.pageIndex,
+            pageSize: this.paginator.pageSize,
+            length: this.paginator.length,
+            dataLength: this.dataSource.data?.length,
+            filteredLength: this.dataSource.filteredData?.length
+          });
+        } catch (e) {}
       });
     } catch (e) {
-      // ignore if paginator not available
+      // ignore
     }
+
+    // No subscribimos manualmente al evento `paginator.page` —
+    // MatTableDataSource gestiona la paginación automáticamente cuando se asigna
+    // this.dataSource.paginator = this.paginator; (se hace más abajo y en cargarHistorial())
 
     // Escuchar eventos de navegación para recargar cuando la ruta /historial se active
     try {
@@ -146,6 +147,14 @@ export class Historial implements OnInit, AfterViewInit {
         // fuerza actualización de paginator/sort si llegaron después
         if (this.paginator) this.dataSource.paginator = this.paginator;
         if (this.sort) this.dataSource.sort = this.sort;
+        // Forzar actualización interna del datasource y log para depuración
+        try {
+          (this.dataSource as any)._updateChangeSubscription?.();
+        } catch (e) {}
+        try {
+          console.log('[historial] cargarHistorial: data length', this.dataSource.data?.length, 'filtered', this.dataSource.filteredData?.length);
+          if (this.paginator) console.log('[historial] paginator state', { pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize, length: this.paginator.length });
+        } catch (e) {}
         try { this.cd.detectChanges(); } catch (e) {}
         console.log('Historial cargado correctamente:', data);
       },
