@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CorreoService } from './../../Service/correo.service';
+import { CorreoService } from '../../Service/correo.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -33,12 +33,11 @@ export class ModalQr {
 
   enviarQR() {
     if (!this.qrImagen || !this.correo) {
-      this.snackBar.open('No se puede enviar el QR. Verifica el correo.', 'Cerrar', { duration: 3000 });
+      this.snackBar.open('No se puede enviar el QR. Verifica el correo.', 'Cerrar', { duration: 9000 });
       return;
     }
 
     this.enviando = true; 
-
     const payload = {
       correo: this.correo,
       nombre: this.nombre,
@@ -53,7 +52,7 @@ export class ModalQr {
       },
       error: (err) => {
         this.enviando = false;
-        this.snackBar.open('Error al enviar el QR por correo.', 'Cerrar', { duration: 3000 });
+        this.snackBar.open('Error al enviar el QR por correo.', 'Cerrar', { duration: 9000 });
         console.error('Error:', err);
       }
     });
