@@ -1,0 +1,120 @@
+# =========================
+# OS / Editor junk
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.swp
+*.swo
+
+# =========================
+# Git / Credentials
+# =========================
+.git-credentials
+
+# =========================
+# Visual Studio / .NET
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+**/publish/
+**/AppPackages/
+
+# Logs / diagnostics
+*.log
+*.tlog
+*.lastcodeanalysissucceeded
+*.generated.cs
+*.ide
+
+# Test
+TestResult*/
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Packages
+*.nupkg
+*.snupkg
+packages/**
+!packages/build/
+!packages/repositories.config
+
+# Assemblies (evita que se suban DLLs de bin/Debug como BouncyCastle, MailKit, etc.)
+*.dll
+*.pdb
+
+# (Opcional) Si guardas DLLs propias en una carpeta dedicada, descomenta y ajusta:
+# !/libs/**/*.dll
+# !/lib/**/*.dll
+
+# Secretos (User Secrets)
+secrets.json
+
+# =========================
+# JetBrains / Rider
+# =========================
+.idea/
+*.iml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# =========================
+# ASP.NET / Publicación
+# =========================
+PublishProfiles/
+ScaffoldingReadMe.txt
+
+# =========================
+# Bases de datos locales
+# =========================
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+# =========================
+# Node / Angular
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Angular caches / builds
+.angular/cache/
+dist/
+tmp/
+coverage/
+.npmrc
+
+# Entornos (mantén un .env.example)
+.env
+.env.*
+!.env.example
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# =========================
+# (Opcional) Carpeta de cargas estáticas en producción
+# Descomenta si tu app escribe archivos en wwwroot/uploads y NO quieres versionarlos
+# Backend/ProyectoQRapi/ProyectoQR/wwwroot/uploads/

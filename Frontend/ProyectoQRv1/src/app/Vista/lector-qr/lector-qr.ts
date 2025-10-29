@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -24,21 +25,46 @@ export class LectorQR {
     if (!this.escaneoActivo) return;
     this.escaneoActivo = false;
     this.qrResult = result;
+    // --- LOG: mostrar en consola qué QR se detectó y a qué URL se enviará ---
+    const url = `${environment.apiUrl.replace(/\/+$/,'')}/marcaje`;
+    const payload = { codigoQR: result };
+    // Añadimos logs para ver exactamente qué enviamos
+    console.log('[lector-qr] Enviando POST a:', url);
+    console.log('[lector-qr] Payload:', payload);
 
-    this.http.post('http://109.199.118.104:5111/api/marcaje', { codigoQR: result })
+    // Realizamos la petición y loggeamos respuesta y errores para diagnóstico
+    this.http.post(url, payload)
       .subscribe({
         next: (respuesta: any) => {
-          this.mensajeMarcaje = respuesta.mensaje;
+          // --- LOG: mostrar lo que el servidor devuelve ---
+          console.log('[lector-qr] Respuesta del servidor:', respuesta);
+
+          // La API típicamente devuelve { mensaje: '...' }.
+          // Además manejamos si devuelve campos explícitos 'tipo' y 'nombre'.
+          if (respuesta?.mensaje) {
+            this.mensajeMarcaje = respuesta.mensaje;
+          } else if (respuesta?.tipo || respuesta?.nombre) {
+            const tipo = respuesta.tipo ?? '';
+            const nombre = respuesta.nombre ?? '';
+            this.mensajeMarcaje = `Marcaje: ${tipo} - ${nombre}`;
+          } else {
+            this.mensajeMarcaje = 'Marcaje registrado correctamente';
+          }
+
           this.playBeep();
           setTimeout(() => {
+            // Limpiamos UI y permitimos nuevo escaneo
             this.qrResult = null;
             this.mensajeMarcaje = '';
             this.escaneoActivo = true;
           }, 3000);
         },
         error: err => {
-          console.error('Error al registrar marcaje:', err);
-          alert('Error al registrar marcaje: ' + err.message);
+          // LOG: error completo para depuración (incluye body si existe)
+          console.error('[lector-qr] Error al registrar marcaje:', err);
+          // Mostrar error al usuario de forma informativa
+          const msg = err?.error?.mensaje ?? err?.message ?? JSON.stringify(err);
+          alert('Error al registrar marcaje: ' + msg);
           this.escaneoActivo = true;
         }
       });
