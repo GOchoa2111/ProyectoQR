@@ -37,4 +37,3 @@ namespace ProyectoQR.Controllers
         public string ImagenQR { get; set; } = string.Empty;
     }
 }
-
