@@ -21,116 +21,123 @@ namespace ProyectoQR.Controllers
         }
 
         [HttpPost]
-    public IActionResult RegistrarMarcaje([FromBody] MarcajeDto marcaje)
+        public IActionResult RegistrarMarcaje([FromBody] MarcajeDto marcaje)
         {
+            // Comentarios: reestructura del flujo para garantizar atomicidad, evitar duplicados y devolver datos completos.
+            if (marcaje == null || string.IsNullOrWhiteSpace(marcaje.CodigoQR))
+            {
+                return BadRequest(new { mensaje = "codigoQR inválido" });
+            }
+
             try
             {
-        // LOG: mostrar el DTO recibido para depuración
-        _logger?.LogInformation("[MarcajeController] RegistrarMarcaje request: {CodigoQR}", marcaje?.CodigoQR);
+                _logger?.LogInformation("[MarcajeController] RegistrarMarcaje request: {CodigoQR}", marcaje.CodigoQR);
+
                 using var conn = new OracleConnection(_config.GetConnectionString("OracleDb"));
                 conn.Open();
 
-                
+                // Iniciamos transacción para evitar race conditions
+                using var tx = conn.BeginTransaction();
+
+                // 1) Buscar estudiante por CodigoQR y bloquear fila para update (FOR UPDATE)
                 using var cmdBuscar = conn.CreateCommand();
-                cmdBuscar.CommandText = "SELECT EstudianteID FROM Estudiantes WHERE CodigoQR = :codigoQR";
-                // Evitar posible null reference si el DTO viene null
-                var codigoParametro = marcaje?.CodigoQR ?? string.Empty;
-                cmdBuscar.Parameters.Add(new OracleParameter("codigoQR", codigoParametro));
-                var estudianteID = cmdBuscar.ExecuteScalar();
-
-                if (estudianteID == null)
+                cmdBuscar.Transaction = tx;
+                cmdBuscar.CommandText = "SELECT EstudianteID, Nombre, Apellido FROM ESTUDIANTES WHERE CODIGOQR = :codigoQR FOR UPDATE";
+                cmdBuscar.Parameters.Add(new OracleParameter("codigoQR", OracleDbType.Varchar2) { Value = marcaje.CodigoQR });
+                int estudianteId;
+                string nombre = string.Empty;
+                string apellido = string.Empty;
+                using (var rdr = cmdBuscar.ExecuteReader())
                 {
-                    _logger?.LogWarning("[MarcajeController] Estudiante no encontrado para CodigoQR: {CodigoQR}", marcaje?.CodigoQR);
-                    return NotFound("Estudiante no encontrado");
+                    if (!rdr.Read())
+                    {
+                        tx.Rollback();
+                        _logger?.LogWarning("[MarcajeController] Estudiante no encontrado para CodigoQR: {CodigoQR}", marcaje.CodigoQR);
+                        return NotFound(new { mensaje = "Estudiante no encontrado" });
+                    }
+
+                    estudianteId = rdr.GetInt32(0);
+                    if (!rdr.IsDBNull(1)) nombre = rdr.GetString(1);
+                    if (!rdr.IsDBNull(2)) apellido = rdr.GetString(2);
                 }
 
-                               using var cmdUltimo = conn.CreateCommand();
+                var nombreCompleto = string.IsNullOrWhiteSpace(apellido) ? nombre : $"{nombre} {apellido}";
+
+                // 2) Obtener último marcaje para este estudiante
+                using var cmdUltimo = conn.CreateCommand();
+                cmdUltimo.Transaction = tx;
                 cmdUltimo.CommandText = @"
-            SELECT Tipo FROM Marcajes 
-            WHERE EstudianteID = :id 
-            ORDER BY MarcajeID DESC 
-            FETCH FIRST 1 ROWS ONLY";
-                cmdUltimo.Parameters.Add(new OracleParameter("id", estudianteID));
-                var ultimoTipoObj = cmdUltimo.ExecuteScalar();
+                    SELECT TIPO, FECHAHORA
+                    FROM MARCAJES
+                    WHERE ESTUDIANTEID = :id
+                    ORDER BY MARCAJEID DESC
+                    FETCH FIRST 1 ROWS ONLY";
+                cmdUltimo.Parameters.Add(new OracleParameter("id", OracleDbType.Int32) { Value = estudianteId });
 
-                string tipoMarcaje;
-                if (ultimoTipoObj == null)
-                    tipoMarcaje = "Ingreso";
-                else
-                    tipoMarcaje = ultimoTipoObj.ToString() == "Ingreso" ? "Egreso" : "Ingreso";
+                string? ultimoTipo = null;
+                DateTime? ultimoFecha = null;
+                using (var r = cmdUltimo.ExecuteReader())
+                {
+                    if (r.Read())
+                    {
+                        if (!r.IsDBNull(0)) ultimoTipo = r.GetString(0);
+                        if (!r.IsDBNull(1)) ultimoFecha = r.GetDateTime(1);
+                    }
+                }
 
-                // LOG: tipo calculado (antes del insert)
-                _logger?.LogInformation("[MarcajeController] Tipo calculado: {Tipo}", tipoMarcaje);
+                // 3) Idempotency: evitar marcaje duplicado en ventana corta
+                const int DUP_WINDOW_SECONDS = 5;
+                if (ultimoFecha.HasValue)
+                {
+                    var diff = DateTime.UtcNow - ultimoFecha.Value.ToUniversalTime();
+                    if (diff.TotalSeconds >= 0 && diff.TotalSeconds < DUP_WINDOW_SECONDS)
+                    {
+                        tx.Rollback();
+                        _logger?.LogInformation("[MarcajeController] Marcaje duplicado rechazado (window) para EstudianteID={Id}", estudianteId);
+                        return Conflict(new { mensaje = $"Marcaje duplicado — espere {DUP_WINDOW_SECONDS} segundos" });
+                    }
+                }
 
-                
-                // Determinar la zona horaria de Guatemala de forma robusta:
-                // en Windows el id suele ser "Central America Standard Time", en Linux/IANA "America/Guatemala".
+                // 4) Calcular tipo (alternar)
+                var tipoMarcaje = string.IsNullOrEmpty(ultimoTipo) ? "Ingreso" : (ultimoTipo == "Ingreso" ? "Egreso" : "Ingreso");
+                _logger?.LogInformation("[MarcajeController] Tipo calculado: {Tipo} para EstudianteID={Id}", tipoMarcaje, estudianteId);
+
+                // 5) Determinar fecha/hora de Guatemala y preparar parámetro
                 TimeZoneInfo? zonaGuatemala = null;
-                var candidatos = new[] { "Central America Standard Time", "America/Guatemala" };
-                foreach (var id in candidatos)
-                {
-                    try
-                    {
-                        zonaGuatemala = TimeZoneInfo.FindSystemTimeZoneById(id);
-                        break;
-                    }
-                    catch { }
-                }
-                // Si no encontramos una zona específica, intentamos una heurística buscando "Guatemala"
-                if (zonaGuatemala == null)
-                {
-                    try
-                    {
-                        zonaGuatemala = TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(t => t.Id.IndexOf("Guatemala", StringComparison.OrdinalIgnoreCase) >= 0);
-                    }
-                    catch { }
-                }
-                // Fallback a UTC si no hay coincidencias
-                if (zonaGuatemala == null)
-                    zonaGuatemala = TimeZoneInfo.Utc;
+                try { zonaGuatemala = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time"); }
+                catch { try { zonaGuatemala = TimeZoneInfo.FindSystemTimeZoneById("America/Guatemala"); } catch { zonaGuatemala = TimeZoneInfo.Utc; } }
 
-                var fechaHoraGuatemala = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zonaGuatemala);
+                var fechaGuatemala = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zonaGuatemala ?? TimeZoneInfo.Utc);
+                _logger?.LogInformation("[MarcajeController] FechaHora Guatemala calculada: {Fecha}", fechaGuatemala);
 
-                // LOG: mostrar la fecha/hora que se insertará
-                _logger?.LogInformation("[MarcajeController] FechaHora Guatemala (UTC convertida): {Fecha}", fechaHoraGuatemala);
+                // 6) Insertar marcaje con parámetros tipados
+                using var cmdInsert = conn.CreateCommand();
+                cmdInsert.Transaction = tx;
+                cmdInsert.CommandText = "INSERT INTO MARCAJES (ESTUDIANTEID, TIPO, FECHAHORA) VALUES (:id, :tipo, :fecha)";
+                cmdInsert.Parameters.Add(new OracleParameter("id", OracleDbType.Int32) { Value = estudianteId });
+                cmdInsert.Parameters.Add(new OracleParameter("tipo", OracleDbType.Varchar2) { Value = tipoMarcaje });
+                // FECHAHORA es TIMESTAMP(6) en la tabla; enviamos DateTime con hora local de Guatemala
+                cmdInsert.Parameters.Add(new OracleParameter("fecha", OracleDbType.TimeStamp) { Value = fechaGuatemala });
+                cmdInsert.ExecuteNonQuery();
 
-                
-                using var cmdInsertar = conn.CreateCommand();
-                cmdInsertar.CommandText = "INSERT INTO MARCAJES (ESTUDIANTEID, TIPO, FECHAHORA) VALUES (:id, :tipo, :fechaHora)";
-                var pId = new OracleParameter("id", Oracle.ManagedDataAccess.Client.OracleDbType.Int32) { Value = Convert.ToInt32(estudianteID) };
-                var pTipo = new OracleParameter("tipo", Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2) { Value = tipoMarcaje ?? "" };
-                var pFecha = new OracleParameter("fechaHora", Oracle.ManagedDataAccess.Client.OracleDbType.TimeStamp) { Value = fechaHoraGuatemala };
-                cmdInsertar.Parameters.Add(pId);
-                cmdInsertar.Parameters.Add(pTipo);
-                cmdInsertar.Parameters.Add(pFecha);
-                cmdInsertar.ExecuteNonQuery();
+                tx.Commit();
 
-                _logger?.LogInformation("[MarcajeController] Insert ejecutado para EstudianteID={EstudianteId}, Tipo={Tipo}", estudianteID, tipoMarcaje);
+                _logger?.LogInformation("[MarcajeController] Insert ejecutado para EstudianteID={Id}, Tipo={Tipo}", estudianteId, tipoMarcaje);
 
-               
-                using var cmdNombre = conn.CreateCommand();
-                cmdNombre.CommandText = "SELECT Nombre, Apellido FROM Estudiantes WHERE EstudianteID = :id";
-                cmdNombre.Parameters.Add(new OracleParameter("id", estudianteID));
-                using var reader = cmdNombre.ExecuteReader();
-                string nombreCompleto = "";
-                if (reader.Read())
-                    nombreCompleto = $"{reader.GetString(0)} {reader.GetString(1)}";
-
-                // Devolvemos además tipo/nombre/fecha para que el cliente pueda mostrar exactamente
-                // lo que el servidor determinó (útil para depuración y UX)
+                // 7) Responder con datos completos
                 return Ok(new
                 {
                     mensaje = $"Marcaje validado: {tipoMarcaje} {nombreCompleto}",
                     tipo = tipoMarcaje,
+                    estudianteId = estudianteId,
                     nombre = nombreCompleto,
-                    fecha = fechaHoraGuatemala.ToString("o") // ISO 8601
+                    fecha = fechaGuatemala.ToString("o")
                 });
             }
             catch (Exception ex)
             {
-                // LOG: detalle del error en servidor
                 _logger?.LogError(ex, "[MarcajeController] Error al registrar marcaje: {Message}", ex.Message);
-                return StatusCode(500, $"Error al registrar marcaje: {ex.Message}");
+                return StatusCode(500, new { mensaje = $"Error al registrar marcaje: {ex.Message}" });
             }
         }
 
