@@ -5,10 +5,10 @@
 
 /* 1. Wrapper (El fondo de toda la página) */
 .login-wrapper {
-  min-height: 100dvh;
+  min-height: 85dvh;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 1px;
   position: relative; /* needed for ::before overlay */
   /* fallback background color in case image fails to load */
   background-color: #003563;
@@ -46,6 +46,20 @@
   z-index: 1;
 }
 
+/* --- ESTILOS PARA EL ICONO --- */
+.login-icon-container {
+  text-align: center;
+  margin-bottom: 8px; /* Espacio entre icono y título */
+  color: #ffffff;
+}
+.login-icon-container mat-icon {
+  font-size: 48px; /* Tamaño del icono */
+  width: 48px;
+  height: 48px;
+}
+/* ---------------------------------- */
+
+
 /* 3. Títulos (Ajuste de contraste) */
 .title {
   margin: 0;
@@ -56,7 +70,7 @@
 }
 .subtitle {
   margin: -10px 0 10px;
-  color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
+  color: #cbd5e1;
   font-size: 15px;
   text-align: center;
 }
@@ -65,7 +79,7 @@
 .form {
   display: grid;
   gap: 16px;
-  }
+}
 
 .full {
   width: 100%;
@@ -77,7 +91,7 @@
 .login-card select,
 .login-card .mat-mdc-form-field .mdc-text-field__input,
 .login-card .mat-mdc-form-field input.mat-mdc-text-field__input {
-  color: #ffffff !important;
+  color: #ffffff !important; /* Texto que escribes: BLANCO */
   caret-color: #ffffff;
 }
 
@@ -87,28 +101,43 @@
   color: rgba(255,255,255,0.7) !important;
 }
 
-/* Forzar color del label/border cuando Angular Material no aplica variables */
-mat-form-field.mat-mdc-form-field {
-  --mdc-outlined-text-color: #f1f5f9;
-  --mdc-outlined-label-color: #cbd5e1;
-}
-
 /* 5. Campos de Angular Material (Ajuste de contraste) */
 mat-form-field.mat-mdc-form-field {
-  --mdc-outlined-container-color: #1e293b;
+  --mdc-outlined-container-color: #1e293b; /* Fondo original del input */
   --mdc-outlined-outline-color: #334155;
   --mdc-outlined-error-text-color: #ff8a80;
+  
+  --mdc-outlined-label-color: rgba(255, 255, 255, 0.85); /* Label flotante */
+  --mdc-outlined-text-color: #ffffff;                   /* Texto que escribes */
+  --mdc-outlined-trailing-icon-color: rgba(255, 255, 255, 0.85); /* Icono del ojo */
 
-  /* --- CAMBIOS DE BRILLO AQUÍ --- */
-  --mdc-outlined-label-color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
-  --mdc-outlined-text-color: #f1f5f9; /* <-- CAMBIO: MÁS BRILLO (antes #e2e8f0) */
-  --mdc-outlined-trailing-icon-color: #cbd5e1; /* <-- CAMBIO: MÁS BRILLO (antes #94a3b8) */
-
-  /* --- Colores en estado :focus (sin cambios) --- */
+  /* Colores en estado :focus (sin cambios) */
   --mdc-outlined-focused-outline-color: #7c4dff;
   --mdc-outlined-focused-label-color: #7c4dff;
   --mdc-outlined-focused-trailing-icon-color: #7c4dff;
+  
+  /* Transición suave para el cambio de color de fondo */
+  transition: background-color 0.3s ease;
 }
+
+/* --- NUEVO: Forzar color de label en reposo (Goal 1) --- */
+/*
+  Esto fuerza el label ("Usuario*", "Contraseña*") a ser blanco
+  incluso cuando está dentro del campo.
+*/
+.login-card mat-form-field .mat-mdc-form-field-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* --- NUEVO: Fondo celeste en hover (Goal 3) --- */
+/* Esto cambia el fondo del campo a un azul más claro
+  cuando pasas el mouse por encima.
+*/
+.login-card mat-form-field:hover {
+  /* Este es un azul más claro que el fondo #1e293b */
+  --mdc-outlined-container-color: #004a8d; 
+}
+
 
 /* 6. Acciones y Botón Principal */
 .actions {
@@ -136,15 +165,15 @@ mat-form-field.mat-mdc-form-field {
   transform: scale(1.02);
 }
 
-/* --- ¡AQUÍ ESTÁ EL ARREGLO DE CONTRASTE! --- */
+/* Botón deshabilitado */
 .actions button[mat-raised-button]:disabled {
   background: #334155;
-  color: #f1f5f9;     /* <-- CAMBIO: Texto claro */
-  opacity: 0.5;       /* <-- CAMBIO: Opacidad para que se vea */
+  color: #f1f5f9;
+  opacity: 0.5;
   transform: scale(1);
 }
 
-/* --- NUEVO ESTILO para el contenido de carga --- */
+/* Contenido de carga (Spinner + Texto) */
 .loading-content {
   display: flex;
   align-items: center;
@@ -182,4 +211,50 @@ mat-form-field.mat-mdc-form-field {
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+/* --- ESTILOS PARA LA ANIMACIÓN GIF --- */
+.animation-overlay {
+  position: fixed; /* Cubre toda la pantalla */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  /* Añade un fade-in suave */
+  animation: fadeIn 0.3s ease;
+}
+
+.animation-box {
+  background: #003563;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.animation-box img {
+  width: 1000px; /* Ajusta el tamaño de tu GIF */
+  height: 600px;
+  display: block;
+  object-fit: cover;
+  border-radius: 05px;
+  margin: 0 auto;
+}
+.animation-box p {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 2.2rem;
+  line-height: 1.0;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

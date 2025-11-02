@@ -38,6 +38,10 @@ export class LoginComponent {
   hide = signal(true);
   errorMsg = signal<string | null>(null);
 
+  // ===== NUEVA VARIABLE PARA EL GIF =====
+  showSuccessAnimation = signal(false);
+  // ======================================
+
   form = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(4)]],
@@ -55,22 +59,39 @@ export class LoginComponent {
         // evita que la UI quede colgada si el backend no responde
         timeout(10000),
         // garantiza que loading vuelva a false tanto en success como error
-        finalize(() => this.loading.set(false))
+        // AHORA MOVEMOS 'finalize' PARA QUE NO OCULTE EL SPINNER DEL BOTÓN
       )
       .subscribe({
         next: (resp) => {
           // DEBUG: loguea información útil sin exponer el token
           try { console.debug('[Login] resp.rol=', resp?.rol, 'usuario=', resp?.usuario); } catch (e) {}
 
-          // guarda token/estado y redirige por rol — proteger contra respuestas inesperadas
-          try {
-            this.auth.handleLoginSuccess(resp);
-          } catch (e) {
-            console.error('[Login] handleLoginSuccess failed', e);
-            this.errorMsg.set('Respuesta inválida del servidor. Intenta nuevamente.');
-          }
+          // ===== CAMBIO EN LA LÓGICA DE ÉXITO =====
+
+          // 1. Mostramos la animación del GIF
+          this.showSuccessAnimation.set(true);
+          // 2. Ocultamos el spinner del botón
+          this.loading.set(false);
+
+          // 3. Esperamos 5 segundos (5000ms) antes de navegar
+          setTimeout(() => {
+            try {
+              // 4. Navegamos (esto está dentro de handleLoginSuccess)
+              this.auth.handleLoginSuccess(resp);
+            } catch (e) {
+              console.error('[Login] handleLoginSuccess failed', e);
+              this.errorMsg.set('Respuesta inválida del servidor. Intenta nuevamente.');
+            }
+            // 5. Ocultamos la animación por si el usuario vuelve
+            this.showSuccessAnimation.set(false);
+          }, 3200); // <-- Ajusta este tiempo (en ms) a la duración de tu GIF
+
+          // ==========================================
         },
         error: (err) => {
+          // En caso de error, sí detenemos el spinner
+          this.loading.set(false); 
+
           // mensajes comunes
           if (err?.name === 'TimeoutError') {
             this.errorMsg.set('El servidor tardó demasiado en responder. Intenta de nuevo.');
@@ -90,4 +111,26 @@ export class LoginComponent {
 
   // helpers de template
   get f() { return this.form.controls; }
+
+
+  // ===== FUNCIÓN DE PRUEBA TEMPORAL AÑADIDA =====
+  
+  // /**
+  //  * Función temporal SÓLO para probar la animación del GIF.
+  //  * Llama a esta función desde un botón de prueba.
+  //  */
+  // probarAnimacion(): void {
+  //   console.log('Mostrando animación de prueba...');
+  //   
+  //   // 1. Mostramos la animación del GIF
+  //   this.showSuccessAnimation.set(true);
+  //
+  //   // 2. Esperamos el tiempo que dura tu GIF (ajusta los 2000ms)
+  //   setTimeout(() => {
+  //     console.log('Ocultando animación de prueba.');
+  //     // 3. Ocultamos la animación
+  //     this.showSuccessAnimation.set(false);
+  //   }, 3200); // 2000ms = 2 segundos
+  // }
+  // ==========================================
 }

@@ -1,6 +1,9 @@
-<!-- src/app/features-auth-login/login.html -->
 <div class="login-wrapper">
   <div class="login-card">
+
+    <div class="login-icon-container">
+      <mat-icon>lock</mat-icon>
+    </div>
     <h2 class="title">Iniciar sesión</h2>
     <p class="subtitle">Accede con tu usuario y contraseña</p>
 
@@ -32,7 +35,10 @@
           <ng-container *ngIf="!loading(); else loadingTpl">Ingresar</ng-container>
         </button>
         <ng-template #loadingTpl>
-          <mat-spinner diameter="20"></mat-spinner>
+          <span class="loading-content">
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>Ingresando...</span>
+          </span>
         </ng-template>
       </div>
 
@@ -40,5 +46,16 @@
     </form>
 
     <a routerLink="/" class="back-link">← Volver al inicio</a>
-  </div>
+
+    </div>
 </div>
+
+
+@if (showSuccessAnimation()) {
+  <div class="animation-overlay">
+    <div class="animation-box">
+      <img src="assets/gifs/success.gif" alt="Iniciando sesión..." />
+      <p>¡Bienvenido(a) a Universidad Regional!</p>
+    </div>
+  </div>
+}

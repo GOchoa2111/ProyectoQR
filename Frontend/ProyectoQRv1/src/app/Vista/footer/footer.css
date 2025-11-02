@@ -43,7 +43,7 @@ body{
 
 /* 3. Quitar la negrita al texto de "Síguenos" */
 .social-text {
-    font-size: 0.875rem; /* Tamaño de texto pequeño */
+    font-size: 1.1rem; /* Tamaño de texto pequeño */
     color: #d1d5db; /* Gris claro para el texto */
     font-weight: normal; /* Aseguramos que no tenga negrita */
 }
@@ -58,8 +58,8 @@ body{
 }
 
 .icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     fill: currentColor;
 }
 
