@@ -146,7 +146,7 @@ namespace ProyectoQR.Controllers
         }
 
     // Endpoint para obtener los marcajes del estudiante autenticado
-    [Authorize]
+    //[Authorize]
     [HttpGet("me")]
     public IActionResult ObtenerMisMarcajes()
     {

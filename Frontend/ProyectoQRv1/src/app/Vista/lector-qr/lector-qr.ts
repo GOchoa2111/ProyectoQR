@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +19,7 @@ export class LectorQR {
   mensajeMarcaje: string = '';
   escaneoActivo: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   onCodeResult(result: string) {
     if (!this.escaneoActivo) return;
@@ -51,6 +51,10 @@ export class LectorQR {
             this.mensajeMarcaje = 'Marcaje registrado correctamente';
           }
 
+          // Forzamos la detección de cambios por si el callback se ejecuta
+          // fuera de la zona Angular (algunas APIs de hardware/eventos lo hacen).
+          try { this.cdr.detectChanges(); } catch (e) { /* no crítico */ }
+
           this.playBeep();
           setTimeout(() => {
             // Limpiamos UI y permitimos nuevo escaneo
@@ -65,6 +69,7 @@ export class LectorQR {
           // Mostrar error al usuario de forma informativa
           const msg = err?.error?.mensaje ?? err?.message ?? JSON.stringify(err);
           alert('Error al registrar marcaje: ' + msg);
+          try { this.cdr.detectChanges(); } catch (e) { /* no crítico */ }
           this.escaneoActivo = true;
         }
       });
