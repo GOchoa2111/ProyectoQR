@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -35,6 +39,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ProyectoQR\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ProyectoQR\\Properties\\launchSettings.json",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAA4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-04T03:42:29.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "CorreoController.cs",
               "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\CorreoController.cs",
@@ -42,8 +59,7 @@
               "RelativeToolTip": "ProyectoQR\\Controllers\\CorreoController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T03:05:11.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T03:05:11.719Z"
             }
           ]
         }
