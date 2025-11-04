@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\GOchoa\\Desktop\\ProyectoQR\\Backend\\ProyectoQRapi\\",
+  "WorkspaceRootPath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\gochoa\\desktop\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -14,15 +14,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "CorreoController.cs",
-              "DocumentMoniker": "C:\\Users\\GOchoa\\Desktop\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\CorreoController.cs",
-              "ToolTip": "C:\\Users\\GOchoa\\Desktop\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
               "RelativeToolTip": "ProyectoQR\\Controllers\\CorreoController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

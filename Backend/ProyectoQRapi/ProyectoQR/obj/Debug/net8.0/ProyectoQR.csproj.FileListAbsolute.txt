@@ -250,3 +250,4 @@ D:\Carlos Orozco DTI\Documents\Proyecto-asistencia-Windows-Server\ProyectoQR\Bac
 c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\MailKit.dll
 c:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\bin\Debug\net8.0\MimeKit.dll
+C:\Users\Carlos Orozco\Documents\Sistema-Asistencia-Serve-Windows\ProyectoQR\Backend\ProyectoQRapi\ProyectoQR\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

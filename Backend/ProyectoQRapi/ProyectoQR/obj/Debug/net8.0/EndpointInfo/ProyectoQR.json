@@ -136,6 +136,37 @@
         }
       }
     },
+    "/api/Correo/enviar": {
+      "post": {
+        "tags": [
+          "Correo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorreoQrDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorreoQrDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorreoQrDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Email/enviar-correo": {
       "post": {
         "tags": [
@@ -314,6 +345,28 @@
             "nullable": true
           },
           "cuerpo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CorreoQrDto": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "imagenQR": {
             "type": "string",
             "nullable": true
           }

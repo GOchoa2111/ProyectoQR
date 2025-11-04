@@ -3,6 +3,9 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ProyectoQR.Controllers
 {
@@ -139,7 +142,64 @@ namespace ProyectoQR.Controllers
                 _logger?.LogError(ex, "[MarcajeController] Error al registrar marcaje: {Message}", ex.Message);
                 return StatusCode(500, new { mensaje = $"Error al registrar marcaje: {ex.Message}" });
             }
+
         }
+
+    // Endpoint para obtener los marcajes del estudiante autenticado
+    [Authorize]
+    [HttpGet("me")]
+    public IActionResult ObtenerMisMarcajes()
+    {
+        try
+        {
+            // Obtener el ID del estudiante desde las claims del token (sub / nameid)
+            var sub = User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                      ?? User.FindFirstValue(ClaimTypes.NameIdentifier)
+                      ?? User.FindFirstValue("nameid");
+
+            if (string.IsNullOrWhiteSpace(sub) || !int.TryParse(sub, out var estudianteId))
+            {
+                // Logear claims para diagnóstico
+                try { var all = string.Join(";", User.Claims.Select(c => $"{c.Type}={c.Value}")); _logger?.LogWarning("[MarcajeController] Claim 'sub' inválida. Claims: {0}", all); } catch {}
+                return Unauthorized("Token inválido o no contiene 'sub' con estudianteId");
+            }
+
+            var resultado = new List<MarcajeHistorialDTO>();
+
+            using var conn = new OracleConnection(_config.GetConnectionString("OracleDb"));
+            conn.Open();
+
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = @"
+                SELECT E.NumeroCarnet, E.Nombre, E.Apellido, M.FECHAHORA, M.TIPO
+                FROM MARCAJES M
+                JOIN ESTUDIANTES E ON M.ESTUDIANTEID = E.ESTUDIANTEID
+                WHERE M.ESTUDIANTEID = :id
+                ORDER BY M.FECHAHORA DESC";
+            cmd.Parameters.Add(new OracleParameter("id", OracleDbType.Int32) { Value = estudianteId });
+
+            using var rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                var nombre = rdr["NOMBRE"]?.ToString();
+                var apellido = rdr["APELLIDO"]?.ToString();
+                resultado.Add(new MarcajeHistorialDTO
+                {
+                    NumeroCarnet = rdr["NUMEROCARNET"]?.ToString(),
+                    NombreCompleto = string.IsNullOrWhiteSpace(apellido) ? nombre : $"{nombre} {apellido}",
+                    FechaHora = rdr.IsDBNull(rdr.GetOrdinal("FECHAHORA")) ? DateTime.MinValue : rdr.GetDateTime(rdr.GetOrdinal("FECHAHORA")),
+                    Tipo = rdr["TIPO"]?.ToString()
+                });
+            }
+
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "[MarcajeController] Error al obtener mis marcajes: {Message}", ex.Message);
+            return StatusCode(500, new { mensaje = $"Error al obtener mis marcajes: {ex.Message}" });
+        }
+    }
 
     }
 

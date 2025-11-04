@@ -70,6 +70,22 @@
     ]
   },
   {
+    "ContainingType": "ProyectoQR.Controllers.CorreoController",
+    "Method": "EnviarQR",
+    "RelativePath": "api/Correo/enviar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ProyectoQR.Controllers.CorreoQrDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ProyectoQR.Controllers.EmailController",
     "Method": "EnviarCorreo",
     "RelativePath": "api/Email/enviar-correo",
@@ -165,7 +181,7 @@
   },
   {
     "ContainingType": "ProyectoQR.Controllers.MarcajeController",
-    "Method": "GetMyMarcajes",
+    "Method": "ObtenerMisMarcajes",
     "RelativePath": "api/Marcaje/me",
     "HttpMethod": "GET",
     "IsController": true,
