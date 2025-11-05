@@ -1,191 +1,267 @@
-import { Component, OnInit, AfterViewInit, ViewChild, inject, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component, OnInit, AfterViewInit, ViewChild, OnDestroy, inject, ChangeDetectorRef
+} from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 
 import { HistorialMarcaje } from '../../Interface/historial-marcajes';
 import { HistorialService } from '../../Service/historial-marcajes.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../../core/services/auth.service';
 import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-historial',
   standalone: true,
   imports: [
-    CommonModule, HttpClientModule, DatePipe,
-    ReactiveFormsModule,
+    CommonModule, HttpClientModule, DatePipe, ReactiveFormsModule,
     MatTableModule, MatPaginatorModule, MatSortModule,
-    MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule
+    MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule,
+    MatMenuModule, MatDatepickerModule, MatNativeDateModule
   ],
   templateUrl: './historial.html',
-  styleUrl: './historial.css',
+  styleUrls: ['./historial.css'],                // ✅ era styleUrl
   providers: [HistorialService]
 })
-export class Historial implements OnInit, AfterViewInit {
-
-  // Material table
+export class Historial implements OnInit, AfterViewInit, OnDestroy {
+  // ====== Tabla Material ======
   displayedColumns: string[] = ['numeroCarnet', 'nombreCompleto', 'fechaHora', 'tipo'];
-  dataSource = new MatTableDataSource<HistorialMarcaje>([]);
+  dataSource = new MatTableDataSource<HistorialMarcaje>([]); // ✅ única fuente de datos
 
   // Estado UI
   cargando = true;
   errorCarga: string | null = null;
 
-  // Filtro (carnet o nombre)
+  // Filtro
   searchCtrl = new FormControl<string>('', { nonNullable: true });
+  // controles de rango de fecha
+  startDateCtrl = new FormControl<Date | null>(null);
+  endDateCtrl = new FormControl<Date | null>(null);
 
-  // ViewChilds Material
+  // ViewChilds
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   // DI
   private historialService = inject(HistorialService);
+  private auth = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  // ChangeDetectorRef to force view refresh when needed
   private cd = inject(ChangeDetectorRef);
 
-  // To unsubscribe router events
-  private navigationSub: any = null;
+  // Subs
+  private subs = new Subscription();
 
   ngOnInit(): void {
-    this.configurarFiltroPredicado();
-    // If resolver provided data, use it to avoid an extra round-trip and ensure first-click load
+    // 1) Predicate que combina texto (carnet/nombre) y filtro por rango de fechas
+    this.dataSource.filterPredicate = (dato: HistorialMarcaje, filtro: string) => {
+      const f = (filtro ?? '').trim().toLowerCase();
+      const carnet = String(dato.numeroCarnet ?? '').toLowerCase();
+      const nombre = String(dato.nombreCompleto ?? '').toLowerCase();
+      const textMatch = !f || carnet.includes(f) || nombre.includes(f);
+
+      // Rango de fechas (si se han seleccionado)
+      const itemDate = dato.fechaHora ? new Date(dato.fechaHora) : null;
+      const sd = this.startDateCtrl?.value ? new Date(this.startDateCtrl.value) : null;
+      const ed = this.endDateCtrl?.value ? new Date(this.endDateCtrl.value) : null;
+      if (sd) sd.setHours(0,0,0,0);
+      if (ed) ed.setHours(23,59,59,999);
+
+      let dateOk = true;
+      if ((sd || ed) && !itemDate) dateOk = false; // no hay fecha en el dato
+      if (sd && itemDate) dateOk = dateOk && (itemDate >= sd);
+      if (ed && itemDate) dateOk = dateOk && (itemDate <= ed);
+
+      return textMatch && dateOk;
+    };
+
+    // 2) Filtro con debounce
+    this.subs.add(
+      this.searchCtrl.valueChanges.pipe(debounceTime(250), distinctUntilChanged())
+        .subscribe(value => {
+          this.dataSource.filter = (value ?? '').trim().toLowerCase();
+          // Reiniciar a la primera página tras filtrar
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+          }
+          try { this.cd.detectChanges(); } catch {}
+        })
+    );
+
+    // cuando cambian las fechas, re-evaluar el filtro para que predicate considere el nuevo rango
+    this.subs.add(this.startDateCtrl.valueChanges.subscribe(() => {
+      this.dataSource.filter = (this.searchCtrl.value ?? '').trim().toLowerCase();
+      if (this.paginator) this.paginator.firstPage();
+    }));
+    this.subs.add(this.endDateCtrl.valueChanges.subscribe(() => {
+      this.dataSource.filter = (this.searchCtrl.value ?? '').trim().toLowerCase();
+      if (this.paginator) this.paginator.firstPage();
+    }));
+
+    // 3) Si tienes resolver, úsalo; si no, carga por HTTP
     const resolved = this.route.snapshot.data['historialData'] as HistorialMarcaje[] | undefined | null;
     if (resolved && Array.isArray(resolved)) {
-      this.dataSource.data = resolved;
-      this.cargando = false;
-      try { this.cd.detectChanges(); } catch (e) {}
+      this.setData(resolved);
     } else {
       this.cargarHistorial();
     }
 
-    // Filtro con debounce
-    this.searchCtrl.valueChanges
-      .pipe(debounceTime(250), distinctUntilChanged())
-      .subscribe(value => {
-        this.dataSource.filter = (value ?? '').trim().toLowerCase();
-        // Reinicia a primera página cuando se filtra
-        if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
-      });
+    // 4) Si quieres recargar al volver a /historial (opcional)
+    this.subs.add(
+      this.router.events.pipe(filter(e => e instanceof NavigationEnd))
+        .subscribe((e: any) => {
+          if (e.urlAfterRedirects?.startsWith('/historial')) {
+            this.cargarHistorial();
+          }
+        })
+    );
+  }
+
+  // Exponer en template si el usuario actual es ADMIN
+  get isAdmin(): boolean {
+    try { return this.auth.hasRole('ADMIN'); } catch { return false; }
   }
 
   ngAfterViewInit(): void {
+    // Enlazar paginator/sort una sola vez, aquí ya existen
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    // Re-cargar después de que la vista esté lista para asegurarnos que la tabla se actualiza
-    // esto evita escenarios donde la navegación ocurre pero la tabla aún no está inicializada
-    this.cargarHistorial();
-
-    // Suscribir al evento 'page' solo para depuración (no modificamos nada)
-    try {
-      this.paginator.page.subscribe(evt => {
-        try {
-          console.log('[historial] paginator.page event', {
-            pageIndex: this.paginator.pageIndex,
-            pageSize: this.paginator.pageSize,
-            length: this.paginator.length,
-            dataLength: this.dataSource.data?.length,
-            filteredLength: this.dataSource.filteredData?.length
-          });
-        } catch (e) {}
+    // (Opcional) Logs para depuración
+    this.subs.add(this.paginator.page.subscribe(() => {
+      console.log('[historial] page', {
+        index: this.paginator.pageIndex,
+        size: this.paginator.pageSize,
+        length: this.paginator.length
       });
-    } catch (e) {
-      // ignore
-    }
+    }));
+    this.subs.add(this.sort.sortChange.subscribe(() => {
+      console.log('[historial] sort', this.sort.active, this.sort.direction);
+      // Al cambiar sort, vuelve a la primera página para UX mejor
+      this.paginator.firstPage();
+    }));
+  }
 
-    // No subscribimos manualmente al evento `paginator.page` —
-    // MatTableDataSource gestiona la paginación automáticamente cuando se asigna
-    // this.dataSource.paginator = this.paginator; (se hace más abajo y en cargarHistorial())
-
-    // Escuchar eventos de navegación para recargar cuando la ruta /historial se active
+  /** Limpia los filtros de fecha y vuelve a aplicar el filtro de texto actual */
+  clearDates(): void {
     try {
-      this.navigationSub = this.router.events.subscribe(evt => {
-        if (evt instanceof NavigationEnd) {
-          // si navegamos a /historial forzamos recarga
-          if (evt.urlAfterRedirects?.startsWith('/historial')) {
-            this.cargarHistorial();
-          }
-        }
-      });
+      this.startDateCtrl.setValue(null);
+      this.endDateCtrl.setValue(null);
+      // re-aplicar filtro de texto para que el predicate se re-evalúe
+      this.dataSource.filter = (this.searchCtrl.value ?? '').trim().toLowerCase();
+      if (this.paginator) this.paginator.firstPage();
     } catch (e) {
-      // ignore if Router not available
+      // noop
     }
   }
 
   ngOnDestroy(): void {
-    try { if (this.navigationSub) this.navigationSub.unsubscribe?.(); } catch {}
+    this.subs.unsubscribe();
   }
 
-  private configurarFiltroPredicado(): void {
-    this.dataSource.filterPredicate = (dato: HistorialMarcaje, filtro: string) => {
-      const carnet = String(dato.numeroCarnet ?? '').toLowerCase();
-      const nombre = String(dato.nombreCompleto ?? '').toLowerCase();
-      return carnet.includes(filtro) || nombre.includes(filtro);
-    };
-  }
-
+  /** Carga desde el servicio y normaliza orden (más recientes primero) */
   cargarHistorial(): void {
     this.cargando = true;
     this.errorCarga = null;
-    this.historialService.obtenerHistorial().subscribe({
-      next: (data) => {
-        this.dataSource.data = data ?? [];
-        this.cargando = false;
-        // fuerza actualización de paginator/sort si llegaron después
-        if (this.paginator) this.dataSource.paginator = this.paginator;
-        if (this.sort) this.dataSource.sort = this.sort;
-        // Forzar actualización interna del datasource y log para depuración
-        try {
-          (this.dataSource as any)._updateChangeSubscription?.();
-        } catch (e) {}
-        try {
-          console.log('[historial] cargarHistorial: data length', this.dataSource.data?.length, 'filtered', this.dataSource.filteredData?.length);
-          if (this.paginator) console.log('[historial] paginator state', { pageIndex: this.paginator.pageIndex, pageSize: this.paginator.pageSize, length: this.paginator.length });
-        } catch (e) {}
-        try { this.cd.detectChanges(); } catch (e) {}
-        console.log('Historial cargado correctamente:', data);
-      },
-      error: (err) => {
-        this.cargando = false;
-        this.errorCarga = 'Error al cargar el historial. Verifique la URL del túnel y la configuración CORS.';
-        console.error('Error al obtener historial:', err);
-      }
-    });
+
+    this.subs.add(
+      this.historialService.obtenerHistorial().subscribe({
+        next: (data) => {
+          const rows = Array.isArray(data) ? data : (data ? [data] : []);
+          rows.sort((a: any, b: any) => new Date(b.fechaHora).getTime() - new Date(a.fechaHora).getTime());
+          this.setData(rows);
+          console.log('[historial] datos cargados:', rows.length);
+        },
+        error: (err) => {
+          this.cargando = false;
+          this.errorCarga = 'Error al cargar el historial. Verifique la URL del túnel y la configuración CORS.';
+          console.error('Error al obtener historial:', err);
+        }
+      })
+    );
   }
 
-  // (Para la etapa de imprimir más adelante)
-  // imprimirActual(): void {
-  //   // Aquí tomaremos dataSource.filteredData y generaremos impresión/PDF.
-  // }
+  /** Aplica datos a la tabla y sincroniza paginator */
+  private setData(rows: HistorialMarcaje[]) {
+    this.dataSource.data = rows;
+    this.cargando = false;
+
+    // Actualiza length del paginator (usar filteredData para reflejar filtros)
+    if (this.paginator) {
+      this.paginator.firstPage();
+      this.paginator.length = this.dataSource.filteredData.length;
+    }
+    try { this.cd.detectChanges(); } catch {}
+  }
+
+  /** Devuelve la lista en el mismo orden visible que la tabla */
+  private getRenderedData(): HistorialMarcaje[] {
+    // 1) Filtrado actual
+    let data = this.dataSource.filteredData ?? this.dataSource.data;
+
+    // 2) Orden actual
+    if (this.sort?.active && this.sort?.direction) {
+      data = this.dataSource.sortData(data.slice(), this.sort);
+    }
+
+    // 3) Página actual
+    if (this.paginator) {
+      const start = this.paginator.pageIndex * this.paginator.pageSize;
+      const end = start + this.paginator.pageSize;
+      data = data.slice(start, end);
+    }
+
+    return data;
+  }
 
   /**
-   * Exporta la página actual (o todos si no hay paginador) a Excel (.xlsx)
+   * Exporta a Excel. Si exportAll === true solicita todos los registros al backend
+   * (requiere permisos ADMIN) y genera el .xlsx en el cliente. Si exportAll === false
+   * exporta únicamente los registros visibles en la página actual.
    */
-  exportarAExcel(): void {
-    try {
-      const rows = this.dataSource.filteredData ?? [];
-      let dataToExport = rows;
-      if (this.paginator) {
-        const start = this.paginator.pageIndex * this.paginator.pageSize;
-        const end = start + this.paginator.pageSize;
-        dataToExport = rows.slice(start, end);
+  exportarAExcel(exportAll: boolean = false): void {
+    if (exportAll) {
+      if (!this.auth.hasRole('ADMIN')) {
+        try { alert('No tienes permisos para exportar todos los registros.'); } catch {}
+        return;
       }
+      this.historialService.obtenerHistorial().subscribe({
+        next: (allRows) => {
+          this.saveRowsToExcel(allRows, 'historial_marcajes_todos');
+        },
+        error: (err) => {
+          console.error('[historial] error obteniendo todos los registros para exportar', err);
+          try { alert('Error al obtener todos los registros para exportar.'); } catch {}
+        }
+      });
+      return;
+    }
 
-      // Mapear a un formato plano para Excel
-      const flat = (dataToExport || []).map(r => ({
+    try {
+      const dataToExport = this.getRenderedData();
+      this.saveRowsToExcel(dataToExport, `historial_marcajes_pagina_${(this.paginator?.pageIndex ?? 0)+1}`);
+    } catch (e) {
+      console.error('Error exportando a Excel:', e);
+    }
+  }
+
+  private saveRowsToExcel(rows: HistorialMarcaje[], filenamePrefix: string) {
+    try {
+      const flat = (rows || []).map(r => ({
         Carnet: r.numeroCarnet ?? '',
         Nombre: r.nombreCompleto ?? '',
         FechaHora: r.fechaHora ? new Date(r.fechaHora).toLocaleString() : '',
@@ -196,10 +272,10 @@ export class Historial implements OnInit, AfterViewInit {
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Historial');
 
-      const filename = `historial_marcajes_${new Date().toISOString().slice(0,10)}.xlsx`;
+      const filename = `${filenamePrefix}_${new Date().toISOString().slice(0,10)}.xlsx`;
       XLSX.writeFile(wb, filename);
     } catch (e) {
-      console.error('Error exportando a Excel:', e);
+      console.error('Error saving Excel:', e);
     }
   }
 }

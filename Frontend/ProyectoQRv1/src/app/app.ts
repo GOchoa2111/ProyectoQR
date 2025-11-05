@@ -30,13 +30,42 @@ export class App implements OnInit {
   constructor(private cdr: ChangeDetectorRef) {} 
 
   ngOnInit(): void {
-    // Simula una carga de 3 segundos
+    // Evitar que aparezcan dos splash distintos al inicio.
+    // He observado casos (pre-render / SSR / archivos de prueba) donde ya existe
+    // en el DOM un splash estático antes del bootstrap de Angular — eso provoca
+    // una doble aparición: primero el splash prerenderizado "anterior" y luego
+    // el splash que renderiza este componente.
+    // Estrategia:
+    // - Si hay más de un elemento con la clase .splash-screen, eliminamos los
+    //   que estén fuera de este <app-root> para evitar duplicados.
+    // - Mantenemos el control normal (showSplash) para ocultar el splash después
+    //   del tiempo simulado.
+    try {
+      const allSplash = Array.from(document.querySelectorAll('.splash-screen')) as Element[];
+      if (allSplash.length > 1) {
+        // Mantener el splash que está dentro de este componente (si existe)
+        // y eliminar otros duplicados ubicados fuera del scope.
+        const rootEl = document.querySelector('app-root');
+        allSplash.forEach(s => {
+          if (rootEl && !rootEl.contains(s)) {
+            // elimino el splash duplicado fuera de app-root
+            s.remove();
+          }
+        });
+      }
+    } catch (e) {
+      // No crítico: si el DOM no está disponible por alguna razón, no bloquear
+      // el arranque. Dejar que la lógica normal de splash continúe.
+      console.warn('Error al limpiar splash duplicado:', e);
+    }
+
+    // Simula una carga de 3 segundos y luego oculta el splash
     setTimeout(() => {
       this.showSplash = false;
       // Forzamos la detección de cambios para asegurar que el DOM se actualice
       // y se muestre el contenido del bloque @else.
-      this.cdr.detectChanges(); 
-    }, 3000); 
+      this.cdr.detectChanges();
+    }, 3000);
   }
 
   /**

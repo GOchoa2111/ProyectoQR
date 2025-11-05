@@ -10,15 +10,48 @@
         [formControl]="searchCtrl"
         placeholder="Ej. 2349076 o Carlos Orozco"
         autocomplete="off" />
-      <button mat-icon-button matSuffix *ngIf="searchCtrl.value" (click)="searchCtrl.setValue('')" aria-label="Limpiar">
+      <button mat-icon-button matSuffix *ngIf="searchCtrl.value"
+              (click)="searchCtrl.setValue('')" aria-label="Limpiar">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <!-- Botón exportar a Excel (colocado al lado derecho de los filtros) -->
-    <button mat-flat-button color="primary" class="btn-export" (click)="exportarAExcel()" title="Exportar a Excel">
+
+    <!-- Rango de fechas: Desde / Hasta -->
+    <div class="date-range">
+      <mat-form-field appearance="outline" class="date-field">
+        <mat-label>Desde</mat-label>
+        <input matInput [matDatepicker]="dpFrom" [formControl]="startDateCtrl" placeholder="Fecha inicio">
+        <mat-datepicker-toggle matSuffix [for]="dpFrom"></mat-datepicker-toggle>
+        <mat-datepicker #dpFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="date-field">
+        <mat-label>Hasta</mat-label>
+        <input matInput [matDatepicker]="dpTo" [formControl]="endDateCtrl" placeholder="Fecha fin">
+        <mat-datepicker-toggle matSuffix [for]="dpTo"></mat-datepicker-toggle>
+        <mat-datepicker #dpTo></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-icon-button aria-label="Limpiar fechas" class="clear-dates" (click)="clearDates()" title="Limpiar fechas">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+
+    <button mat-flat-button color="primary" class="btn-export" [matMenuTriggerFor]="exportMenu" title="Exportar">
       <mat-icon>file_download</mat-icon>
-      &nbsp;Exportar a Excel
+      &nbsp;Exportar
     </button>
+
+    <mat-menu #exportMenu="matMenu">
+      <button mat-menu-item (click)="exportarAExcel(false)">
+        <mat-icon>description</mat-icon>
+        <span>Exportar visibles</span>
+      </button>
+      <button mat-menu-item *ngIf="isAdmin" (click)="exportarAExcel(true)">
+        <mat-icon>file_download</mat-icon>
+        <span>Exportar todos (ADMIN)</span>
+      </button>
+    </mat-menu>
   </div>
 
   <!-- 1. Estado de carga -->
@@ -30,8 +63,9 @@
     <button mat-raised-button color="warn" (click)="cargarHistorial()">Reintentar Carga</button>
   </div>
 
-  <!-- 3. Tabla de datos -->
+  <!-- 3. Tabla -->
   <div *ngIf="!cargando && !errorCarga">
+    <!-- ✅ Enlazamos la tabla directamente a MatTableDataSource -->
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
 
       <!-- Carnet -->
@@ -56,7 +90,14 @@
       <ng-container matColumnDef="tipo">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
         <td mat-cell *matCellDef="let item">
-          <span [class]="item.tipo === 'Entrada' ? 'badge entrada' : 'badge salida'">{{ item.tipo }}</span>
+          <span
+            class="badge"
+            [ngClass]="{
+              'entrada': (item.tipo === 'Ingreso' || item.tipo === 'Entrada'),
+              'salida' : (item.tipo === 'Egreso'  || item.tipo === 'Salida')
+            }">
+            {{ item.tipo }}
+          </span>
         </td>
       </ng-container>
 
@@ -69,8 +110,10 @@
       No se encontraron registros en el historial de marcajes.
     </div>
 
-    <!-- Paginación -->
+    <!-- ✅ Paginación controlada por MatTableDataSource -->
+    <!-- length basado en filteredData para que el total refleje el filtro -->
     <mat-paginator
+      [length]="dataSource.filteredData.length || 0"
       [pageSize]="15"
       [pageSizeOptions]="[15, 30, 50]"
       showFirstLastButtons>

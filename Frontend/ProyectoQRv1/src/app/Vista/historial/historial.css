@@ -1,26 +1,7 @@
 .historial-container {
+  position: relative;           /* necesario para el ::before del fondo */
   padding: 20px;
   max-width: 1100px;
-
-/* Botón Exportar (estilo coherente con otras vistas) */
-.btn-export {
-  margin-left: 16px;
-  height: 40px;
-  align-self: center;
-}
-
-/* En mobile colocamos el botón debajo del filtro para evitar apretar controles */
-@media (max-width: 600px) {
-  .filters {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .btn-export {
-    margin-left: 0;
-    width: 100%;
-  }
-}
   margin: 20px auto;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -42,9 +23,38 @@ h2 {
   margin: 8px 0 6px;
 }
 
-table {
-  width: 100%;
+/* Botón Exportar */
+.btn-export {
+  margin-left: auto; /* empuja el botón hacia la derecha */
+  height: 40px;
+  align-self: center;
 }
+
+/* Date range fields layout */
+.date-range {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.date-field {
+  width: 160px;
+}
+.clear-dates {
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-export {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+table { width: 100%; }
 
 .badge {
   padding: 4px 8px;
@@ -53,7 +63,6 @@ table {
   font-size: 0.86rem;
   display: inline-block;
 }
-
 .entrada { background-color: #d4edda; color: #155724; }
 .salida  { background-color: #f8d7da; color: #721c24; }
 
@@ -78,21 +87,21 @@ table {
   color: #6c757d;
 }
 
-/* Material table tweak */
+/* Encabezado más marcado */
 .mat-mdc-table .mdc-data-table__header-cell {
   font-weight: 700;
 }
 
-/* Pseudo-elemento que contiene la imagen de fondo. */
+/* Fondo decorativo detrás del contenedor */
 .historial-container::before {
   content: '';
   position: absolute;
-  inset: 0; /* Equivalente a top:0; right:0; bottom:0; left:0 */
+  inset: 0;
   background-image: url('/assets/img/fondo-mi-qr.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   opacity: 1;
-  pointer-events: none; /* No interfiere con los clics */
-  z-index: -1; /* Se posiciona detrás del contenido */
+  pointer-events: none;
+  z-index: -1;
 }

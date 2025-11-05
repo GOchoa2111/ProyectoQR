@@ -148,6 +148,7 @@ namespace ProyectoQR.Controllers
 
         // =============== CONSULTA POR QR (como ya lo tenías) ===============
         [HttpGet("{codigoQR}")]
+        [Authorize]
         public IActionResult ObtenerEstudiantePorQR(string codigoQR)
         {
             try
@@ -243,6 +244,7 @@ namespace ProyectoQR.Controllers
 
         // =============== HISTORIAL MARCAJE (igual) ===============
         [HttpGet("marcaje-historial")]
+        [Authorize]
         public IActionResult ObtenerHistorialMarcaje()
         {
             try
