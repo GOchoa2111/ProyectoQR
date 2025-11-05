@@ -1,8 +1,23 @@
+/* ===== Overlay por encima de todo ===== */
+.cdk-overlay-container {
+  z-index: 100000; /* alto para evitar que quede debajo de headers fijos, etc. */
+}
 
-/* You can add global styles to this file, and also import other style files */
+/* ===== Estilo solo para los snackbars de marcaje ===== */
+.marcaje-snack {
+  background: #ffffff !important;
+  color: #212121 !important;
+  border-left: 6px solid #28a745; /* verde éxito */
+  border-radius: 12px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  padding: 10px 16px !important;
+  text-align: left;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-
+/* Botón de acción del snackbar (Angular Material MDC) */
+.marcaje-snack .mat-mdc-snack-bar-action {
+  color: #0077cc !important;
+  font-weight: 600;
+}

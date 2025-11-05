@@ -40,6 +40,10 @@ export class LoginComponent {
 
   // ===== NUEVA VARIABLE PARA EL GIF =====
   showSuccessAnimation = signal(false);
+  // Referencia al audio que reproducimos junto al GIF
+  private successAudio: HTMLAudioElement | null = null;
+  // Timeout id usado para retrasar la reproducción del audio
+  private successAudioTimeout: any = null;
   // ======================================
 
   form = this.fb.nonNullable.group({
@@ -70,6 +74,26 @@ export class LoginComponent {
 
           // 1. Mostramos la animación del GIF
           this.showSuccessAnimation.set(true);
+          // Reproducir el audio asociado al GIF (assets/marioGif.mp3) con 1s de retraso
+          try {
+            // Limpiamos cualquier timeout previo
+            if (this.successAudioTimeout) {
+              clearTimeout(this.successAudioTimeout);
+              this.successAudioTimeout = null;
+            }
+            this.successAudioTimeout = setTimeout(() => {
+              try {
+                this.successAudio = new Audio('assets/img/marioGif.mp3');
+                this.successAudio.play().catch(err => {
+                  console.warn('[Login] autoplay failed for successAudio:', err);
+                });
+              } catch (e) {
+                console.error('[Login] Error al crear/reproducir successAudio (delayed):', e);
+              }
+            }, 1000);
+          } catch (e) {
+            console.error('[Login] Error preparando successAudio timeout:', e);
+          }
           // 2. Ocultamos el spinner del botón
           this.loading.set(false);
 
@@ -83,6 +107,19 @@ export class LoginComponent {
               this.errorMsg.set('Respuesta inválida del servidor. Intenta nuevamente.');
             }
             // 5. Ocultamos la animación por si el usuario vuelve
+            // Paramos el audio si sigue sonando
+            try {
+              // Cancelar timeout si aún no se ejecutó
+              if (this.successAudioTimeout) {
+                clearTimeout(this.successAudioTimeout);
+                this.successAudioTimeout = null;
+              }
+              if (this.successAudio) {
+                this.successAudio.pause();
+                this.successAudio.currentTime = 0;
+                this.successAudio = null;
+              }
+            } catch (e) { /* no crítico */ }
             this.showSuccessAnimation.set(false);
           }, 3200); // <-- Ajusta este tiempo (en ms) a la duración de tu GIF
 

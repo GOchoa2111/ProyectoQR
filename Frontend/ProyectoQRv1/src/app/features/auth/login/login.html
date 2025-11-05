@@ -51,11 +51,9 @@
 </div>
 
 
-@if (showSuccessAnimation()) {
-  <div class="animation-overlay">
-    <div class="animation-box">
-      <img src="assets/img/mario.gif" alt="Iniciando sesión..." />
-      <p>¡Bienvenido(a) a Universidad Regional!</p>
-    </div>
+<div *ngIf="showSuccessAnimation()" class="animation-overlay">
+  <div class="animation-box">
+    <img src="assets/img/mario.gif" alt="Iniciando sesión..." />
+    <p>¡Bienvenido(a) a Universidad Regional!</p>
   </div>
-}
+</div>

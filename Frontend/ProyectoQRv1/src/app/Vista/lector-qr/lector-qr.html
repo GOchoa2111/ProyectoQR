@@ -1,10 +1,14 @@
 <div class="lector-container">
   <h2>Escaneo de Código QR</h2>
 
-  <!-- Selector de cámara -->
   <div class="camera-selector">
     <label for="camera">Selecciona cámara:</label>
-    <select [(ngModel)]="selectedDevice" id="camera">
+    <!-- Usamos [ngModel]/(ngModelChange) para evitar el warning
+         "Setting the same device is not allowed." -->
+    <select
+      id="camera"
+      [ngModel]="selectedDevice"
+      (ngModelChange)="selectedDevice = $event">
       <option *ngFor="let device of availableDevices" [ngValue]="device">
         {{ device.label }}
       </option>
@@ -19,7 +23,17 @@
     </zxing-scanner>
   </div>
 
-  <div *ngIf="mensajeMarcaje" class="mensaje-validacion">
-    ✅ {{ mensajeMarcaje }}
+  <!-- Eliminado el mat-card: ahora mostramos snack-bar -->
+  
+  <!-- Tarjeta de resultado en la parte inferior -->
+  <div class="mensaje-validacion" *ngIf="mensajeTipo">
+    <div class="mensaje-card" role="status" aria-live="polite">
+  <div class="barra-left" [ngClass]="mensajeTipo || 'default'"></div>
+      <div class="mensaje-body">
+        <div class="tipo-title">{{ mensajeTipo }}</div>
+        <div class="detalle">{{ getDetalle() }}</div>
+      </div>
+      <button class="close-btn" (click)="closeMensaje()" aria-label="Cerrar">Cerrar</button>
+    </div>
   </div>
 </div>

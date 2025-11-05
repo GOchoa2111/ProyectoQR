@@ -41,14 +41,76 @@ h2 {
   border-color: #28a745; /* Verde cuando hay éxito */
 }
 
+/* El estilo del snack (.marcaje-snack) vive en styles.css (global) */
+
+/* Tarjeta de resultado (parte inferior) */
 .mensaje-validacion {
-  margin-top: 20px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 6%;
+  z-index: 20000;
+  pointer-events: none; /* habilitar sólo los hijos interactivos */
+}
+
+.mensaje-card {
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  background: #ffffff !important;
+  color: #222 !important;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  width: min(760px, calc(100% - 40px));
+  max-width: 760px;
+  min-height: 64px;
+}
+
+.barra-left {
+  width: 12px; /* mayor grosor de "barra" */
+  height: 48px;
+  border-radius: 6px;
+  margin-right: 14px;
+  flex: 0 0 12px;
+}
+.barra-left.Ingreso { background: #28a745; }
+.barra-left.Egreso  { background: #d9534f; }
+.barra-left.default { background: #0077cc; }
+
+.mensaje-body {
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.tipo-title {
+  font-weight: 700;
   font-size: 22px;
-  font-weight: bold;
-  color: #28a745;
-  background-color: #e6f9ec;
-  padding: 10px 15px;
-  border-radius: 8px;
-  display: inline-block;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  line-height: 1;
+  color: #111;
+}
+
+.detalle {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #333;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #0077cc;
+  font-weight: 600;
+  margin-left: 12px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+/* pequeña animación de entrada */
+.mensaje-card {
+  animation: slideUp 300ms cubic-bezier(.2,.9,.3,1);
+}
+@keyframes slideUp {
+  from { transform: translateY(18px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
