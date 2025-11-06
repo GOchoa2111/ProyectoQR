@@ -60,10 +60,10 @@ public sealed class AuthController : ControllerBase
         public string Plaintext { get; set; } = default!;
     }
 
-    [HttpPost("dev-hash")]
     // Este endpoint se usa sólo para desarrollo (genera hash de contraseñas para pruebas).
     // Lo compilamos sólo en DEBUG para evitar que permanezca en builds de producción.
 #if DEBUG
+    [HttpPost("dev-hash")]
     public ActionResult<object> DevHash([FromBody] DevHashRequest req)
     {
         if (req is null || string.IsNullOrWhiteSpace(req.Plaintext))
