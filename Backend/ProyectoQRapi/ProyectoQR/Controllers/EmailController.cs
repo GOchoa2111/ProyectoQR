@@ -28,7 +28,7 @@ namespace ProyectoQR.Controllers
             {
                 // Validaciones mínimas
                 if (string.IsNullOrWhiteSpace(correoDto.Email) || string.IsNullOrWhiteSpace(correoDto.Asunto) || string.IsNullOrWhiteSpace(correoDto.Cuerpo))
-                    return BadRequest("Todos los campos (email, asunto, cuerpo) son obligatorios.");
+                    return BadRequest("Todos los campos (correo electrónico, asunto y cuerpo) son obligatorios.");
 
                 // Enviar correo
                 await _email.SendAsync(correoDto.Email, correoDto.Asunto, correoDto.Cuerpo);
@@ -38,7 +38,7 @@ namespace ProyectoQR.Controllers
             catch (Exception ex)
             {
                 // Captura cualquier error y responde con el mensaje de error
-                return StatusCode(500, $"Error al enviar correo: {ex.Message}");
+                return StatusCode(500, $"Error al enviar el correo: {ex.Message}");
             }
         }
     }

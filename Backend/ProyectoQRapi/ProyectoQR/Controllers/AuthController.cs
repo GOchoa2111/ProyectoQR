@@ -28,7 +28,7 @@ public sealed class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest dto, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(dto.Usuario) || string.IsNullOrWhiteSpace(dto.Contrasena))
-            return BadRequest("usuario y contrasena son requeridos.");
+            return BadRequest("Usuario y contraseña son obligatorios.");
 
         var row = await _repo.GetByUsuarioAsync(dto.Usuario.Trim(), ct);
         if (row is null)

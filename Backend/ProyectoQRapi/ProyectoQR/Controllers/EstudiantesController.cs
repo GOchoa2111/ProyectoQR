@@ -38,11 +38,11 @@ namespace ProyectoQR.Controllers
             {
                 // 1) Validaciones mínimas
                 if (string.IsNullOrWhiteSpace(estudiante.Nombre))
-                    return BadRequest("El nombre es requerido.");
+                    return BadRequest("El nombre es obligatorio.");
                 if (string.IsNullOrWhiteSpace(estudiante.Apellido))
-                    return BadRequest("El apellido es requerido.");
+                    return BadRequest("El apellido es obligatorio.");
                 if (string.IsNullOrWhiteSpace(estudiante.Contrasena))
-                    return BadRequest("La contraseña es requerida.");
+                    return BadRequest("La contraseña es obligatoria.");
 
                 // Normaliza rol y estado
                 var rol = string.IsNullOrWhiteSpace(estudiante.Rol) ? "ESTUDIANTE" : estudiante.Rol.Trim().ToUpperInvariant();
@@ -51,7 +51,7 @@ namespace ProyectoQR.Controllers
 
                 // Regla: carnet requerido si es ESTUDIANTE
                 if (rol == "ESTUDIANTE" && string.IsNullOrWhiteSpace(estudiante.NumeroCarnet))
-                    return BadRequest("El número de carnet es requerido para rol ESTUDIANTE.");
+                    return BadRequest("El número de carnet es obligatorio para el rol ESTUDIANTE.");
 
                 // 2) Autogenerar usuario si no viene
                 string usuario = string.IsNullOrWhiteSpace(estudiante.Usuario)
@@ -141,7 +141,7 @@ namespace ProyectoQR.Controllers
             catch (OracleException ex) when (ex.Number == 1) // ORA-00001: restricción única violada
             {
                 // Puede ser por índice único de USUARIO o (si lo activaste) NUMEROCARNET
-                return BadRequest("Registro duplicado. Verifique Email y/o nombre de usuario.");
+                return BadRequest("Registro duplicado. Verifique el correo y/o nombre de usuario.");
             }
             catch (Exception ex)
             {

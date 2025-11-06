@@ -11,7 +11,7 @@
       <mat-form-field appearance="outline" class="full">
         <mat-label>Usuario</mat-label>
         <input matInput formControlName="username" autocomplete="username" />
-        <mat-error *ngIf="f.username.hasError('required')">El usuario es requerido</mat-error>
+  <mat-error *ngIf="f.username.hasError('required')">El usuario es obligatorio</mat-error>
         <mat-error *ngIf="f.username.hasError('minlength')">Mínimo 3 caracteres</mat-error>
       </mat-form-field>
 
@@ -26,7 +26,7 @@
         <button mat-icon-button matSuffix type="button" (click)="hide.set(!hide())" [attr.aria-label]="'mostrar/ocultar contraseña'">
           <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
         </button>
-        <mat-error *ngIf="f.password.hasError('required')">La contraseña es requerida</mat-error>
+  <mat-error *ngIf="f.password.hasError('required')">La contraseña es obligatoria</mat-error>
         <mat-error *ngIf="f.password.hasError('minlength')">Mínimo 4 caracteres</mat-error>
       </mat-form-field>
 
