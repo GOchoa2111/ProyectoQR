@@ -117,7 +117,7 @@ public class EmailService : IEmailService
                             Si necesita acceso inmediato o tiene dudas, contacte con el administrador o el departamento de soporte.</p>
 
                             <p style='margin:18px 0;'>
-                                <a href='https://www.uregional.edu.gt/' style='display:inline-block;padding:10px 16px;background:#ea8a1a;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;' target='_blank' rel='noopener noreferrer'>Ir al sistema</a>
+                                <a href='http://109.199.118.104/inicio' style='display:inline-block;padding:10px 16px;background:#ea8a1a;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;' target='_blank' rel='noopener noreferrer'>Ir al sistema</a>
                             </p>
 
                             <hr style='border:none;border-top:1px solid #eee' />

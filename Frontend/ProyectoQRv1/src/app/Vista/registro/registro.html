@@ -95,9 +95,9 @@
   <!-- Barra de envío fija abajo para accesibilidad y rapidez -->
   <footer class="reg-footer">
     <div class="reg-footer-inner">
-      <div class="footer-info muted">Revisa los datos antes de enviar</div>
+  <div *ngIf="!qrVisible" class="footer-info muted">Revisa los datos antes de enviar</div>
       <div>
-        <button mat-raised-button color="primary" type="submit" class="np-submit" [disabled]="submitting" (click)="registrar(form)">
+        <button *ngIf="!qrVisible" mat-raised-button color="primary" type="submit" class="np-submit" [disabled]="submitting" (click)="registrar(form)">
           <mat-icon *ngIf="!submitting">save</mat-icon>
           <mat-icon *ngIf="submitting" class="spin">autorenew</mat-icon>
           <span *ngIf="!submitting">Registrar</span>
