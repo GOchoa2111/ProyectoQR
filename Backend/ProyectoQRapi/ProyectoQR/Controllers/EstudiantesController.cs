@@ -28,7 +28,11 @@ namespace ProyectoQR.Controllers
 
         // =============== REGISTRO ===============
         [HttpPost]
-        public async Task<IActionResult> RegistrarEstudiante([FromBody] EstudianteDto estudiante)
+    // Protegemos el registro de estudiantes: en V1 decidimos que sólo ADMIN
+    // puede crear nuevos usuarios/estudiantes. Si prefieres permitir auto-registro,
+    // podemos revertir esto o aplicar validaciones adicionales (captcha/verif email).
+    [Authorize(Roles = "ADMIN")]
+    public async Task<IActionResult> RegistrarEstudiante([FromBody] EstudianteDto estudiante)
         {
             try
             {
@@ -112,10 +116,12 @@ namespace ProyectoQR.Controllers
                             {
                                 await _email.SendWelcomeAsync(estudiante.Email!, usuario);
                             }
-                            catch (Exception mailEx)
+                            catch (Exception)
                             {
-                                // Logueamos el error, pero no detenemos el registro
-                                Console.Error.WriteLine($"No fue posible enviar su nombre de usuario (background): {mailEx.Message}");
+                                // Console.Error se utilizó en desarrollo; lo comentamos para V1.
+                                // Recomiendo usar ILogger para registrar errores (y no imprimir al stdout).
+                                // Console.Error.WriteLine($"No fue posible enviar su nombre de usuario (background): {mailEx.Message}");
+                                // TODO: Reemplazar por _logger.LogError(...) si se inyecta ILogger.
                             }
                         });
                     }
@@ -206,13 +212,11 @@ namespace ProyectoQR.Controllers
 
                 if (string.IsNullOrWhiteSpace(sub) || !int.TryParse(sub, out var estudianteId))
                 {
-                    // Logueamos las claims para ayudar al diagnóstico en caso de tokens inesperados
-                    try
-                    {
-                        var all = string.Join(";", User.Claims.Select(c => $"{c.Type}={c.Value}"));
-                        Console.Error.WriteLine("[Estudiantes] Claim 'sub' no encontrada o inválida. Claims: " + all);
-                    }
-                    catch { }
+                    // En desarrollo era útil volcar las claims en consola. Para V1
+                    // evitamos imprimir claims sensibles en stdout/stderr.
+                    // Si necesitas diagnóstico, usa ILogger con nivel Trace/Debug y
+                    // habilítalo solo en entornos de desarrollo.
+                    // try { var all = string.Join(";", User.Claims.Select(c => $"{c.Type}={c.Value}")); Console.Error.WriteLine("[Estudiantes] Claim 'sub' no encontrada o inválida. Claims: " + all); } catch {}
 
                     return Unauthorized("Token inválido");
                 }

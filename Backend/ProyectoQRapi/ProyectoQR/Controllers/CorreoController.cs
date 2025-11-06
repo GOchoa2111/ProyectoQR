@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoQR.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoQR.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // Protegemos el endpoint que envía correos (evitar spam desde clientes anonimos).
+    [Authorize]
     public class CorreoController : ControllerBase
     {
         private readonly CorreoService _correoService;

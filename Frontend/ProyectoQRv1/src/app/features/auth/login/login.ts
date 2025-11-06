@@ -44,6 +44,12 @@ export class LoginComponent {
   private successAudio: HTMLAudioElement | null = null;
   // Timeout id usado para retrasar la reproducción del audio
   private successAudioTimeout: any = null;
+  // Tiempos ajustables (ms)
+  // Nota: aumentados ligeramente para asegurar que la reproducción del GIF
+  // y del audio queden mejor sincronizados en dispositivos lentos o con
+  // cargas de recursos pesadas. Ajusta según la duración real de tu GIF.
+  private readonly successAudioDelay = 1800; // antes: 1000
+  private readonly successDisplayDuration = 4200; // antes: 3200
   // ======================================
 
   form = this.fb.nonNullable.group({
@@ -74,7 +80,8 @@ export class LoginComponent {
 
           // 1. Mostramos la animación del GIF
           this.showSuccessAnimation.set(true);
-          // Reproducir el audio asociado al GIF (assets/marioGif.mp3) con 1s de retraso
+          // Reproducir el audio asociado al GIF (assets/marioGif.mp3) con un pequeño retraso
+          // (se incrementó desde 1000ms para mejorar sincronía)
           try {
             // Limpiamos cualquier timeout previo
             if (this.successAudioTimeout) {
@@ -90,14 +97,15 @@ export class LoginComponent {
               } catch (e) {
                 console.error('[Login] Error al crear/reproducir successAudio (delayed):', e);
               }
-            }, 1000);
+            }, this.successAudioDelay);
           } catch (e) {
             console.error('[Login] Error preparando successAudio timeout:', e);
           }
           // 2. Ocultamos el spinner del botón
           this.loading.set(false);
 
-          // 3. Esperamos 5 segundos (5000ms) antes de navegar
+          // 3. Esperamos un tiempo antes de navegar para que el usuario vea
+          //    la animación completa y escuche el audio (delay aumentado).
           setTimeout(() => {
             try {
               // 4. Navegamos (esto está dentro de handleLoginSuccess)
@@ -121,7 +129,7 @@ export class LoginComponent {
               }
             } catch (e) { /* no crítico */ }
             this.showSuccessAnimation.set(false);
-          }, 3200); // <-- Ajusta este tiempo (en ms) a la duración de tu GIF
+          }, this.successDisplayDuration); // <-- Ajusta este tiempo (en ms) a la duración de tu GIF
 
           // ==========================================
         },
@@ -167,7 +175,7 @@ export class LoginComponent {
   //     console.log('Ocultando animación de prueba.');
   //     // 3. Ocultamos la animación
   //     this.showSuccessAnimation.set(false);
-  //   }, 3200); // 2000ms = 2 segundos
+  //   }, this.successDisplayDuration); // usa el valor centralizado arriba
   // }
   // ==========================================
 }

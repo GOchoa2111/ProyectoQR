@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 
 namespace ProyectoQR.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // El historial contiene información sensible de marcajes/acciones;
+    // protegemos el controlador para que sólo usuarios autenticados puedan acceder.
+    [Authorize]
     public class HistorialController : ControllerBase
     {
         private readonly IConfiguration _config;

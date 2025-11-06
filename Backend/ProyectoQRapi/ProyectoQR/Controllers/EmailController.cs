@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoQR.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoQR.Controllers
 {
     // Añade el atributo ApiController para habilitar validación automática del modelo
     [ApiController]
     [Route("api/[controller]")]
+    // Protegemos el envío de correos para evitar uso abusivo desde clientes no autenticados.
+    [Authorize]
     public class EmailController : ControllerBase
     {
         // Inyecta IEmailService para que se pueda usar en el controlador

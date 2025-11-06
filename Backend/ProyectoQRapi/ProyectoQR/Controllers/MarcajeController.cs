@@ -11,6 +11,10 @@ namespace ProyectoQR.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // Añadimos [Authorize] a todo el controlador para que todos los endpoints
+    // requieran un token JWT válido en V1. Esto protege POST /api/marcaje y
+    // GET /api/marcaje/me contra accesos no autorizados.
+    [Authorize]
     public class MarcajeController : ControllerBase
     {
         private readonly IConfiguration _config;

@@ -32,7 +32,9 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = false; // en dev; en prod: true con HTTPS
+        // Permitir metadata HTTPS sólo en producción. En desarrollo se deja false
+        // para facilitar pruebas locales sin certificado HTTPS.
+        options.RequireHttpsMetadata = builder.Environment.IsDevelopment() ? false : true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -120,15 +122,14 @@ var app = builder.Build();
 // Activar CORS
 app.UseCors("AllowAngular");
 
-app.UseSwagger();
-app.UseSwaggerUI(); //swagger fuera de development para pruebas web
-
-// Swagger solo en desarrollo
+// Habilitamos Swagger sólo en entornos de desarrollo para evitar exponer la UI
+// y documentación interactiva en producción por defecto. Si quieres Swagger en
+// producción, protégelo con autenticación/roles o habilítalo explícitamente.
 if (app.Environment.IsDevelopment())
 {
-
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 
 // [+] Autenticación antes de autorización

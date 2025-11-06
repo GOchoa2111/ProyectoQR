@@ -61,6 +61,9 @@ public sealed class AuthController : ControllerBase
     }
 
     [HttpPost("dev-hash")]
+    // Este endpoint se usa sólo para desarrollo (genera hash de contraseñas para pruebas).
+    // Lo compilamos sólo en DEBUG para evitar que permanezca en builds de producción.
+#if DEBUG
     public ActionResult<object> DevHash([FromBody] DevHashRequest req)
     {
         if (req is null || string.IsNullOrWhiteSpace(req.Plaintext))
@@ -69,6 +72,9 @@ public sealed class AuthController : ControllerBase
         var hashed = _hasher.Hash(req.Plaintext);
         return Ok(new { plaintext = req.Plaintext, hashed });
     }
+#else
+    // En producción este endpoint no existe (compilado fuera de DEBUG).
+#endif
 
 
 

@@ -87,6 +87,8 @@
   <li *ngIf="auth.hasRole('ADMIN','DOCENTE')"><a routerLink="/historial" (click)="close()"><mat-icon>history</mat-icon> Historial</a></li>
   <li *ngIf="auth.hasRole('ADMIN','DOCENTE')"><a routerLink="/lector" (click)="close()"><mat-icon>qr_code_scanner</mat-icon> Escanear QR</a></li>
   <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/mis-marcajes" (click)="close()"><mat-icon>list</mat-icon> Mis marcajes</a></li>
+  <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/mi-qr" (click)="close()"><mat-icon>qr_code</mat-icon> Mi QR</a></li>
+  <li *ngIf="auth.hasRole('ADMIN','DOCENTE','ESTUDIANTE')"><a routerLink="/carreras" (click)="close()"><mat-icon>school</mat-icon> Carreras </a></li>
         <!-- Acción de sesión en menú móvil (top) -->
         <li *ngIf="!auth.isLoggedIn()">
           <button class="login-button-mobile" type="button" (click)="handleLogin(); close()">
