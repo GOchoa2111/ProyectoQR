@@ -37,7 +37,10 @@ export class ModalQr {
       return;
     }
 
-    this.enviando = true; 
+    // Debug: mostrar en consola que la acción fue disparada
+    console.debug('[ModalQr] enviarQR called for correo=', this.correo);
+
+    this.enviando = true;
     const payload = {
       correo: this.correo,
       nombre: this.nombre,
@@ -45,15 +48,20 @@ export class ModalQr {
       imagenQR: this.qrImagen
     };
 
+    // Añadimos un timeout en el lado del cliente para evitar quedar "colgados" si el servidor no responde
     this.correoService.enviarQR(payload).subscribe({
       next: (respuesta) => {
         this.enviando = false;
+        console.debug('[ModalQr] enviarQR success response:', respuesta);
         this.snackBar.open(respuesta?.mensaje || 'QR enviado por correo exitosamente.', 'Cerrar', { duration: 3000 });
       },
       error: (err) => {
         this.enviando = false;
-        this.snackBar.open('Error al enviar el QR por correo.', 'Cerrar', { duration: 9000 });
-        console.error('Error:', err);
+        // Mostrar más información para depuración
+        console.error('[ModalQr] Error al enviar QR:', err);
+        const status = err?.status ?? 'N/A';
+        const msg = err?.error?.mensaje ?? err?.message ?? JSON.stringify(err);
+        this.snackBar.open(`No se puede enviar el QR. Estado: ${status}. ${msg}`, 'Cerrar', { duration: 10000 });
       }
     });
   }

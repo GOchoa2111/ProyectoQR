@@ -59,9 +59,9 @@ public class EmailService : IEmailService
                 // - Diseño más profesional (cabecera con color, tarjeta con datos).
                 // - Indica explícitamente que la contraseña será entregada por el administrador.
                 // - Escapa el nombre de usuario para evitar inyección en el HTML.
-                var subject = "Bienvenido a SGAE - Información de acceso";
+                var subject = "Bienvenido a SGA - Información de acceso";
             var safeUser = System.Web.HttpUtility.HtmlEncode(username);
-            var fromName = System.Web.HttpUtility.HtmlEncode(_opt.FromName ?? "SGAE");
+            var fromName = System.Web.HttpUtility.HtmlEncode(_opt.FromName ?? "SGA");
 
                 // Nota: si quieres incluir un logo en el correo, proporciona una URL pública
                 // (por ejemplo https://tu-dominio/assets/img/app-icon.png) y reemplaza logoUrl.
@@ -76,7 +76,7 @@ public class EmailService : IEmailService
                         </div>
 
                         <div style='padding:20px;background:#fff;'>
-                              <h2 style='margin-top:0;color:#034a8b;'>Bienvenido/a a SGAE</h2>
+                              <h2 style='margin-top:0;color:#034a8b;'>Bienvenido/a a SGA</h2>
                             <p>Hola <strong>{safeUser}</strong>,</p>
                             <p>Su cuenta ha sido creada satisfactoriamente en <strong>SGAE - Sede San Raymundo</strong>.</p>
 
@@ -91,7 +91,7 @@ public class EmailService : IEmailService
                             Si necesita acceso inmediato o tiene dudas, contacte con el administrador o el departamento de soporte.</p>
 
                             <p style='margin:18px 0;'>
-                                <a href='#' style='display:inline-block;padding:10px 16px;background:#ea8a1a;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;'>Ir al sistema</a>
+                                <a href='https://www.uregional.edu.gt/' style='display:inline-block;padding:10px 16px;background:#ea8a1a;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;' target='_blank' rel='noopener noreferrer'>Ir al sistema</a>
                             </p>
 
                             <hr style='border:none;border-top:1px solid #eee' />

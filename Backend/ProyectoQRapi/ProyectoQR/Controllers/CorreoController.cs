@@ -11,10 +11,14 @@ namespace ProyectoQR.Controllers
     public class CorreoController : ControllerBase
     {
         private readonly CorreoService _correoService;
+        private readonly IConfiguration _config;
+        private readonly ILogger<CorreoController> _logger;
 
-        public CorreoController(CorreoService correoService)
+        public CorreoController(CorreoService correoService, IConfiguration config, ILogger<CorreoController> logger)
         {
             _correoService = correoService;
+            _config = config;
+            _logger = logger;
         }
 
         [HttpPost("enviar")]
@@ -22,11 +26,32 @@ namespace ProyectoQR.Controllers
         {
             try
             {
+                // Registro de intento para diagnóstico
+                _logger.LogInformation("[Correo] Intento de envío de QR a {email} (nombre={nombre} {apellido})", dto.Correo, dto.Nombre, dto.Apellido);
+
+                // 1) Validar que el email esté registrado en la base de datos para evitar envíos a direcciones no existentes
+                using var conn = new Oracle.ManagedDataAccess.Client.OracleConnection(_config.GetConnectionString("OracleDb"));
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT COUNT(1) FROM Estudiantes WHERE LOWER(EMAIL) = LOWER(:e)";
+                    cmd.Parameters.Add(new Oracle.ManagedDataAccess.Client.OracleParameter("e", dto.Correo));
+                    var count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count == 0)
+                    {
+                        _logger.LogWarning("[Correo] El correo {email} no está registrado. Abortando envío.", dto.Correo);
+                        return NotFound(new { mensaje = "El correo no está registrado en el sistema." });
+                    }
+                }
+
+                // 2) Enviar el correo (síncrono en este servicio). Si prefieres, esto puede lanzarse en background.
                 _correoService.EnviarQrPorCorreo(dto.Correo, dto.Nombre, dto.Apellido, dto.ImagenQR);
+                _logger.LogInformation("[Correo] Envío a {email} completado.", dto.Correo);
                 return Ok(new { mensaje = "Correo enviado correctamente." });
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "[Correo] Error al enviar QR a {email}", dto?.Correo);
                 return StatusCode(500, new { mensaje = $"Error interno: {ex.Message}" });
             }
         }

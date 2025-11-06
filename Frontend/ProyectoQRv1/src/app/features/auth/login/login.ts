@@ -49,7 +49,7 @@ export class LoginComponent {
   // y del audio queden mejor sincronizados en dispositivos lentos o con
   // cargas de recursos pesadas. Ajusta según la duración real de tu GIF.
   private readonly successAudioDelay = 1800; // antes: 1000
-  private readonly successDisplayDuration = 4200; // antes: 3200
+  private readonly successDisplayDuration = 3200; // antes: 3200
   // ======================================
 
   form = this.fb.nonNullable.group({
