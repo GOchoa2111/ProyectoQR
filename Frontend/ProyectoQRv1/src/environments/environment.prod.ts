@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.example.com/api' // Cambiar al endpoint real de producción con HTTPS
+  // URL pública del backend en el servidor:
+  apiBaseUrl: 'https://uregionalsga.duckdns.org/api'  // endpoint real de producción con HTTPS
 };
