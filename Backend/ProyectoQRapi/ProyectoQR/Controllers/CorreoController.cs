@@ -10,23 +10,22 @@ namespace ProyectoQR.Controllers
     [Authorize]
     public class CorreoController : ControllerBase
     {
-        private readonly CorreoService _correoService;
+        private readonly IEmailService _emailService;
         private readonly IConfiguration _config;
         private readonly ILogger<CorreoController> _logger;
 
-        public CorreoController(CorreoService correoService, IConfiguration config, ILogger<CorreoController> logger)
+        public CorreoController(IEmailService emailService, IConfiguration config, ILogger<CorreoController> logger)
         {
-            _correoService = correoService;
+            _emailService = emailService;
             _config = config;
             _logger = logger;
         }
 
         [HttpPost("enviar")]
-        public IActionResult EnviarQR([FromBody] CorreoQrDto dto)
+        public async Task<IActionResult> EnviarQR([FromBody] CorreoQrDto dto)
         {
             try
             {
-                // Registro de intento para diagnóstico
                 _logger.LogInformation("[Correo] Intento de envío de QR a {email} (nombre={nombre} {apellido})", dto.Correo, dto.Nombre, dto.Apellido);
 
                 // 1) Validar que el email esté registrado en la base de datos para evitar envíos a direcciones no existentes
@@ -44,8 +43,20 @@ namespace ProyectoQR.Controllers
                     }
                 }
 
-                // 2) Enviar el correo (síncrono en este servicio). Si prefieres, esto puede lanzarse en background.
-                _correoService.EnviarQrPorCorreo(dto.Correo, dto.Nombre, dto.Apellido, dto.ImagenQR);
+                // 2) Componer contenido simple y enviar usando IEmailService.
+                var subject = "Tu código QR de registro";
+                var body = $@"<h3>Hola {System.Web.HttpUtility.HtmlEncode(dto.Nombre)} {System.Web.HttpUtility.HtmlEncode(dto.Apellido)}</h3>
+                              <p>Adjuntamos su código QR de registro.</p>";
+
+                if (!string.IsNullOrWhiteSpace(dto.ImagenQR))
+                {
+                    await _emailService.SendAsync(dto.Correo, subject, body, dto.ImagenQR, "codigoQR.png");
+                }
+                else
+                {
+                    await _emailService.SendAsync(dto.Correo, subject, body);
+                }
+
                 _logger.LogInformation("[Correo] Envío a {email} completado.", dto.Correo);
                 return Ok(new { mensaje = "Correo enviado correctamente." });
             }

@@ -63,7 +63,10 @@ namespace ProyectoQR.Controllers
 
                 // 4) Generar QR (tu lógica actual)
                 string qrCode = Guid.NewGuid().ToString();
-
+                // Generar imagen base64 del QR ahora para poder adjuntarla al correo
+                var qrGeneratorForEmail = new QRCodeGenerator();
+                var qrCodeDataForEmail = qrGeneratorForEmail.CreateQrCode(qrCode, QRCodeGenerator.ECCLevel.Q);
+                var qrCodeImage = new Base64QRCode(qrCodeDataForEmail).GetGraphic(20);
                 using var conn = new OracleConnection(_config.GetConnectionString("OracleDb"));
                 conn.Open();
 
@@ -111,27 +114,21 @@ namespace ProyectoQR.Controllers
                     if (!string.IsNullOrWhiteSpace(estudiante.Email))
                     {
                         // Enviar el correo en background para no bloquear la respuesta HTTP
+                        var emailTo = estudiante.Email!;
+                        var qrForEmail = qrCodeImage; // base64 image
                         _ = Task.Run(async () => {
                             try
                             {
-                                await _email.SendWelcomeAsync(estudiante.Email!, usuario);
+                                await _email.SendWelcomeAsync(emailTo, usuario, qrForEmail);
                             }
                             catch (Exception)
                             {
-                                // Console.Error se utilizó en desarrollo; lo comentamos para V1.
-                                // Recomiendo usar ILogger para registrar errores (y no imprimir al stdout).
-                                // Console.Error.WriteLine($"No fue posible enviar su nombre de usuario (background): {mailEx.Message}");
                                 // TODO: Reemplazar por _logger.LogError(...) si se inyecta ILogger.
                             }
                         });
                     }
                 }
-
-                // 6) Generar imagen QR (como ya lo hacías)
-                var qrGenerator = new QRCodeGenerator();
-                var qrCodeData = qrGenerator.CreateQrCode(qrCode, QRCodeGenerator.ECCLevel.Q);
-                var qrCodeImage = new Base64QRCode(qrCodeData).GetGraphic(20);
-
+                // 6) (la imagen base64 ya la generamos antes para adjuntar al correo)
                 return Ok(new
                 {
                     Usuario = usuario,

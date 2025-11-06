@@ -6,10 +6,7 @@
 
     <div class="botones">
       <button (click)="descargarQR()">Descargar QR</button>
-      <button (click)="enviarQR()" [disabled]="enviando">
-        <span *ngIf="!enviando">Enviar por correo</span>
-        <mat-spinner *ngIf="enviando" diameter="20"></mat-spinner>
-      </button>
+      <!-- Envío por correo ahora se realiza automáticamente al registrar (no desde el modal) -->
       <button (click)="cerrarModal()">Cerrar</button>
     </div>
   </div>

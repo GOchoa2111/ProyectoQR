@@ -16,8 +16,10 @@ public class SmtpOptions
 
 public interface IEmailService
 {
-    Task SendAsync(string to, string subject, string htmlBody);
-    Task SendWelcomeAsync(string to, string username);
+    // Send an HTML email, optionally with a base64 attachment (e.g., QR image)
+    Task SendAsync(string to, string subject, string htmlBody, string? attachmentBase64 = null, string? attachmentFilename = null);
+    // Send the welcome email and optionally attach the QR image (base64)
+    Task SendWelcomeAsync(string to, string username, string? qrBase64 = null);
 }
 
 public class EmailService : IEmailService
@@ -37,6 +39,12 @@ public class EmailService : IEmailService
 
     public async Task SendAsync(string to, string subject, string htmlBody)
     {
+        // Backward-compatible wrapper that delegates to the new overload without attachment
+        await SendAsync(to, subject, htmlBody, null, null);
+    }
+
+    public async Task SendAsync(string to, string subject, string htmlBody, string? attachmentBase64 = null, string? attachmentFilename = null)
+    {
         using var msg = new MailMessage()
         {
             From = new MailAddress(_opt.FromEmail, _opt.FromName, Encoding.UTF8),
@@ -48,11 +56,29 @@ public class EmailService : IEmailService
         };
         msg.To.Add(new MailAddress(to));
 
+        // Attach base64 content if provided
+        if (!string.IsNullOrWhiteSpace(attachmentBase64) && !string.IsNullOrWhiteSpace(attachmentFilename))
+        {
+            try
+            {
+                var base64 = attachmentBase64.Replace("data:image/png;base64,", "");
+                var bytes = Convert.FromBase64String(base64);
+                var ms = new System.IO.MemoryStream(bytes);
+                var attachment = new Attachment(ms, attachmentFilename, "image/png");
+                msg.Attachments.Add(attachment);
+                // Note: MailMessage will dispose attachments when disposed
+            }
+            catch (Exception)
+            {
+                // If attachment parsing fails, do not block sending the email; log elsewhere if needed.
+            }
+        }
+
         using var smtp = BuildClient();
         await smtp.SendMailAsync(msg);
     }
 
-    public Task SendWelcomeAsync(string to, string username)
+    public Task SendWelcomeAsync(string to, string username, string? qrBase64 = null)
     {
                 // Mejor plantilla HTML para correo de bienvenida.
                 // Cambios realizados:
@@ -67,7 +93,7 @@ public class EmailService : IEmailService
                 // (por ejemplo https://tu-dominio/assets/img/app-icon.png) y reemplaza logoUrl.
                 var logoUrl = "https://static.wixstatic.com/media/8a2cdc_fb088ff4add94711854b569553889689~mv2.png";
 
-                        var body = $@"
+                var body = $@"
                         <div style='font-family: ''Segoe UI'', Arial, sans-serif; color:#333;'>
                     <div style='max-width:600px;margin:0 auto;border:1px solid #e6e6e6;border-radius:8px;overflow:hidden;'>
                         <div style='background:#034a8b;padding:18px 20px;color:#fff;display:flex;align-items:center;'>
@@ -78,7 +104,7 @@ public class EmailService : IEmailService
                         <div style='padding:20px;background:#fff;'>
                               <h2 style='margin-top:0;color:#034a8b;'>Bienvenido/a a SGA</h2>
                             <p>Hola <strong>{safeUser}</strong>,</p>
-                            <p>Su cuenta ha sido creada satisfactoriamente en <strong>SGAE - Sede San Raymundo</strong>.</p>
+                            <p>Su cuenta ha sido creada satisfactoriamente en <strong>SGA - Sede San Raymundo</strong>.</p>
 
                             <table style='width:100%;margin:16px 0;border-collapse:collapse;'>
                                 <tr>
@@ -100,6 +126,7 @@ public class EmailService : IEmailService
                     </div>
                 </div>";
 
-                return SendAsync(to, subject, body);
+                // Use SendAsync overload to add the QR as attachment when present
+                return SendAsync(to, subject, body, qrBase64, string.IsNullOrWhiteSpace(qrBase64) ? null : "codigoQR.png");
     }
 }
