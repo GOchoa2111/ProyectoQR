@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Auth/login": {
+    "/Auth/login": {
       "post": {
         "tags": [
           "Auth"
@@ -93,7 +93,7 @@
         }
       }
     },
-    "/api/Auth/health": {
+    "/Auth/health": {
       "get": {
         "tags": [
           "Auth"
@@ -105,7 +105,7 @@
         }
       }
     },
-    "/api/Auth/dev-hash": {
+    "/Auth/dev-hash": {
       "post": {
         "tags": [
           "Auth"

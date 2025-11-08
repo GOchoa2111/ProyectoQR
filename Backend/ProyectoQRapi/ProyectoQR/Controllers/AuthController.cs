@@ -7,7 +7,7 @@ using static ProyectoQR.Models.AuthDtos;
 namespace ProyectoQR.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public sealed class AuthController : ControllerBase
 {
     private readonly IAuthRepository _repo;
