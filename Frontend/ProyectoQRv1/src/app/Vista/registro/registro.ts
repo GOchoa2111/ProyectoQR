@@ -12,8 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatStepperModule } from '@angular/material/stepper'; // ✅ NUEVO
 
-// Reintegrando el componente ModalQr: el modal seguirá disponible para enviar/descargar el QR desde la UI
+// Modal QR (standalone)
 import { ModalQr } from '../modal-qr/modal-qr';
 
 import { RegistroEstudiante } from '../../Interface/registro-estudiante';
@@ -24,19 +25,29 @@ import { timeout } from 'rxjs/operators';
   selector: 'app-registro',
   standalone: true,
   imports: [
-    CommonModule, FormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule,
-  MatSelectModule, MatIconModule, MatButtonModule, MatDividerModule,
-  ModalQr
+    CommonModule,
+    FormsModule,
+    // Material
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatStepperModule, // ✅ NUEVO
+    // Componentes
+    ModalQr
   ],
   templateUrl: './registro.html',
   styleUrls: ['./registro.css']
 })
 export class Registro {
-  hide = true; // mostrar/ocultar contraseña
-  submitting = false; // bandera UI para deshabilitar boton y mostrar spinner
-  // Bandera que indica si el usuario editó manualmente el campo usuario.
-  // Si es true, no sobreescribimos el valor automático al cambiar nombre/apellido.
+  // ✅ Necesario para [linear] del mat-vertical-stepper
+  isLinear = true;
+
+  hide = true;         // Mostrar/ocultar contraseña
+  submitting = false;  // Deshabilita botón y muestra spinner
   usuarioEdited = false;
 
   estudiante: RegistroEstudiante = {
@@ -45,18 +56,17 @@ export class Registro {
     numeroCarnet: '',
     telefono: '',
     direccion: '',
-    anio: '2025', // valor por defecto: año en curso
-    sede: 'San Raymundo', // valor por defecto (editable)
+    anio: '2025',
+    sede: 'San Raymundo',
     email: '',
     contrasena: '',
     rol: 'ESTUDIANTE',
-    usuario: '' // opcional; puedes dejarlo vacío
+    usuario: '' // opcional
   };
 
   qrGenerado: string | null = null;
   qrVisible = false;
 
-  // La propiedad roles se mantiene intacta
   roles = ['ESTUDIANTE', 'DOCENTE', 'ADMIN'];
 
   constructor(
@@ -72,16 +82,18 @@ export class Registro {
       return;
     }
 
-    this.submitting = true; // UI: empezamos a enviar
-  // Si el usuario se deja vacío, el backend lo autogenera
-  if (!this.estudiante.usuario) delete (this.estudiante as any).usuario;
+    this.submitting = true;
+
+    // Si el usuario se deja vacío, el backend lo autogenera
+    if (!this.estudiante.usuario) {
+      delete (this.estudiante as any).usuario;
+    }
 
     this.servicio.registrar(this.estudiante).pipe(
-      // evita que la UI quede bloqueada indefinidamente si el servidor no responde
       timeout(15000)
     ).subscribe({
       next: (respuesta: any) => {
-        // Aceptar ambas formas (ImagenQR o imagenQR) según lo que devuelva el backend
+        // Imagen QR según backend (ImagenQR o imagenQR)
         this.qrGenerado = respuesta?.ImagenQR ?? respuesta?.imagenQR ?? null;
         this.qrVisible = !!this.qrGenerado;
 
@@ -94,69 +106,59 @@ export class Registro {
           }, 60);
         });
 
+        // Reset del formulario para nuevas entradas
         form.resetForm({
           rol: 'ESTUDIANTE',
           anio: '2025',
           sede: 'San Raymundo'
         });
-        // Resetear la bandera de edición del usuario para futuras entradas
         this.usuarioEdited = false;
-        this.submitting = false; // UI: terminado
+        this.submitting = false;
       },
       error: (error: any) => {
         console.error('Error al registrar:', error);
-        // detecta timeout del cliente
         if (error?.name === 'TimeoutError') {
           this.toastr.error('El servidor no respondió a tiempo. Intenta nuevamente más tarde.');
-        } else if (error.status === 400 && error.error) {
+        } else if (error?.status === 400 && error?.error) {
           this.toastr.error(error.error);
         } else {
           this.toastr.error('Error inesperado al registrar estudiante');
         }
-        this.submitting = false; // UI: terminado con error
+        this.submitting = false;
       }
     });
   }
 
-  // Se llama cuando el modal emite el evento (cerrar)
-  cerrarQR() { 
-    this.qrVisible = false; 
-    this.qrGenerado = null; // Se limpia la imagen para la próxima vez
+  cerrarQR() {
+    this.qrVisible = false;
+    this.qrGenerado = null;
   }
 
   /**
-   * Actualiza el campo 'usuario' por defecto combinando la primera letra
-   * del nombre y el apellido (ej: "Juan" + "Pérez" -> "jperez").
-   * No sobrescribe si el usuario ya fue editado manualmente.
+   * Autogenera 'usuario' con inicial del nombre + apellido (sin acentos/espacios),
+   * salvo que el usuario ya haya sido editado manualmente.
    */
   onNombreApellidoChange(): void {
     try {
-      // Si el usuario editó manualmente, no hacemos nada
       if (this.usuarioEdited) return;
 
       const nombre = (this.estudiante.nombre || '').trim();
       const apellido = (this.estudiante.apellido || '').trim();
+      if (!nombre && !apellido) return;
 
-      if (!nombre && !apellido) return; // nada que componer
+      const primeraLetra = nombre ? nombre.charAt(0) : '';
+      const raw = (primeraLetra + apellido).toLowerCase();
 
-  // Solo evitamos sobrescribir si el usuario editó manualmente el campo.
-  // Si no lo editó (usuarioEdited === false), actualizamos incluso si
-  // ya existe un valor anterior (p. ej. se generó al escribir sólo el nombre).
-  const primeraLetra = nombre ? nombre.charAt(0) : '';
-  const raw = (primeraLetra + apellido).toLowerCase();
-
-      // Normalizar y eliminar acentos y caracteres no alfanuméricos
-      const normalized = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      const normalized = raw
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         .replace(/[^a-z0-9]/g, '');
 
       this.estudiante.usuario = normalized;
     } catch (e) {
-      // no crítico; dejamos que el usuario escriba manualmente
       console.warn('[Registro] onNombreApellidoChange failed', e);
     }
   }
-
-  // La función descargarQR() se elimina de aquí porque ahora está en el componente modal-qr.ts
 }
+
 
 

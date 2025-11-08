@@ -1,53 +1,81 @@
-<!-- Nuevo diseño: grid de dos columnas en pantallas grandes (formulario + panel lateral)
-     - Mantiene los mismos bindings [(ngModel)] y la misma lógica en TS.
--->
-<div class="reg-layout">
-  <div class="reg-form-area">
-    <header class="reg-header">
-      <div class="reg-title">
-        <mat-icon>person_add</mat-icon>
-        <div>
-          <h1>Registro de Usuarios</h1>
-          <p class="muted">Crea la cuenta y genera el código QR</p>
-        </div>
-      </div>
-    </header>
+<form #form="ngForm" (ngSubmit)="registrar(form)" class="reg-form" novalidate>
+  <mat-vertical-stepper [linear]="isLinear ?? true" #stepper>
 
-    <form #form="ngForm" (ngSubmit)="registrar(form)" class="reg-form" novalidate>
-      <div class="fields-grid">
+    <!-- PASO 1: Datos personales -->
+    <mat-step [completed]="grpDatos?.valid">
+      <ng-template matStepLabel>Datos personales</ng-template>
+
+      <div ngModelGroup="datos" #grpDatos="ngModelGroup" class="fields-grid">
         <mat-form-field appearance="outline">
           <mat-label>Nombre</mat-label>
-          <!-- Al cambiar nombre/apellido actualizamos el usuario por defecto si el usuario
-               no ha sido editado manualmente -->
-          <input matInput name="nombre" [(ngModel)]="estudiante.nombre" (ngModelChange)="onNombreApellidoChange()" required minlength="2" #nombre="ngModel">
-          <mat-error *ngIf="nombre.invalid && (nombre.touched || form.submitted)">El nombre es obligatorio.</mat-error>
+          <input matInput name="nombre" [(ngModel)]="estudiante.nombre"
+                 (ngModelChange)="onNombreApellidoChange()"
+                 required minlength="2" #nombre="ngModel">
+          <mat-error *ngIf="nombre.invalid && (nombre.touched || form.submitted)">
+            El nombre es obligatorio.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Apellido</mat-label>
-          <input matInput name="apellido" [(ngModel)]="estudiante.apellido" (ngModelChange)="onNombreApellidoChange()" required minlength="2" #apellido="ngModel">
-          <mat-error *ngIf="apellido.invalid && (apellido.touched || form.submitted)">El apellido es obligatorio.</mat-error>
+          <input matInput name="apellido" [(ngModel)]="estudiante.apellido"
+                 (ngModelChange)="onNombreApellidoChange()"
+                 required minlength="2" #apellido="ngModel">
+          <mat-error *ngIf="apellido.invalid && (apellido.touched || form.submitted)">
+            El apellido es obligatorio.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Correo electrónico</mat-label>
           <input matInput type="email" name="email" [(ngModel)]="estudiante.email" required #email="ngModel">
-          <mat-error *ngIf="email.invalid && (email.touched || form.submitted)">Correo inválido.</mat-error>
+          <mat-error *ngIf="email.invalid && (email.touched || form.submitted)">
+            Correo inválido.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Teléfono</mat-label>
-          <input matInput name="telefono" [(ngModel)]="estudiante.telefono" required pattern="^[0-9]{8}$" #telefono="ngModel">
-          <mat-error *ngIf="telefono.invalid && (telefono.touched || form.submitted)">Debe tener 8 dígitos.</mat-error>
+          <input matInput name="telefono" [(ngModel)]="estudiante.telefono"
+                 required pattern="^[0-9]{8}$" #telefono="ngModel">
+          <mat-error *ngIf="telefono.invalid && (telefono.touched || form.submitted)">
+            Debe tener 8 dígitos.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpDatos?.valid">
+          Siguiente
+        </button>
+      </div>
+    </mat-step>
+
+    <!-- PASO 2: Cuenta -->
+    <mat-step [completed]="grpCuenta?.valid">
+      <ng-template matStepLabel>Cuenta</ng-template>
+
+      <div ngModelGroup="cuenta" #grpCuenta="ngModelGroup" class="fields-grid">
+        <mat-form-field appearance="outline" class="full-span">
+          <mat-label>Usuario (opcional)</mat-label>
+          <input matInput name="usuario" [(ngModel)]="estudiante.usuario"
+                 (input)="usuarioEdited = true"
+                 placeholder="Si lo dejas vacío, se autogenera">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Contraseña</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" name="contrasena" [(ngModel)]="estudiante.contrasena" required minlength="6" #contrasena="ngModel">
-          <button mat-icon-button matSuffix type="button" (click)="hide = !hide" aria-label="Mostrar/ocultar contraseña">
+          <input matInput [type]="hide ? 'password' : 'text'"
+                 name="contrasena"
+                 [(ngModel)]="estudiante.contrasena"
+                 required minlength="6" #contrasena="ngModel">
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hide = !hide" aria-label="Mostrar/ocultar contraseña">
             <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
-          <mat-error *ngIf="contrasena.invalid && (contrasena.touched || form.submitted)">Mínimo 6 caracteres.</mat-error>
+          <mat-error *ngIf="contrasena.invalid && (contrasena.touched || form.submitted)">
+            Mínimo 6 caracteres.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -56,65 +84,119 @@
             <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
 
+      <div>
+        <button mat-stroked-button matStepperPrevious>Atrás</button>
+        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpCuenta?.valid">
+          Siguiente
+        </button>
+      </div>
+    </mat-step>
+
+    <!-- PASO 3: Académico y sede -->
+    <mat-step [completed]="grpAcademico?.valid">
+      <ng-template matStepLabel>Académico y sede</ng-template>
+
+      <div ngModelGroup="academico" #grpAcademico="ngModelGroup" class="fields-grid">
         <mat-form-field appearance="outline">
           <mat-label>Año</mat-label>
-          <input matInput name="anio" [(ngModel)]="estudiante.anio" required pattern="^[0-9]{1,4}$" #anio="ngModel">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-span">
-          <mat-label>Dirección</mat-label>
-          <input matInput name="direccion" [(ngModel)]="estudiante.direccion" required minlength="5" #direccion="ngModel">
+          <input matInput name="anio" [(ngModel)]="estudiante.anio"
+                 required pattern="^[0-9]{1,4}$" #anio="ngModel">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Número de Carnet</mat-label>
-          <input matInput name="numeroCarnet" [(ngModel)]="estudiante.numeroCarnet" [required]="estudiante.rol === 'ESTUDIANTE'" pattern="^[A-Za-z0-9\-]{4,}$" #numeroCarnet="ngModel">
+          <input matInput name="numeroCarnet" [(ngModel)]="estudiante.numeroCarnet"
+                 [required]="estudiante.rol === 'ESTUDIANTE'"
+                 pattern="^[A-Za-z0-9\\-]{4,}$" #numeroCarnet="ngModel">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Sede</mat-label>
-          <input matInput name="sede" [(ngModel)]="estudiante.sede" required minlength="2" #sede="ngModel">
+          <input matInput name="sede" [(ngModel)]="estudiante.sede"
+                 required minlength="2" #sede="ngModel">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-span">
-          <mat-label>Usuario (opcional)</mat-label>
-          <!-- Si el usuario edita manualmente el campo, marcamos usuarioEdited para
-               no sobreescribir sus cambios automáticos posteriores -->
-          <input matInput name="usuario" [(ngModel)]="estudiante.usuario" (input)="usuarioEdited = true" placeholder="Si lo dejas vacío, se autogenera">
+          <mat-label>Dirección</mat-label>
+          <input matInput name="direccion" [(ngModel)]="estudiante.direccion"
+                 required minlength="5" #direccion="ngModel">
         </mat-form-field>
       </div>
 
-      <!-- footer sticky en móviles/pequeñas y espacio para botón en desktop -->
-      <div class="form-footer-placeholder"></div>
-    </form>
-  </div>
-
-  <!-- El panel lateral se ha eliminado; el QR se muestra ahora mediante el modal -->
-
-  <!-- Barra de envío fija abajo para accesibilidad y rapidez -->
-  <footer class="reg-footer">
-    <div class="reg-footer-inner">
-  <div *ngIf="!qrVisible" class="footer-info muted">Revisa los datos antes de enviar</div>
       <div>
-        <button *ngIf="!qrVisible" mat-raised-button color="primary" type="submit" class="np-submit" [disabled]="submitting" (click)="registrar(form)">
-          <mat-icon *ngIf="!submitting">save</mat-icon>
-          <mat-icon *ngIf="submitting" class="spin">autorenew</mat-icon>
-          <span *ngIf="!submitting">Registrar</span>
-          <span *ngIf="submitting">Enviando...</span>
+        <button mat-stroked-button matStepperPrevious>Atrás</button>
+        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpAcademico?.valid">
+          Siguiente
         </button>
       </div>
-    </div>
-  </footer>
-</div>
+    </mat-step>
 
-<!-- Modal QR: permite enviar por correo y descargar desde el modal (se integra con la lógica existente) -->
-<app-modal-qr 
-  [visible]="qrVisible" 
+    <!-- PASO 4: Revisión -->
+    <mat-step>
+      <ng-template matStepLabel>Revisión</ng-template>
+
+      <div class="fields-grid">
+        <div class="full-span muted">Revisa los datos antes de enviar:</div>
+        <mat-form-field appearance="outline" class="full-span">
+          <mat-label>Resumen</mat-label>
+          <textarea matInput rows="6" readonly
+            [value]="
+              'Nombre: ' + (estudiante.nombre || '') + ' ' + (estudiante.apellido || '') + '\n' +
+              'Correo: ' + (estudiante.email || '') + '\n' +
+              'Teléfono: ' + (estudiante.telefono || '') + '\n' +
+              'Usuario: ' + (estudiante.usuario || '(auto)') + '\n' +
+              'Rol: ' + (estudiante.rol || '') + '\n' +
+              'Año: ' + (estudiante.anio || '') + '\n' +
+              'Carnet: ' + (estudiante.numeroCarnet || '') + '\n' +
+              'Sede: ' + (estudiante.sede || '') + '\n' +
+              'Dirección: ' + (estudiante.direccion || '')
+            ">
+          </textarea>
+        </mat-form-field>
+
+        <div>
+          <button mat-stroked-button matStepperPrevious>Atrás</button>
+          <button mat-stroked-button type="button" (click)="stepper.reset()">Reiniciar</button>
+        </div>
+      </div>
+    </mat-step>
+
+  </mat-vertical-stepper>
+
+  <div class="form-footer-placeholder"></div>
+</form>
+
+<!-- Footer fijo con acción de envío -->
+<footer class="reg-footer">
+  <div class="reg-footer-inner">
+    <div class="footer-info muted" *ngIf="!qrVisible">
+      Completa los campos y continúa
+    </div>
+    <div>
+      <button
+        *ngIf="!qrVisible"
+        mat-raised-button color="primary" type="submit"
+        class="np-submit" [disabled]="submitting"
+        (click)="registrar(form)">
+        <mat-icon *ngIf="!submitting">save</mat-icon>
+        <mat-icon *ngIf="submitting" class="spin">autorenew</mat-icon>
+        <span *ngIf="!submitting">Registrar</span>
+        <span *ngIf="submitting">Enviando...</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal QR -->
+<app-modal-qr
+  [visible]="qrVisible"
   [qrImagen]="qrGenerado"
   [nombre]="estudiante.nombre"
   [apellido]="estudiante.apellido"
   [correo]="estudiante.email"
   (cerrar)="cerrarQR()">
 </app-modal-qr>
+
 

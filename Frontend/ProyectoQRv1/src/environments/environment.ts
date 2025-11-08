@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://uregionalsga.duckdns.org/api'
+  apiUrl: 'http://109.199.118.104:5111'
 };
+  
