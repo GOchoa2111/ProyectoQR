@@ -6,7 +6,7 @@ namespace ProyectoQR.Controllers
 {
     // Añade el atributo ApiController para habilitar validación automática del modelo
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     // Protegemos el envío de correos para evitar uso abusivo desde clientes no autenticados.
     [Authorize]
     public class EmailController : ControllerBase

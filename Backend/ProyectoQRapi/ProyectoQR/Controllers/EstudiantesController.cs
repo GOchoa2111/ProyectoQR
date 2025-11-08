@@ -11,7 +11,7 @@ using System.Threading.Tasks; // <- para IPasswordHasher
 
 namespace ProyectoQR.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EstudiantesController : ControllerBase
     {

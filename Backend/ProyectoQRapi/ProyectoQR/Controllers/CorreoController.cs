@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoQR.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     // Protegemos el endpoint que envía correos (evitar spam desde clientes anonimos).
     [Authorize]
