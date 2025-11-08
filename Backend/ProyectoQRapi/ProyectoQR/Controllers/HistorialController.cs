@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ProyectoQR.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     // El historial contiene información sensible de marcajes/acciones;
     // protegemos el controlador para que sólo usuarios autenticados puedan acceder.

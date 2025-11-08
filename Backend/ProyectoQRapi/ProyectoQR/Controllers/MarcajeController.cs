@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace ProyectoQR.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     // Añadimos [Authorize] a todo el controlador para que todos los endpoints
     // requieran un token JWT válido en V1. Esto protege POST /api/marcaje y
