@@ -48,7 +48,7 @@ export class LoginComponent {
   // Nota: aumentados ligeramente para asegurar que la reproducción del GIF
   // y del audio queden mejor sincronizados en dispositivos lentos o con
   // cargas de recursos pesadas. Ajusta según la duración real de tu GIF.
-  private readonly successAudioDelay = 1800; // antes: 1000
+  private readonly successAudioDelay = 100; // antes: 1000
   private readonly successDisplayDuration = 3200; // antes: 3200
   // ======================================
 
@@ -90,7 +90,7 @@ export class LoginComponent {
             }
             this.successAudioTimeout = setTimeout(() => {
               try {
-                this.successAudio = new Audio('assets/img/marioGif.mp3');
+                this.successAudio = new Audio('assets/img/intro-sga-2.wav');
                 this.successAudio.play().catch(err => {
                   console.warn('[Login] autoplay failed for successAudio:', err);
                 });

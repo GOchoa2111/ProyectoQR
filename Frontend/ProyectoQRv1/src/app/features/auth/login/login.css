@@ -254,7 +254,28 @@ mat-form-field.mat-mdc-form-field {
   font-weight: 600;
 }
 
+/* Asegurar que los headings dentro del modal de animación sean legibles */
+.animation-box h1,
+.animation-box h2 {
+  color: #ffffff; /* texto blanco sobre fondo oscuro */
+  margin: 0.25rem 0;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  /* Aumentar tamaño de letra y line-height para mejor legibilidad */
+  line-height: 1.5;
+}
+
+.animation-box h1 {
+  font-size: 3rem;
+}
+
+.animation-box h2 {
+  font-size: 1.8rem;
+}
+
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
