@@ -4,6 +4,7 @@ using QRCoder;
 using System.Text.RegularExpressions;
 using ProyectoQR.Service.password;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,15 +16,17 @@ namespace ProyectoQR.Controllers
     [ApiController]
     public class EstudiantesController : ControllerBase
     {
-        private readonly IConfiguration _config;
-        private readonly IPasswordHasher _hasher;
-        private readonly IEmailService _email;
+    private readonly IConfiguration _config;
+    private readonly IPasswordHasher _hasher;
+    private readonly IEmailService _email;
+    private readonly ILogger<EstudiantesController> _logger;
 
-        public EstudiantesController(IConfiguration config, IPasswordHasher hasher, IEmailService email )
+        public EstudiantesController(IConfiguration config, IPasswordHasher hasher, IEmailService email, ILogger<EstudiantesController> logger )
         {
             _config = config;
             _hasher = hasher;
             _email = email;
+            _logger = logger;
         }
 
         // =============== REGISTRO ===============
@@ -121,9 +124,10 @@ namespace ProyectoQR.Controllers
                             {
                                 await _email.SendWelcomeAsync(emailTo, usuario, qrForEmail);
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                // TODO: Reemplazar por _logger.LogError(...) si se inyecta ILogger.
+                                // Registrar el error para diagnóstico; en producción usar un mecanismo de reintentos/cola.
+                                try { _logger?.LogError(ex, "Error enviando correo de bienvenida a {Email}", emailTo); } catch {}
                             }
                         });
                     }

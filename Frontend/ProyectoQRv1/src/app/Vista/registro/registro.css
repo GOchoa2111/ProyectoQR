@@ -96,6 +96,12 @@
 .fields-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .fields-grid .full-span { grid-column: 1 / -1; }
 
+/* Evitar que el stepper vertical (cabeceras a la izquierda) solape los labels/campos.
+   En pantallas anchas añadimos padding-left para dejar espacio al panel de steps. */
+@media (min-width: 920px) {
+  .reg-form { position: relative; padding-left: 72px; }
+}
+
 /* Side panel removed - QR is shown in modal now */
 
 /* Ensure footer placeholder exists so fixed footer doesn't cover form fields */

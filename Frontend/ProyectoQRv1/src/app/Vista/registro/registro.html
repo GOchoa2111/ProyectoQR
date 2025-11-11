@@ -1,5 +1,5 @@
 <form #form="ngForm" (ngSubmit)="registrar(form)" class="reg-form" novalidate>
-  <mat-vertical-stepper [linear]="isLinear ?? true" #stepper>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
 
     <!-- PASO 1: Datos personales -->
     <mat-step [completed]="grpDatos?.valid">
@@ -45,7 +45,7 @@
       </div>
 
       <div>
-        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpDatos?.valid">
+        <button type="button" mat-stroked-button color="primary" matStepperNext [disabled]="!grpDatos?.valid">
           Siguiente
         </button>
       </div>
@@ -87,8 +87,8 @@
       </div>
 
       <div>
-        <button mat-stroked-button matStepperPrevious>Atrás</button>
-        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpCuenta?.valid">
+        <button type="button" mat-stroked-button matStepperPrevious>Atrás</button>
+        <button type="button" mat-stroked-button color="primary" matStepperNext [disabled]="!grpCuenta?.valid">
           Siguiente
         </button>
       </div>
@@ -109,7 +109,7 @@
           <mat-label>Número de Carnet</mat-label>
           <input matInput name="numeroCarnet" [(ngModel)]="estudiante.numeroCarnet"
                  [required]="estudiante.rol === 'ESTUDIANTE'"
-                 pattern="^[A-Za-z0-9\\-]{4,}$" #numeroCarnet="ngModel">
+                 pattern="^[A-Za-z0-9-]{4,}$" #numeroCarnet="ngModel">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -126,8 +126,8 @@
       </div>
 
       <div>
-        <button mat-stroked-button matStepperPrevious>Atrás</button>
-        <button mat-stroked-button color="primary" matStepperNext [disabled]="!grpAcademico?.valid">
+        <button type="button" mat-stroked-button matStepperPrevious>Atrás</button>
+        <button type="button" mat-stroked-button color="primary" matStepperNext [disabled]="!grpAcademico?.valid">
           Siguiente
         </button>
       </div>
@@ -157,8 +157,8 @@
         </mat-form-field>
 
         <div>
-          <button mat-stroked-button matStepperPrevious>Atrás</button>
-          <button mat-stroked-button type="button" (click)="stepper.reset()">Reiniciar</button>
+          <button type="button" mat-stroked-button matStepperPrevious>Atrás</button>
+          <button type="button" mat-stroked-button (click)="stepper.reset()">Reiniciar</button>
         </div>
       </div>
     </mat-step>
