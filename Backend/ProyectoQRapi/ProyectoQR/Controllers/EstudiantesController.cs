@@ -3,6 +3,7 @@ using Oracle.ManagedDataAccess.Client;
 using QRCoder;
 using System.Text.RegularExpressions;
 using ProyectoQR.Service.password;
+using ProyectoQR.Models;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -357,20 +358,5 @@ public class MarcajeHistorialDTO
     public string? Tipo { get; set; }
 }
 
-public class EstudianteDto
-{
-    public string? Nombre { get; set; }
-    public string? Apellido { get; set; }
-    public string? NumeroCarnet { get; set; }
-    public string? Telefono { get; set; }
-    public string? Direccion { get; set; }
-    public string? Anio { get; set; }
-    public string? Sede { get; set; }
 
-    // nuevos/ajustados
-    public string? Usuario { get; set; }       // opcional; si no viene se autogenera
-    public string? Contrasena { get; set; }    // requerida (se hashea)
-    public string? Rol { get; set; }           // opcional; default ESTUDIANTE
-    public string? Email { get; set; } //correo electronico estudiante/usuario
-}
 

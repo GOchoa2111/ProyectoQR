@@ -111,7 +111,7 @@
     "Parameters": [
       {
         "Name": "estudiante",
-        "Type": "EstudianteDto",
+        "Type": "ProyectoQR.Models.EstudianteDto",
         "IsRequired": true
       }
     ],
@@ -151,6 +151,116 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.GestionEstudiantesController",
+    "Method": "Crear",
+    "RelativePath": "GestionEstudiantes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ProyectoQR.Models.EstudianteDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.GestionEstudiantesController",
+    "Method": "Listar",
+    "RelativePath": "GestionEstudiantes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "nombreFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "rolFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "offset",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.GestionEstudiantesController",
+    "Method": "Obtener",
+    "RelativePath": "GestionEstudiantes/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.GestionEstudiantesController",
+    "Method": "Actualizar",
+    "RelativePath": "GestionEstudiantes/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ProyectoQR.Models.EstudianteDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.GestionEstudiantesController",
+    "Method": "Eliminar",
+    "RelativePath": "GestionEstudiantes/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "physical",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

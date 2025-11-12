@@ -108,6 +108,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+// Servicio para gestionar estudiantes via paquete PL/SQL
+builder.Services.AddScoped<ProyectoQR.Service.IEstudiantesService, ProyectoQR.Service.EstudiantesPackageService>();
 
 // -------------------- DI de servicios usados por AuthController --------------------
 // Hasher de contraseñas (PBKDF2), Servicio de Tokens y Repositorio hacia Oracle
