@@ -1,22 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\",
+  "WorkspaceRootPath": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\juana\\onedrive\\desktop\\universidad\\6to semestre\\git proyecto asistencia\\proyecto copia\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\juana\\onedrive\\desktop\\universidad\\6to semestre\\git proyecto asistencia\\proyecto copia\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\juana\\onedrive\\desktop\\universidad\\6to semestre\\git proyecto asistencia\\proyecto copia\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\juana\\onedrive\\desktop\\universidad\\6to semestre\\git proyecto asistencia\\proyecto copia\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\marcajecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|c:\\users\\carlos orozco\\documents\\sistema-asistencia-serve-windows\\proyectoqr\\backend\\proyectoqrapi\\proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAE0CE24-FA66-4014-B766-109352C99D5D}|ProyectoQR\\ProyectoQR.csproj|solutionrelative:proyectoqr\\controllers\\correocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,63 +22,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
-              "RelativeDocumentMoniker": "ProyectoQR\\appsettings.json",
-              "ToolTip": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\appsettings.json",
-              "RelativeToolTip": "ProyectoQR\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-08T07:19:47.363Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "MarcajeController.cs",
-              "DocumentMoniker": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\MarcajeController.cs",
-              "ToolTip": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\MarcajeController.cs",
               "RelativeToolTip": "ProyectoQR\\Controllers\\MarcajeController.cs",
-<<<<<<< HEAD
-              "ViewState": "AgIAAEYAAAAAAAAAAAAowJgAAAAGAAAAAAAAAA==",
-=======
-              "ViewState": "AgIAAMgAAAAAAAAAAAAgwJgAAAAGAAAAAAAAAA==",
->>>>>>> a4e9689ab030c306fdada3863f51a689b11bc9c7
+              "ViewState": "AgIAALAAAAAAAAAAAAAwwJgAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-04T04:58:26.399Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "ProyectoQR\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Properties\\launchSettings.json",
               "RelativeToolTip": "ProyectoQR\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAA4AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-04T03:42:29.73Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-04T03:42:29.73Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CorreoController.cs",
-              "DocumentMoniker": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
+              "DocumentMoniker": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
               "RelativeDocumentMoniker": "ProyectoQR\\Controllers\\CorreoController.cs",
-              "ToolTip": "C:\\Users\\juana\\OneDrive\\Desktop\\Universidad\\6to semestre\\Git proyecto asistencia\\proyecto copia\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
+              "ToolTip": "C:\\Users\\Carlos Orozco\\Documents\\Sistema-Asistencia-Serve-Windows\\ProyectoQR\\Backend\\ProyectoQRapi\\ProyectoQR\\Controllers\\CorreoController.cs",
               "RelativeToolTip": "ProyectoQR\\Controllers\\CorreoController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T03:05:11.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T03:05:11.719Z"
             }
           ]
         }

@@ -136,7 +136,7 @@
         }
       }
     },
-    "/api/Correo/enviar": {
+    "/Correo/enviar": {
       "post": {
         "tags": [
           "Correo"
@@ -167,7 +167,7 @@
         }
       }
     },
-    "/api/Email/enviar-correo": {
+    "/Email/enviar-correo": {
       "post": {
         "tags": [
           "Email"
@@ -198,7 +198,7 @@
         }
       }
     },
-    "/api/Estudiantes": {
+    "/Estudiantes": {
       "post": {
         "tags": [
           "Estudiantes"
@@ -229,7 +229,7 @@
         }
       }
     },
-    "/api/Estudiantes/{codigoQR}": {
+    "/Estudiantes/{codigoQR}": {
       "get": {
         "tags": [
           "Estudiantes"
@@ -251,7 +251,7 @@
         }
       }
     },
-    "/api/Estudiantes/me/qr": {
+    "/Estudiantes/me/qr": {
       "get": {
         "tags": [
           "Estudiantes"
@@ -263,7 +263,7 @@
         }
       }
     },
-    "/api/Estudiantes/marcaje-historial": {
+    "/Estudiantes/marcaje-historial": {
       "get": {
         "tags": [
           "Estudiantes"
@@ -275,7 +275,7 @@
         }
       }
     },
-    "/api/Historial": {
+    "/Historial": {
       "get": {
         "tags": [
           "Historial"
@@ -287,7 +287,7 @@
         }
       }
     },
-    "/api/Marcaje": {
+    "/Marcaje": {
       "post": {
         "tags": [
           "Marcaje"
@@ -318,7 +318,7 @@
         }
       }
     },
-    "/api/Marcaje/me": {
+    "/Marcaje/me": {
       "get": {
         "tags": [
           "Marcaje"

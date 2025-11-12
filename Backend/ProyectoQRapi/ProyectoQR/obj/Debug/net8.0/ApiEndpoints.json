@@ -1,125 +1,5 @@
 [
   {
-    "ContainingType": "ProyectoQR.Controllers.CorreoController",
-    "Method": "EnviarQR",
-    "RelativePath": "api/Correo/enviar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "ProyectoQR.Controllers.CorreoQrDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.EmailController",
-    "Method": "EnviarCorreo",
-    "RelativePath": "api/Email/enviar-correo",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "correoDto",
-        "Type": "ProyectoQR.Dtos.CorreoDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
-    "Method": "RegistrarEstudiante",
-    "RelativePath": "api/Estudiantes",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "estudiante",
-        "Type": "EstudianteDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
-    "Method": "ObtenerEstudiantePorQR",
-    "RelativePath": "api/Estudiantes/{codigoQR}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "codigoQR",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
-    "Method": "ObtenerHistorialMarcaje",
-    "RelativePath": "api/Estudiantes/marcaje-historial",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
-    "Method": "ObtenerMiQr",
-    "RelativePath": "api/Estudiantes/me/qr",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.HistorialController",
-    "Method": "ObtenerHistorial",
-    "RelativePath": "api/Historial",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.MarcajeController",
-    "Method": "RegistrarMarcaje",
-    "RelativePath": "api/Marcaje",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "marcaje",
-        "Type": "ProyectoQR.Controllers.MarcajeDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ProyectoQR.Controllers.MarcajeController",
-    "Method": "ObtenerMisMarcajes",
-    "RelativePath": "api/Marcaje/me",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "ProyectoQR.Controllers.AuthController",
     "Method": "DevHash",
     "RelativePath": "Auth/dev-hash",
@@ -188,5 +68,125 @@
         "StatusCode": 401
       }
     ]
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.CorreoController",
+    "Method": "EnviarQR",
+    "RelativePath": "Correo/enviar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ProyectoQR.Controllers.CorreoQrDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.EmailController",
+    "Method": "EnviarCorreo",
+    "RelativePath": "Email/enviar-correo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "correoDto",
+        "Type": "ProyectoQR.Dtos.CorreoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
+    "Method": "RegistrarEstudiante",
+    "RelativePath": "Estudiantes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estudiante",
+        "Type": "EstudianteDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
+    "Method": "ObtenerEstudiantePorQR",
+    "RelativePath": "Estudiantes/{codigoQR}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "codigoQR",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
+    "Method": "ObtenerHistorialMarcaje",
+    "RelativePath": "Estudiantes/marcaje-historial",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.EstudiantesController",
+    "Method": "ObtenerMiQr",
+    "RelativePath": "Estudiantes/me/qr",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.HistorialController",
+    "Method": "ObtenerHistorial",
+    "RelativePath": "Historial",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.MarcajeController",
+    "Method": "RegistrarMarcaje",
+    "RelativePath": "Marcaje",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "marcaje",
+        "Type": "ProyectoQR.Controllers.MarcajeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProyectoQR.Controllers.MarcajeController",
+    "Method": "ObtenerMisMarcajes",
+    "RelativePath": "Marcaje/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]
