@@ -24,6 +24,8 @@ namespace ProyectoQR.Service
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
+            // Bind by name to ensure named parameters match the PL/SQL signature
+            cmd.BindByName = true;
             cmd.CommandText = "PKG_ESTUDIANTES.CREAR_ESTUDIANTE";
 
             cmd.Parameters.Add("p_nombre", OracleDbType.Varchar2).Value = (object?)dto.Nombre ?? DBNull.Value;
@@ -53,6 +55,7 @@ namespace ProyectoQR.Service
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.BindByName = true;
             cmd.CommandText = "PKG_ESTUDIANTES.OBTENER_ESTUDIANTE";
 
             cmd.Parameters.Add("p_estudianteid", OracleDbType.Int32).Value = id;
@@ -74,6 +77,7 @@ namespace ProyectoQR.Service
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.BindByName = true;
             cmd.CommandText = "PKG_ESTUDIANTES.LISTAR_ESTUDIANTES";
 
             var outCursor = new OracleParameter("p_cursor", OracleDbType.RefCursor) { Direction = ParameterDirection.Output };
@@ -99,6 +103,7 @@ namespace ProyectoQR.Service
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.BindByName = true;
             cmd.CommandText = "PKG_ESTUDIANTES.ACTUALIZAR_ESTUDIANTE";
 
             cmd.Parameters.Add("p_estudianteid", OracleDbType.Int32).Value = id;
@@ -125,6 +130,7 @@ namespace ProyectoQR.Service
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.BindByName = true;
             cmd.CommandText = "PKG_ESTUDIANTES.ELIMINAR_ESTUDIANTE";
 
             cmd.Parameters.Add("p_estudianteid", OracleDbType.Int32).Value = id;

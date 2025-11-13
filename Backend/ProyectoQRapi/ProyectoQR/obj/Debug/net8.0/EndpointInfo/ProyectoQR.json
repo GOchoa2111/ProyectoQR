@@ -355,6 +355,28 @@
         }
       }
     },
+    "/GestionEstudiantes/all": {
+      "get": {
+        "tags": [
+          "GestionEstudiantes"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/GestionEstudiantes/{id}": {
       "get": {
         "tags": [

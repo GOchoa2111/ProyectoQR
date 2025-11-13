@@ -74,6 +74,28 @@ namespace ProyectoQR.Controllers
             }
         }
 
+        // GET: api/GestionEstudiantes/all
+        // Devuelve todos los estudiantes (sin filtros). Recomiendo usar ?limit=NN para evitar respuestas muy grandes.
+        [HttpGet("all")]
+        public async Task<IActionResult> ObtenerTodos([FromQuery] int? limit = null)
+        {
+            try
+            {
+                var items = await _service.ListarAsync(null, null, null, limit, null);
+                return Ok(items);
+            }
+            catch (OracleException ex)
+            {
+                _logger.LogError(ex, "Oracle error obtaining all estudiantes");
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "Error obtaining all estudiantes");
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
         // GET: api/GestionEstudiantes/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Obtener(int id)

@@ -125,12 +125,74 @@ CREATE OR REPLACE PACKAGE BODY PKG_ESTUDIANTES IS
       v_sql := v_sql || ' FETCH NEXT :pl ROWS ONLY';
     END IF;
 
-    OPEN p_cursor FOR v_sql
-      USING (CASE WHEN p_filter_usuario IS NOT NULL THEN '%'||LOWER(p_filter_usuario)||'%' ELSE NULL END),
-            (CASE WHEN p_filter_nombre IS NOT NULL THEN '%'||LOWER(p_filter_nombre)||'%' ELSE NULL END),
-            p_filter_rol,
-            p_offset, p_limit;
-    -- Note: depending on driver, binding NULLs in USING may require reordering - probar y ajustar.
+    -- Construir USING dinámicamente según qué parámetros están presentes
+    IF p_filter_usuario IS NOT NULL AND p_filter_nombre IS NOT NULL AND p_filter_rol IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol, p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol, p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol;
+      END IF;
+    ELSIF p_filter_usuario IS NOT NULL AND p_filter_nombre IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%';
+      END IF;
+    ELSIF p_filter_usuario IS NOT NULL AND p_filter_rol IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', p_filter_rol, p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', p_filter_rol, p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', p_filter_rol;
+      END IF;
+    ELSIF p_filter_nombre IS NOT NULL AND p_filter_rol IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol, p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol, p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_filter_rol;
+      END IF;
+    ELSIF p_filter_usuario IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%', p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_usuario)||'%';
+      END IF;
+    ELSIF p_filter_nombre IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%', p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING '%'||LOWER(p_filter_nombre)||'%', '%'||LOWER(p_filter_nombre)||'%';
+      END IF;
+    ELSIF p_filter_rol IS NOT NULL THEN
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING p_filter_rol, p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING p_filter_rol, p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql USING p_filter_rol;
+      END IF;
+    ELSE
+      -- Sin filtros, solo paginación posible
+      IF p_limit IS NOT NULL AND p_offset IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING p_offset, p_limit;
+      ELSIF p_limit IS NOT NULL THEN
+        OPEN p_cursor FOR v_sql USING p_limit;
+      ELSE
+        OPEN p_cursor FOR v_sql;
+      END IF;
+    END IF;
+
   END listar_estudiantes;
 
   ----------------------------------------------------------------
